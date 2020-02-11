@@ -67,6 +67,7 @@ typedef struct _Sprite
 {
 	int x_vel, y_vel; /* horiz. & vert. displacement per clock tick */
 	int x_pos, y_pos; /* position coordinates */
+	int render_flag;  /* set to 1 if on 0 if off */
 	Bitmap bitmap;
 } Sprite;
 
@@ -89,7 +90,11 @@ typedef struct _Score
 
 typedef struct _GunSlinger
 {
-	int num_bullets, current_bullet, flag_alive, orientation;
+	int num_bullets,	/* number of bullets left */
+		current_bullet, /* the current round in chamber */
+		flag_alive,		/* is the player dead, or alive ? */
+		orientation,	/* player forward orientation */
+		player_state;   /* the current state the player is in */
 	Sprite sprite;
 	Bullet bullet[NUM_ROUNDS];
 	Score score;

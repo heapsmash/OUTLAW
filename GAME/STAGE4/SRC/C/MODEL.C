@@ -14,15 +14,15 @@
 #include <BITMAP/P2_SHDWN.C>
 #include <BITMAP/P2_SHUP.C>
 #include <BITMAP/P2_WALK.C>
-#include <stdio.h>
 
 void MDLInitGameStates(Game *game)
 {
 	/* INIT SCREEN STATES */
 	game->background.sprite.bitmap.current_image = screen;
 	game->background.sprite.bitmap.raster.Draw = PrintScreen;
-	game->background.sprite.bitmap.height = (sizeof(screen) / sizeof screen[0]);
+	game->background.sprite.bitmap.height = (sizeof(screen) / (sizeof screen[0]));
 
+	MDLInitGunSlinger(game);
 	/* INIT PLAYER ONE STATES */
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_DEAD] = p1_dead;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_NORM] = p1_normal;
@@ -30,7 +30,10 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_UP] = p1_shoot_down;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_DOWN] = p1_shoot_up;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_WALK] = p1_walk;
-	game->gun_slinger[PLAYER_ONE].sprite.bitmap.current_image = game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_NORM];
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha = Rast32Alpha;
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear = Rast32Clear;
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Draw = Rast32Draw;
+	game->gun_slinger[PLAYER_ONE].player_state = STATE_NORM;
 
 	/* INIT PLAYER TWO STATES */
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_DEAD] = p2_dead;
@@ -39,7 +42,15 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_SHOOT_UP] = p2_shoot_down;
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_SHOOT_DOWN] = p2_shoot_up;
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_WALK] = p2_walk;
-	game->gun_slinger[PLAYER_TWO].sprite.bitmap.current_image = game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_NORM];
+	game->gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha = Rast32Alpha;
+	game->gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear = Rast32Clear;
+	game->gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Draw = Rast32Draw;
+	game->gun_slinger[PLAYER_TWO].player_state = STATE_NORM;
+
+	/* tell game to render images */
+	game->background.sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_TWO].sprite.render_flag = ON;
 }
 
 void MDLInitGunSlinger(Game *game)
@@ -49,14 +60,16 @@ void MDLInitGunSlinger(Game *game)
 	/* player 1 init */
 	game->gun_slinger[PLAYER_ONE].sprite.x_pos = 32;
 	game->gun_slinger[PLAYER_ONE].sprite.y_pos = 32;
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.height = 32; 
 	game->gun_slinger[PLAYER_ONE].sprite.y_vel = game->gun_slinger[PLAYER_ONE].sprite.x_vel = game->gun_slinger[PLAYER_ONE].score.current_score = 0;
 	game->gun_slinger[PLAYER_ONE].num_bullets = MAX_ROUNDS;
 	game->gun_slinger[PLAYER_ONE].flag_alive = ALIVE;
 	game->gun_slinger[PLAYER_ONE].orientation = STANDARD;
 
 	/* player 2 init */
-	game->gun_slinger[PLAYER_TWO].sprite.x_pos = 320;
-	game->gun_slinger[PLAYER_TWO].sprite.y_pos = 50;
+	game->gun_slinger[PLAYER_TWO].sprite.x_pos = 592;
+	game->gun_slinger[PLAYER_TWO].sprite.y_pos = 32;
+	game->gun_slinger[PLAYER_TWO].sprite.bitmap.height = 32; 
 	game->gun_slinger[PLAYER_TWO].sprite.y_vel = game->gun_slinger[PLAYER_TWO].sprite.x_vel = game->gun_slinger[PLAYER_TWO].score.current_score = 0;
 	game->gun_slinger[PLAYER_TWO].num_bullets = MAX_ROUNDS;
 	game->gun_slinger[PLAYER_TWO].flag_alive = ALIVE;

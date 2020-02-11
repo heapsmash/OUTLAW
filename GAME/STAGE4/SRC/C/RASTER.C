@@ -282,5 +282,5 @@ void PrintScreen(void *base, Sprite *sprite)
 	register uint32_t *bm = (uint32_t *)sprite->bitmap.current_image;
 
 	for (row = 0; row < sprite->bitmap.height; row++)
-		*(bp + row) = bm[row];
+		bp[row] |= bm[row];
 }

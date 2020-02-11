@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
 	void *base = Physbase();
 	MDLInitGameStates(&game);
 	ClearScreen(base);
-	RenderBackground(&game.background, base);
+	Render(&game, base);
+	Cnecin();
 
 	return 0;
 }
