@@ -30,6 +30,7 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_UP] = p1_shoot_down;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_DOWN] = p1_shoot_up;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_WALK] = p1_walk;
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.current_image = game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_NORM];
 
 	/* INIT PLAYER TWO STATES */
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_DEAD] = p2_dead;
@@ -38,6 +39,7 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_SHOOT_UP] = p2_shoot_down;
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_SHOOT_DOWN] = p2_shoot_up;
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_WALK] = p2_walk;
+	game->gun_slinger[PLAYER_TWO].sprite.bitmap.current_image = game->gun_slinger[PLAYER_TWO].sprite.bitmap.stored_images[STATE_NORM];
 }
 
 void MDLInitGunSlinger(Game *game)
