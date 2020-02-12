@@ -17,18 +17,19 @@
 
 void MDLInitGameStates(Game *game)
 {
+	MDLInitGunSlinger(game);
+
 	/* INIT SCREEN STATES */
 	game->background.sprite.bitmap.current_image = screen;
 	game->background.sprite.bitmap.raster.Draw = PrintScreen;
 	game->background.sprite.bitmap.height = (sizeof(screen) / (sizeof screen[0]));
 
-	MDLInitGunSlinger(game);
 	/* INIT PLAYER ONE STATES */
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_DEAD] = p1_dead;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_NORM] = p1_normal;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT] = p1_shoot;
-	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_UP] = p1_shoot_down;
-	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_DOWN] = p1_shoot_up;
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_UP] = p1_shoot_up;
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_SHOOT_DOWN] = p1_shoot_down;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.stored_images[STATE_WALK] = p1_walk;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha = Rast32Alpha;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear = Rast32Clear;
@@ -60,16 +61,16 @@ void MDLInitGunSlinger(Game *game)
 	/* player 1 init */
 	game->gun_slinger[PLAYER_ONE].sprite.x_pos = 32;
 	game->gun_slinger[PLAYER_ONE].sprite.y_pos = 32;
-	game->gun_slinger[PLAYER_ONE].sprite.bitmap.height = 32; 
+	game->gun_slinger[PLAYER_ONE].sprite.bitmap.height = 32;
 	game->gun_slinger[PLAYER_ONE].sprite.y_vel = game->gun_slinger[PLAYER_ONE].sprite.x_vel = game->gun_slinger[PLAYER_ONE].score.current_score = 0;
 	game->gun_slinger[PLAYER_ONE].num_bullets = MAX_ROUNDS;
 	game->gun_slinger[PLAYER_ONE].flag_alive = ALIVE;
 	game->gun_slinger[PLAYER_ONE].orientation = STANDARD;
 
 	/* player 2 init */
-	game->gun_slinger[PLAYER_TWO].sprite.x_pos = 592;
+	game->gun_slinger[PLAYER_TWO].sprite.x_pos = 570;
 	game->gun_slinger[PLAYER_TWO].sprite.y_pos = 32;
-	game->gun_slinger[PLAYER_TWO].sprite.bitmap.height = 32; 
+	game->gun_slinger[PLAYER_TWO].sprite.bitmap.height = 32;
 	game->gun_slinger[PLAYER_TWO].sprite.y_vel = game->gun_slinger[PLAYER_TWO].sprite.x_vel = game->gun_slinger[PLAYER_TWO].score.current_score = 0;
 	game->gun_slinger[PLAYER_TWO].num_bullets = MAX_ROUNDS;
 	game->gun_slinger[PLAYER_TWO].flag_alive = ALIVE;
@@ -84,9 +85,10 @@ void MDLInitGunSlinger(Game *game)
 
 void MDLMoveGunSlinger(GunSlinger *gs)
 {
+	MDLEnvGunSlingerCollision(gs);
+
 	gs->sprite.x_pos += gs->sprite.x_vel;
 	gs->sprite.y_pos += gs->sprite.y_vel;
-	MDLEnvGunSlingerCollision(gs);
 }
 
 void MDLEnvGunSlingerCollision(GunSlinger *gs)
@@ -96,23 +98,26 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs)
 
 	if (x >= SCREEN_LEFT_EDGE)
 	{
-		if (x >= SCREEN_RIGHT_EDGE)
+		if (x >= SCREEN_RIGHT_EDGE - sizeof(gs->sprite.bitmap.current_image))
 		{
-			gs->sprite.x_pos = SCREEN_RIGHT_EDGE;
+			gs->sprite.x_pos = SCREEN_RIGHT_EDGE - BORDER_WIDTH - sizeof(gs->sprite.bitmap.current_image);
 			gs->sprite.x_vel = 0;
+			gs->sprite.y_vel = 0;
 		}
 	}
 	else
 	{
 		gs->sprite.x_pos = SCREEN_LEFT_EDGE;
 		gs->sprite.x_vel = 0;
+		gs->sprite.y_vel = 0;
 	}
 
 	if (y >= SCREEN_TOP_EDGE)
 	{
-		if (y >= SCREEN_BOTTOM_EDGE)
+		if (y >= SCREEN_BOTTOM_EDGE - gs->sprite.bitmap.height)
 		{
-			gs->sprite.y_pos = SCREEN_BOTTOM_EDGE;
+			gs->sprite.y_pos = SCREEN_BOTTOM_EDGE - BORDER_WIDTH - gs->sprite.bitmap.height;
+			gs->sprite.x_vel = 0;
 			gs->sprite.y_vel = 0;
 		}
 	}

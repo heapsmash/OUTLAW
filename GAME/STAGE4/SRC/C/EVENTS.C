@@ -42,21 +42,25 @@ void EventWalk(int direction, GunSlinger *gs)
 	{
 	case UP:
 		gs->sprite.y_vel = -PLAYER_SPEED;
+		gs->sprite.x_vel = 0;
 		MDLMoveGunSlinger(gs);
 		break;
 
 	case DOWN:
 		gs->sprite.y_vel = PLAYER_SPEED;
+		gs->sprite.x_vel = 0;
 		MDLMoveGunSlinger(gs);
 		break;
 
 	case BACK:
 		gs->sprite.x_vel = backward_velocity;
+		gs->sprite.y_vel = 0;
 		MDLMoveGunSlinger(gs);
 		break;
 
 	case FORWARD:
 		gs->sprite.x_vel = forward_velocity;
+		gs->sprite.y_vel = 0;
 		MDLMoveGunSlinger(gs);
 		break;
 

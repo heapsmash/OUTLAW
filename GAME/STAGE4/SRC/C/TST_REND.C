@@ -1,15 +1,75 @@
-#include <RENDERER.H>
 #include <MODEL.H>
+#include <EVENTS.H>
+#include <RASTER.H>
 #include <osbind.h>
 
 int main(int argc, char *argv[])
 {
 	Game game;
+	int read_char = -1;
 	void *base = Physbase();
 	MDLInitGameStates(&game);
 	ClearScreen(base);
-	Render(&game, base);
 	Cnecin();
 
+	while (read_char != 27)
+	{
+		/* EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]); */
+		if (Cconis() < 0)
+		{
+			read_char = Cnecin();
+			switch (read_char)
+			{
+			case 119: /* w up */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventWalk(UP, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = (game.gun_slinger[PLAYER_ONE].player_state == STATE_NORM) ? STATE_WALK : STATE_NORM;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 115: /* s down */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventWalk(DOWN, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = (game.gun_slinger[PLAYER_ONE].player_state == STATE_NORM) ? STATE_WALK : STATE_NORM;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 97: /* a left */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventWalk(BACK, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = (game.gun_slinger[PLAYER_ONE].player_state == STATE_NORM) ? STATE_WALK : STATE_NORM;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 100: /* d right */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventWalk(FORWARD, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = (game.gun_slinger[PLAYER_ONE].player_state == STATE_NORM) ? STATE_WALK : STATE_NORM;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 54: /* NUMPAD 6 shoot forward */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventShoot(STRAIGHT, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = STATE_SHOOT;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 50: /* NUMPAD 2 shoot down */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventShoot(DOWN, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = STATE_SHOOT_DOWN;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 56: /* NUMPAD 8 shoot up */
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				EventShoot(UP, &game.gun_slinger[PLAYER_ONE]);
+				game.gun_slinger[PLAYER_ONE].player_state = STATE_SHOOT_UP;
+				game.gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+				break;
+			case 114: /* r RELOAD */
+				EventShoot(RELOAD, &game.gun_slinger[PLAYER_ONE]);
+				break;
+			default:
+				break;
+			}
+		}
+		Render(&game, base);
+	}
 	return 0;
 }

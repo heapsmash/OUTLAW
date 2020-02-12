@@ -5,7 +5,8 @@
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {
 	gs->sprite.bitmap.current_image = gs->sprite.bitmap.stored_images[gs->player_state];
-	gs->sprite.bitmap.raster.Draw(base, &gs->sprite);
+	gs->sprite.bitmap.raster.Alpha(base, &gs->sprite);
+	gs->sprite.render_flag = OFF;
 }
 
 void RenderBullet(Bullet *bullet, void *base)
@@ -19,6 +20,7 @@ void RenderScore(Score *score, void *base)
 void RenderBackground(BackGround *bg, void *base)
 {
 	bg->sprite.bitmap.raster.Draw(base, &bg->sprite);
+	bg->sprite.render_flag = OFF;
 }
 
 void Render(Game *game, void *base)

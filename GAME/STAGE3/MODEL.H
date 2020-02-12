@@ -24,10 +24,11 @@
 #define DEAD 0
 
 /* 16 for border */
-#define SCREEN_TOP_EDGE 16
-#define SCREEN_LEFT_EDGE 16
-#define SCREEN_RIGHT_EDGE (640 - 16)
-#define SCREEN_BOTTOM_EDGE (400 - 16)
+#define BORDER_WIDTH 16
+#define SCREEN_TOP_EDGE (BORDER_WIDTH)
+#define SCREEN_LEFT_EDGE (BORDER_WIDTH)
+#define SCREEN_RIGHT_EDGE (640 - BORDER_WIDTH)
+#define SCREEN_BOTTOM_EDGE (400 - BORDER_WIDTH)
 
 struct _Bitmap;
 struct _Sprite;
