@@ -14,9 +14,11 @@
 #include <BITMAP/P2_SHDWN.C>
 #include <BITMAP/P2_SHUP.C>
 #include <BITMAP/P2_WALK.C>
+#include <BITMAP/BULLET.C>
 
 void MDLInitGameStates(Game *game)
 {
+	int i;
 	MDLInitGunSlinger(game);
 
 	/* INIT SCREEN STATES */
@@ -48,7 +50,25 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Draw = Rast32Draw;
 	game->gun_slinger[PLAYER_TWO].player_state = STATE_NORM;
 
-	/* tell game to render images */
+	/* INIT BULLETS */
+	for (i = 0; i < NUM_ROUNDS; i++)
+	{
+		MDLTurnOffBullet(&game->gun_slinger[PLAYER_ONE].bullet[i]);
+		game->gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.current_image = gs_bullet;
+		game->gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Alpha = Rast8Alpha;
+		game->gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Clear = Rast8Clear;
+		game->gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Draw = Rast8Draw;
+		game->gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.height = (sizeof(gs_bullet) / (sizeof gs_bullet[0]));
+
+		MDLTurnOffBullet(&game->gun_slinger[PLAYER_TWO].bullet[i]);
+		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.current_image = gs_bullet;
+		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Alpha = Rast8Alpha;
+		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Clear = Rast8Clear;
+		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Draw = Rast8Draw;
+		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.height = (sizeof(gs_bullet) / (sizeof gs_bullet[0]));
+	}
+
+	/* RENDER IMAGE FLAGS ON */
 	game->background.sprite.render_flag = ON;
 	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
 	game->gun_slinger[PLAYER_TWO].sprite.render_flag = ON;
@@ -56,8 +76,6 @@ void MDLInitGameStates(Game *game)
 
 void MDLInitGunSlinger(Game *game)
 {
-	int i;
-
 	/* player 1 init */
 	game->gun_slinger[PLAYER_ONE].sprite.x_pos = 32;
 	game->gun_slinger[PLAYER_ONE].sprite.y_pos = 32;
@@ -75,12 +93,6 @@ void MDLInitGunSlinger(Game *game)
 	game->gun_slinger[PLAYER_TWO].num_bullets = MAX_ROUNDS;
 	game->gun_slinger[PLAYER_TWO].flag_alive = ALIVE;
 	game->gun_slinger[PLAYER_TWO].orientation = INVERTED;
-
-	for (i = 0; i < NUM_ROUNDS; i++) /* initialize all bullets */
-	{
-		MDLTurnOffBullet(&game->gun_slinger[PLAYER_ONE].bullet[i]);
-		MDLTurnOffBullet(&game->gun_slinger[PLAYER_TWO].bullet[i]);
-	}
 }
 
 void MDLMoveGunSlinger(GunSlinger *gs)

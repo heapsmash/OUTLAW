@@ -11,6 +11,7 @@ void RenderGunSlinger(GunSlinger *gs, void *base)
 
 void RenderBullet(Bullet *bullet, void *base)
 {
+	bullet->sprite.bitmap.raster.Draw(base, &bullet->sprite);
 }
 
 void RenderScore(Score *score, void *base)
@@ -25,6 +26,8 @@ void RenderBackground(BackGround *bg, void *base)
 
 void Render(Game *game, void *base)
 {
+	int i;
+
 	/* render background */
 
 	if (game->background.sprite.render_flag == ON)
@@ -49,4 +52,15 @@ void Render(Game *game, void *base)
 
 	if (game->gun_slinger[PLAYER_TWO].score.sprite.render_flag == ON)
 		RenderScore(&game->gun_slinger[PLAYER_TWO].score, base);
+
+	/* render player one bullets */
+
+	for (i = 0; i < NUM_ROUNDS; i++)
+		if (game->gun_slinger[PLAYER_ONE].bullet[i].sprite.render_flag == ON)
+			RenderBullet(&game->gun_slinger[PLAYER_ONE].bullet[i], base);
+
+	/* render player two bullets */
+	for (i = 0; i < NUM_ROUNDS; i++)
+		if (game->gun_slinger[PLAYER_TWO].bullet[i].sprite.render_flag == ON)
+			RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
 }

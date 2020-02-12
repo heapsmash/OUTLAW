@@ -15,7 +15,7 @@ obj\events.o \
 obj\model.o \
 obj\raster.o \
 obj\renderer.o \
-obj\tst_rend.o \
+obj\tst_gun.o \
 obj\util.o 
 
 ASM_OBJ = \
@@ -34,7 +34,7 @@ obj\raster.o: ..\src\c\raster.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\renderer.o: ..\src\c\renderer.c
 	$(CC) $(CFLAGS) -c $< -o $@
-obj\tst_rend.o: ..\src\c\tst_rend.c
+obj\tst_gun.o: ..\src\c\tst_gun.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\util.o: ..\src\c\util.c
 	$(CC) $(CFLAGS) -c $< -o $@
