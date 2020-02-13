@@ -9,9 +9,10 @@
 #define BACK 3
 #define FORWARD 4
 
+void EventMoveBullets(GunSlinger *shooter, GunSlinger *target);
 void EventShoot(int direction, GunSlinger *gs);
 void EventWalk(int direction, GunSlinger *gs);
-void EventMoveBullets(GunSlinger *shooter, GunSlinger *target);
+void EventCylinderState(GunSlinger *gs);
 void EventScore(void);
 
 #endif /* EVENTS_H */

@@ -16,6 +16,14 @@
 #include <BITMAP/P2_WALK.C>
 #include <BITMAP/BULLET.C>
 
+#include <BITMAP/0CYL.c>
+#include <BITMAP/1CYL.c>
+#include <BITMAP/2CYL.c>
+#include <BITMAP/3CYL.c>
+#include <BITMAP/4CYL.c>
+#include <BITMAP/5CYL.c>
+#include <BITMAP/6CYL.C>
+
 void MDLInitGameStates(Game *game)
 {
 	int i;
@@ -50,6 +58,60 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Draw = Rast32Draw;
 	game->gun_slinger[PLAYER_TWO].player_state = STATE_NORM;
 
+	/* INIT CYLINDERS */
+
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Draw = Rast32Draw;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Alpha = Rast32Alpha;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Clear = Rast32Clear;
+
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.x_pos = 32;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.y_pos = 32;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.x_vel = 0;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.y_vel = 0;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.height = sizeof(cylinder_0) / sizeof cylinder_0[0];
+
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_ZERO] = cylinder_0;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_ONE] = cylinder_1;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_TWO] = cylinder_2;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_THREE] = cylinder_3;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_FOUR] = cylinder_4;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_FIVE] = cylinder_5;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.stored_images[CYLINDER_SIX] = cylinder_6;
+
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.current_image = cylinder_6;
+
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Draw = Rast32Draw;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Alpha = Rast32Alpha;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear = Rast32Clear;
+
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.x_pos = 570;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.y_pos = 32;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.x_vel = 0;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.y_vel = 0;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.height = sizeof(cylinder_0) / sizeof cylinder_0[0];
+
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_ZERO] = cylinder_0;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_ONE] = cylinder_1;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_TWO] = cylinder_2;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_THREE] = cylinder_3;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_FOUR] = cylinder_4;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_FIVE] = cylinder_5;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_SIX] = cylinder_6;
+
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.current_image = cylinder_6;
+
+	/* RENDER IMAGE FLAGS ON */
+	game->background.sprite.render_flag = ON;
+
+	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag = ON;
+
+	game->gun_slinger[PLAYER_TWO].sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag = ON;
+
+	game->gun_slinger[PLAYER_ONE].cylinder.state = 6;
+	game->gun_slinger[PLAYER_TWO].cylinder.state = 6;
+
 	/* INIT BULLETS */
 	for (i = 0; i < NUM_ROUNDS; i++)
 	{
@@ -67,18 +129,13 @@ void MDLInitGameStates(Game *game)
 		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Draw = Rast8Draw;
 		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.height = (sizeof(gs_bullet) / (sizeof gs_bullet[0]));
 	}
-
-	/* RENDER IMAGE FLAGS ON */
-	game->background.sprite.render_flag = ON;
-	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
-	game->gun_slinger[PLAYER_TWO].sprite.render_flag = ON;
 }
 
 void MDLInitGunSlinger(Game *game)
 {
 	/* player 1 init */
 	game->gun_slinger[PLAYER_ONE].sprite.x_pos = 32;
-	game->gun_slinger[PLAYER_ONE].sprite.y_pos = 32;
+	game->gun_slinger[PLAYER_ONE].sprite.y_pos = 336;
 	game->gun_slinger[PLAYER_ONE].sprite.bitmap.height = 32;
 	game->gun_slinger[PLAYER_ONE].sprite.y_vel = game->gun_slinger[PLAYER_ONE].sprite.x_vel = game->gun_slinger[PLAYER_ONE].score.current_score = 0;
 	game->gun_slinger[PLAYER_ONE].num_bullets = MAX_ROUNDS;
@@ -87,7 +144,7 @@ void MDLInitGunSlinger(Game *game)
 
 	/* player 2 init */
 	game->gun_slinger[PLAYER_TWO].sprite.x_pos = 570;
-	game->gun_slinger[PLAYER_TWO].sprite.y_pos = 32;
+	game->gun_slinger[PLAYER_TWO].sprite.y_pos = 336;
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.height = 32;
 	game->gun_slinger[PLAYER_TWO].sprite.y_vel = game->gun_slinger[PLAYER_TWO].sprite.x_vel = game->gun_slinger[PLAYER_TWO].score.current_score = 0;
 	game->gun_slinger[PLAYER_TWO].num_bullets = MAX_ROUNDS;

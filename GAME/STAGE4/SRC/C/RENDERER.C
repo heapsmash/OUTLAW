@@ -12,6 +12,14 @@ void RenderGunSlinger(GunSlinger *gs, void *base)
 void RenderBullet(Bullet *bullet, void *base)
 {
 	bullet->sprite.bitmap.raster.Draw(base, &bullet->sprite);
+	bullet->sprite.render_flag = OFF;
+}
+
+void RenderCylinder(Cylinder *cylinder, void *base)
+{
+	cylinder->sprite.bitmap.current_image = cylinder->sprite.bitmap.stored_images[cylinder->state];
+	cylinder->sprite.bitmap.raster.Draw(base, &cylinder->sprite);
+	cylinder->sprite.render_flag = OFF;
 }
 
 void RenderScore(Score *score, void *base)
@@ -63,4 +71,11 @@ void Render(Game *game, void *base)
 	for (i = 0; i < NUM_ROUNDS; i++)
 		if (game->gun_slinger[PLAYER_TWO].bullet[i].sprite.render_flag == ON)
 			RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
+
+	/* render cylinder */
+	if (game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag == ON)
+		RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
+
+	if (game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag == ON)
+		RenderCylinder(&game->gun_slinger[PLAYER_TWO].cylinder, base);
 }

@@ -45,6 +45,16 @@
 #define STATE_SHOOT_DOWN 4
 #define STATE_WALK 5
 
+/* Cylinder States */
+
+#define CYLINDER_ZERO 0
+#define CYLINDER_ONE 1
+#define CYLINDER_TWO 2
+#define CYLINDER_THREE 3
+#define CYLINDER_FOUR 4
+#define CYLINDER_FIVE 5
+#define CYLINDER_SIX 6
+
 struct _Bitmap;
 struct _Sprite;
 
@@ -77,6 +87,12 @@ typedef struct _Bullet
 	int flag;
 } Bullet;
 
+typedef struct _Cylinder
+{
+	Sprite sprite;
+	int state;
+} Cylinder;
+
 typedef struct _BackGround
 {
 	Sprite sprite;
@@ -95,9 +111,10 @@ typedef struct _GunSlinger
 		flag_alive,		/* is the player dead, or alive ? */
 		orientation,	/* player forward orientation */
 		player_state;   /* the current state the player is in */
-	Sprite sprite;
+	Cylinder cylinder;
 	Bullet bullet[NUM_ROUNDS];
 	Score score;
+	Sprite sprite;
 } GunSlinger;
 
 typedef struct _Game
