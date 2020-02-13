@@ -127,12 +127,12 @@ int EventPlayerDead(GunSlinger *gs)
 	return 0;
 }
 
-void EventUpdateScore(GunSlinger *shooter, GunSlinger *enemy_player)
+void EventUpdateScore(GunSlinger *shooter)
 {
 	int temp = shooter->score.current_score;
 
-	shooter->score.lsd = temp % 10;
+	shooter->score.lsd = (temp % 10) + 48;
 	temp /= 10;
-	shooter->score.msd = temp % 10;
+	shooter->score.msd = (temp % 10) + 48;
 	shooter->score.sprite.render_flag = ON;
 }

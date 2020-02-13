@@ -58,7 +58,7 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Draw = Rast32Draw;
 	game->gun_slinger[PLAYER_TWO].player_state = STATE_NORM;
 
-	/* INIT CYLINDERS */
+	/* INIT PLAYER ONE CYLINDERS */
 
 	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Draw = Rast32Draw;
 	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Alpha = Rast32Alpha;
@@ -80,6 +80,8 @@ void MDLInitGameStates(Game *game)
 
 	game->gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.current_image = cylinder_6;
 
+	/* INIT PLAYER TWO CYLINDERS */
+
 	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Draw = Rast32Draw;
 	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Alpha = Rast32Alpha;
 	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear = Rast32Clear;
@@ -99,15 +101,6 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.stored_images[CYLINDER_SIX] = cylinder_6;
 
 	game->gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.current_image = cylinder_6;
-
-	/* RENDER IMAGE FLAGS ON */
-	game->background.sprite.render_flag = ON;
-
-	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
-	game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag = ON;
-
-	game->gun_slinger[PLAYER_TWO].sprite.render_flag = ON;
-	game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag = ON;
 
 	game->gun_slinger[PLAYER_ONE].cylinder.state = 6;
 	game->gun_slinger[PLAYER_TWO].cylinder.state = 6;
@@ -129,6 +122,22 @@ void MDLInitGameStates(Game *game)
 		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Draw = Rast8Draw;
 		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.height = (sizeof(gs_bullet) / (sizeof gs_bullet[0]));
 	}
+
+	/* initialize score to zero */
+
+	game->gun_slinger[PLAYER_ONE].score.msd = game->gun_slinger[PLAYER_ONE].score.lsd = game->gun_slinger[PLAYER_TWO].score.msd = game->gun_slinger[PLAYER_TWO].score.lsd = 48;
+
+	/* RENDER IMAGE FLAGS ON */
+	
+	game->background.sprite.render_flag = ON;
+
+	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_ONE].score.sprite.render_flag = ON;
+
+	game->gun_slinger[PLAYER_TWO].sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag = ON;
+	game->gun_slinger[PLAYER_TWO].score.sprite.render_flag = ON;
 }
 
 void MDLInitGunSlinger(Game *game)

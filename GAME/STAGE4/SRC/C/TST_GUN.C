@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 		{
 			game.gun_slinger[PLAYER_TWO].flag_alive = ALIVE;
 			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-			EventUpdateScore(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
+			EventUpdateScore(&game.gun_slinger[PLAYER_ONE]);
 		}
 		EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
 

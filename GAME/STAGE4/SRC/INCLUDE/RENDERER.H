@@ -7,7 +7,7 @@
  *  Main game
  */
 
-void RenderScore(Score *score, void *base, int x0, int y0);
+void RenderScore(unsigned char c, void *base, int x0, int y0);
 void RenderGunSlinger(const GunSlinger *gs, void *base);
 void RenderBackground(const BackGround *bg, void *base);
 void RenderBullet(const Bullet *bullet, void *base);

@@ -24,16 +24,9 @@ void RenderCylinder(Cylinder *cylinder, void *base)
 	cylinder->sprite.render_flag = OFF;
 }
 
-void RenderScore(Score *score, void *base, int x0, int y0)
+void RenderScore(unsigned char c, void *base, int x0, int y0)
 {
-	int temp_score = score->current_score;
-	while (temp_score)
-	{
-		PlotChar(base, x0, y0, temp_score % 10);
-		temp_score /= 10;
-	}
-
-	score->sprite.render_flag = OFF;
+	PlotChar(base, x0, y0, c);
 }
 
 void RenderBackground(BackGround *bg, void *base)
@@ -85,11 +78,19 @@ void Render(Game *game, void *base)
 
 	/* render player one score */
 
-	if (game->gun_slinger[PLAYER_ONE].score.sprite.render_flag == ON)
-		RenderScore(&game->gun_slinger[PLAYER_ONE].score, base, 80, 16);
-
 	/* render player two score */
 
+	if (game->gun_slinger[PLAYER_ONE].score.sprite.render_flag == ON)
+	{
+		RenderScore(game->gun_slinger[PLAYER_ONE].score.msd, base, 80, 16);
+		RenderScore(game->gun_slinger[PLAYER_ONE].score.lsd, base, 88, 16);
+		game->gun_slinger[PLAYER_ONE].score.sprite.render_flag = OFF;
+	}
+
 	if (game->gun_slinger[PLAYER_TWO].score.sprite.render_flag == ON)
-		RenderScore(&game->gun_slinger[PLAYER_TWO].score, base, 548, 16);
+	{
+		RenderScore(game->gun_slinger[PLAYER_TWO].score.msd, base, 548, 16);
+		RenderScore(game->gun_slinger[PLAYER_TWO].score.lsd, base, 552, 16);
+		game->gun_slinger[PLAYER_TWO].score.sprite.render_flag = OFF;
+	}
 }
