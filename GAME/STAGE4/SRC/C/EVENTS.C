@@ -1,5 +1,6 @@
 #include <MODEL.H>
 #include <EVENTS.H>
+#include <stdio.h>
 
 void EventCylinderState(GunSlinger *gs)
 {
@@ -113,4 +114,25 @@ void EventMoveBullets(GunSlinger *shooter, GunSlinger *target)
 			MDLMoveBullet(&shooter->bullet[i], shooter, target);
 			shooter->bullet[i].sprite.render_flag = ON;
 		}
+}
+
+int EventPlayerDead(GunSlinger *gs)
+{
+	if (gs->flag_alive == DEAD)
+	{
+		gs->player_state = STATE_DEAD;
+		gs->sprite.render_flag = ON;
+		return 1;
+	}
+	return 0;
+}
+
+void EventUpdateScore(GunSlinger *shooter, GunSlinger *enemy_player)
+{
+	int temp = shooter->score.current_score;
+
+	shooter->score.lsd = temp % 10;
+	temp /= 10;
+	shooter->score.msd = temp % 10;
+	shooter->score.sprite.render_flag = ON;
 }

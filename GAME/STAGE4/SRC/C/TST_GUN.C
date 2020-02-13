@@ -67,13 +67,23 @@ int main(int argc, char *argv[])
 				game.gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].bullet[i].sprite);
 		*/
 
+		/* Check if player 2 is dead and update score */
+
+		if (EventPlayerDead(&game.gun_slinger[PLAYER_TWO]))
+		{
+			game.gun_slinger[PLAYER_TWO].flag_alive = ALIVE;
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventUpdateScore(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
+		}
 		EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
 
+		/*
 		PlotChar(base, 80, 16, '0');
 		PlotChar(base, 88, 16, '0');
 
 		PlotChar(base, 548, 16, '0');
 		PlotChar(base, 552, 16, '0');
+		*/
 
 		Render(&game, base);
 	}

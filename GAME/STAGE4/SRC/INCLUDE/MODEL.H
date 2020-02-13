@@ -101,6 +101,8 @@ typedef struct _BackGround
 typedef struct _Score
 {
 	int current_score;
+	int msd; /* most significant digit */
+	int lsd; /* least significant digit */
 	Sprite sprite;
 } Score;
 

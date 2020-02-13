@@ -253,7 +253,7 @@ void MDLPlayerBulletCollision(Bullet *bullet, GunSlinger *shooter, GunSlinger *t
 	int bullet_x = bullet->sprite.x_pos;
 	int bullet_y = bullet->sprite.y_pos;
 
-	if ((bullet_x == x0 || bullet_x == x1) && (bullet_y == y0 || bullet_y == y1))
+	if ((bullet_x >= x0 && bullet_x <= x1) && (bullet_y >= y0 && bullet_y <= y1))
 	{
 		MDLTurnOffBullet(bullet);
 		target->flag_alive = DEAD;

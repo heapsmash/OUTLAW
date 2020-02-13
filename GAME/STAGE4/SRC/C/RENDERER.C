@@ -2,6 +2,8 @@
 #include <TYPES.H>
 #include <RASTER.H>
 
+#include <stdio.h>
+
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {
 	gs->sprite.bitmap.current_image = gs->sprite.bitmap.stored_images[gs->player_state];
@@ -22,8 +24,16 @@ void RenderCylinder(Cylinder *cylinder, void *base)
 	cylinder->sprite.render_flag = OFF;
 }
 
-void RenderScore(Score *score, void *base)
+void RenderScore(Score *score, void *base, int x0, int y0)
 {
+	int temp_score = score->current_score;
+	while (temp_score)
+	{
+		PlotChar(base, x0, y0, temp_score % 10);
+		temp_score /= 10;
+	}
+
+	score->sprite.render_flag = OFF;
 }
 
 void RenderBackground(BackGround *bg, void *base)
@@ -51,16 +61,6 @@ void Render(Game *game, void *base)
 	if (game->gun_slinger[PLAYER_TWO].sprite.render_flag == ON)
 		RenderGunSlinger(&game->gun_slinger[PLAYER_TWO], base);
 
-	/* render player one score */
-
-	if (game->gun_slinger[PLAYER_ONE].score.sprite.render_flag == ON)
-		RenderScore(&game->gun_slinger[PLAYER_ONE].score, base);
-
-	/* render player two score */
-
-	if (game->gun_slinger[PLAYER_TWO].score.sprite.render_flag == ON)
-		RenderScore(&game->gun_slinger[PLAYER_TWO].score, base);
-
 	/* render player one bullets */
 
 	for (i = 0; i < NUM_ROUNDS; i++)
@@ -68,14 +68,28 @@ void Render(Game *game, void *base)
 			RenderBullet(&game->gun_slinger[PLAYER_ONE].bullet[i], base);
 
 	/* render player two bullets */
+
 	for (i = 0; i < NUM_ROUNDS; i++)
 		if (game->gun_slinger[PLAYER_TWO].bullet[i].sprite.render_flag == ON)
 			RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
 
-	/* render cylinder */
+	/* render player one cylinder */
+
 	if (game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag == ON)
 		RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
 
+	/* render player two cylinder */
+
 	if (game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag == ON)
 		RenderCylinder(&game->gun_slinger[PLAYER_TWO].cylinder, base);
+
+	/* render player one score */
+
+	if (game->gun_slinger[PLAYER_ONE].score.sprite.render_flag == ON)
+		RenderScore(&game->gun_slinger[PLAYER_ONE].score, base, 80, 16);
+
+	/* render player two score */
+
+	if (game->gun_slinger[PLAYER_TWO].score.sprite.render_flag == ON)
+		RenderScore(&game->gun_slinger[PLAYER_TWO].score, base, 548, 16);
 }
