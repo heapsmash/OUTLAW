@@ -2,6 +2,24 @@
 #include <TYPES.H>
 #include <MODEL.H>
 #include <UTIL.H>
+#include <FONT.H> /* for PlotChar */
+
+void PlotChar(const void *base, int x0, int y0, uint8_t bm)
+{
+	register uint8_t *ch;
+	register int i, row_offset, col_offset;
+	register uint8_t *bp = (uint8_t *)base;
+
+	if (IS_PRINTABLE(bm))
+		ch = GLYPH_START(bm);
+	else
+		return;
+
+	col_offset = (640 >> 3);
+	row_offset = (x0 >> 3);
+	for (i = 0; i < FONT_HEIGHT; i++)
+		bp[((y0 + i) * col_offset) + row_offset] = ch[i];
+}
 
 void Rast8Clear(const void *base, Sprite *sprite)
 {

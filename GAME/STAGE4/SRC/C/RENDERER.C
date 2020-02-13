@@ -11,7 +11,7 @@ void RenderGunSlinger(GunSlinger *gs, void *base)
 
 void RenderBullet(Bullet *bullet, void *base)
 {
-	bullet->sprite.bitmap.raster.Draw(base, &bullet->sprite);
+	bullet->sprite.bitmap.raster.Alpha(base, &bullet->sprite);
 	bullet->sprite.render_flag = OFF;
 }
 

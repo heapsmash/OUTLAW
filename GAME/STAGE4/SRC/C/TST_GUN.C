@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[])
 {
+	int i;
 	Game game;
 	int read_char = -1;
 	void *base = Physbase();
@@ -59,7 +60,21 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		/*
+		CLEAR BULLETS 
+		for (i = 0; i < NUM_ROUNDS; i++)
+			if (game.gun_slinger[PLAYER_ONE].bullet[i].flag == ON)
+				game.gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].bullet[i].sprite);
+		*/
+
 		EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
+
+		PlotChar(base, 80, 16, '0');
+		PlotChar(base, 88, 16, '0');
+
+		PlotChar(base, 548, 16, '0');
+		PlotChar(base, 552, 16, '0');
+
 		Render(&game, base);
 	}
 	return 0;

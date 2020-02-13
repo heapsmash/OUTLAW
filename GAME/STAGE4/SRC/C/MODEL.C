@@ -168,33 +168,20 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs)
 	if (x >= SCREEN_LEFT_EDGE)
 	{
 		if (x >= SCREEN_RIGHT_EDGE - sizeof(gs->sprite.bitmap.current_image))
-		{
-			gs->sprite.x_pos = SCREEN_RIGHT_EDGE - BORDER_WIDTH - sizeof(gs->sprite.bitmap.current_image);
-			gs->sprite.x_vel = 0;
-			gs->sprite.y_vel = 0;
-		}
+			if (gs->sprite.x_vel == 32 * gs->orientation)
+				gs->sprite.x_vel = 0;
 	}
-	else
-	{
-		gs->sprite.x_pos = SCREEN_LEFT_EDGE;
+	else if (gs->sprite.x_vel == -32 * gs->orientation)
 		gs->sprite.x_vel = 0;
-		gs->sprite.y_vel = 0;
-	}
 
 	if (y >= SCREEN_TOP_EDGE)
 	{
 		if (y >= SCREEN_BOTTOM_EDGE - gs->sprite.bitmap.height)
-		{
-			gs->sprite.y_pos = SCREEN_BOTTOM_EDGE - BORDER_WIDTH - gs->sprite.bitmap.height;
-			gs->sprite.x_vel = 0;
-			gs->sprite.y_vel = 0;
-		}
+			if (gs->sprite.y_vel == 32)
+				gs->sprite.y_vel = 0;
 	}
-	else
-	{
-		gs->sprite.y_pos = SCREEN_TOP_EDGE;
+	else if (gs->sprite.y_vel == -32)
 		gs->sprite.y_vel = 0;
-	}
 }
 
 void MDLFireBullet(GunSlinger *gs)
@@ -203,8 +190,8 @@ void MDLFireBullet(GunSlinger *gs)
 	{
 		gs->current_bullet = gs->num_bullets;
 		gs->bullet[gs->current_bullet].flag = ON;
-		gs->bullet[gs->current_bullet].sprite.x_pos = gs->sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.y_pos = gs->sprite.y_pos;
+		gs->bullet[gs->current_bullet].sprite.x_pos = gs->sprite.x_pos + 32;
+		gs->bullet[gs->current_bullet].sprite.y_pos = gs->sprite.y_pos + 16;
 
 		gs->num_bullets--;
 	}
@@ -250,7 +237,7 @@ void MDLEnvBulletCollision(Bullet *bullet)
 
 	if (y >= SCREEN_TOP_EDGE)
 	{
-		if (y >= SCREEN_BOTTOM_EDGE)
+		if (y >= SCREEN_BOTTOM_EDGE + 8)
 			bullet->sprite.y_vel = -BULLET_SPEED;
 	}
 	else

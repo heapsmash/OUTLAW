@@ -31,6 +31,8 @@ void PlotVline(const void *base, int x0, int y0, int yf);
 void Plot8Pixels(unsigned char *base, int x, int y);
 void PlotPoint(unsigned char *base, int x, int y);
 
+void PlotChar(const void *base, int x0, int y0, uint8_t bm);
+
 void PrintScreen(const void *base, Sprite *sprite);
 extern void ClearScreen(void *screen);
 
