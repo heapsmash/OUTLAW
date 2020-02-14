@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		switch (rand() % 400)
+		/* enemy player movement */
+		switch (rand() % 2500)
 		{
 		case 0:
 			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
@@ -84,11 +85,27 @@ int main(int argc, char *argv[])
 			break;
 
 		case 4:
+			game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventShoot(STRAIGHT, &game.gun_slinger[PLAYER_TWO]);
 			break;
 
 		case 5:
+			game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventShoot(UP, &game.gun_slinger[PLAYER_TWO]);
 			break;
 
+		case 6:
+			game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventShoot(DOWN, &game.gun_slinger[PLAYER_TWO]);
+			break;
+
+		case 7:
+			game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
+			EventShoot(RELOAD, &game.gun_slinger[PLAYER_TWO]);
+			break;
 		default:
 			break;
 		}
@@ -108,7 +125,16 @@ int main(int argc, char *argv[])
 			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
 			EventUpdateScore(&game.gun_slinger[PLAYER_ONE]);
 		}
+
+		if (EventPlayerDead(&game.gun_slinger[PLAYER_ONE]))
+		{
+			game.gun_slinger[PLAYER_ONE].flag_alive = ALIVE;
+			game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
+			EventUpdateScore(&game.gun_slinger[PLAYER_TWO]);
+		}
+
 		EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
+		EventMoveBullets(&game.gun_slinger[PLAYER_TWO], &game.gun_slinger[PLAYER_ONE]);
 
 		/*
 		PlotChar(base, 80, 16, '0');

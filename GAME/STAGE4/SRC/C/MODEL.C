@@ -179,10 +179,10 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs)
 	if (x >= SCREEN_LEFT_EDGE)
 	{
 		if (x >= SCREEN_RIGHT_EDGE - sizeof(gs->sprite.bitmap.current_image))
-			if (gs->sprite.x_vel == 32 * gs->orientation)
+			if (gs->sprite.x_vel == 32)
 				gs->sprite.x_vel = 0;
 	}
-	else if (gs->sprite.x_vel == -32 * gs->orientation)
+	else if (gs->sprite.x_vel == -32)
 		gs->sprite.x_vel = 0;
 
 	if (y >= SCREEN_TOP_EDGE)
@@ -201,7 +201,7 @@ void MDLFireBullet(GunSlinger *gs)
 	{
 		gs->current_bullet = gs->num_bullets;
 		gs->bullet[gs->current_bullet].flag = ON;
-		gs->bullet[gs->current_bullet].sprite.x_pos = gs->sprite.x_pos + 32;
+		gs->bullet[gs->current_bullet].sprite.x_pos = gs->sprite.x_pos + (32 * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_pos = gs->sprite.y_pos + 16;
 
 		gs->num_bullets--;

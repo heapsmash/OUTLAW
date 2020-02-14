@@ -10,14 +10,12 @@ void EventCylinderState(GunSlinger *gs)
 
 void EventShoot(int direction, GunSlinger *gs)
 {
-	int forward_velocity = gs->orientation * PLAYER_SPEED;
-
 	switch (direction)
 	{
 	case UP:
 		MDLFireBullet(gs);
 
-		gs->bullet[gs->current_bullet].sprite.x_vel = forward_velocity;
+		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = -BULLET_SPEED;
 		gs->bullet[gs->current_bullet].sprite.render_flag = ON;
 
@@ -29,7 +27,7 @@ void EventShoot(int direction, GunSlinger *gs)
 
 	case DOWN:
 		MDLFireBullet(gs);
-		gs->bullet[gs->current_bullet].sprite.x_vel = forward_velocity;
+		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = BULLET_SPEED;
 		gs->bullet[gs->current_bullet].sprite.render_flag = ON;
 
@@ -41,7 +39,7 @@ void EventShoot(int direction, GunSlinger *gs)
 
 	case STRAIGHT:
 		MDLFireBullet(gs);
-		gs->bullet[gs->current_bullet].sprite.x_vel = forward_velocity;
+		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = 0;
 		gs->bullet[gs->current_bullet].sprite.render_flag = ON;
 
