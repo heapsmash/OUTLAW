@@ -2,10 +2,11 @@
 #include <EVENTS.H>
 #include <RASTER.H>
 #include <osbind.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[])
 {
-	int i;
+	int i, n;
 	Game game;
 	int read_char = -1;
 	void *base = Physbase();
@@ -58,6 +59,38 @@ int main(int argc, char *argv[])
 			default:
 				break;
 			}
+		}
+
+		switch (rand() % 400)
+		{
+		case 0:
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventWalk(UP, &game.gun_slinger[PLAYER_TWO]);
+			break;
+
+		case 1:
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventWalk(DOWN, &game.gun_slinger[PLAYER_TWO]);
+			break;
+
+		case 2:
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventWalk(BACK, &game.gun_slinger[PLAYER_TWO]);
+			break;
+
+		case 3:
+			game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_TWO].sprite);
+			EventWalk(FORWARD, &game.gun_slinger[PLAYER_TWO]);
+			break;
+
+		case 4:
+			break;
+
+		case 5:
+			break;
+
+		default:
+			break;
 		}
 
 		/*

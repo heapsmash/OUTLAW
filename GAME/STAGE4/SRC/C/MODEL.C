@@ -128,7 +128,7 @@ void MDLInitGameStates(Game *game)
 	game->gun_slinger[PLAYER_ONE].score.msd = game->gun_slinger[PLAYER_ONE].score.lsd = game->gun_slinger[PLAYER_TWO].score.msd = game->gun_slinger[PLAYER_TWO].score.lsd = 48;
 
 	/* RENDER IMAGE FLAGS ON */
-	
+
 	game->background.sprite.render_flag = ON;
 
 	game->gun_slinger[PLAYER_ONE].sprite.render_flag = ON;
@@ -173,6 +173,8 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs)
 {
 	int x = gs->sprite.x_pos;
 	int y = gs->sprite.y_pos;
+
+	MDLPlayerCactusCollision(gs);
 
 	if (x >= SCREEN_LEFT_EDGE)
 	{
@@ -225,6 +227,7 @@ int MDLMoveBullet(Bullet *bullet, GunSlinger *shooter, GunSlinger *target)
 {
 	int bullet_status;
 
+	MDLBulletCactusCollision(bullet);
 	MDLEnvBulletCollision(bullet);
 	MDLPlayerBulletCollision(bullet, shooter, target);
 	bullet->sprite.x_pos += bullet->sprite.x_vel;
@@ -268,6 +271,25 @@ void MDLPlayerBulletCollision(Bullet *bullet, GunSlinger *shooter, GunSlinger *t
 		target->flag_alive = DEAD;
 		MDLIncScore(shooter);
 	}
+}
+
+void MDLPlayerCactusCollision(GunSlinger *gs)
+{
+	int player_x = gs->sprite.x_pos;
+	int player_y = gs->sprite.y_pos;
+
+	if ((player_x >= BORDER_X0 && player_x <= BORDER_XF) && (player_y >= BORDER_Y0 && player_y <= BORDER_YF))
+		if (gs->sprite.x_vel == 32 * gs->orientation)
+			gs->sprite.x_vel = 0;
+}
+
+void MDLBulletCactusCollision(Bullet *bullet)
+{
+	int bullet_x = bullet->sprite.x_pos;
+	int bullet_y = bullet->sprite.y_pos;
+
+	if ((bullet_x >= CACTUS_X0 && bullet_x <= CACTUS_XF) && (bullet_y >= CACTUS_Y0 && bullet_y <= CACTUS_YF))
+		MDLTurnOffBullet(bullet);
 }
 
 void MDLTurnOffBullet(Bullet *bullet)

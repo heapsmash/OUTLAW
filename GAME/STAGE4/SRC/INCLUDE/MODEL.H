@@ -1,3 +1,20 @@
+
+/*      _    _
+       | |  | |	
+      -| |  | |- 
+  _    | |- | |
+-| |   | |  | |- 	
+ |.|  -| ||/  |
+ | |-  |  ___/ 
+-|.|   | | |
+ |  \_|| |
+  \____  |
+   |   | |- 
+       | |
+      -| |
+       |_| Michael S. Walker (2020)
+*/
+
 #ifndef MODEL_H
 #define MODEL_H
 
@@ -54,6 +71,24 @@
 #define CYLINDER_FOUR 4
 #define CYLINDER_FIVE 5
 #define CYLINDER_SIX 6
+
+/* Cactus borders for bullet */
+
+#define CACTUS_WIDTH 70
+#define CACTUS_LENGTH 240
+#define CACTUS_X0 290
+#define CACTUS_Y0 75
+#define CACTUS_XF (CACTUS_WIDTH + CACTUS_X0)
+#define CACTUS_YF (CACTUS_LENGTH + CACTUS_Y0)
+
+/* Cactus borders for player */
+
+#define BORDER_LENGTH_CACTUS 400
+#define BORDER_WIDTH_CACTUS 70
+#define BORDER_X0 290
+#define BORDER_Y0 0
+#define BORDER_XF (BORDER_WIDTH_CACTUS + BORDER_X0)
+#define BORDER_YF (BORDER_LENGTH_CACTUS + BORDER_Y0)
 
 struct _Bitmap;
 struct _Sprite;
@@ -126,10 +161,13 @@ typedef struct _Game
 } Game;
 
 void MDLEnvGunSlingerCollision(GunSlinger *gs);
+void MDLPlayerCactusCollision(GunSlinger *gs);
+
 void MDLMoveGunSlinger(GunSlinger *gs);
 void MDLInitGunSlinger(Game *game);
 
 int MDLMoveBullet(Bullet *bullet, GunSlinger *shooter, GunSlinger *target);
+void MDLBulletCactusCollision(Bullet *bullet);
 void MDLEnvBulletCollision(Bullet *bullet);
 void MDLBulletReload(GunSlinger *gs);
 void MDLFireBullet(GunSlinger *gs);
