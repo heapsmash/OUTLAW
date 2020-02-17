@@ -15,10 +15,9 @@ int main(int argc, char *argv[])
 
 	while (read_char != 27)
 	{
-		/* EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]); */
-		if (Cconis() < 0) /* check ikbd codes */
+		if (CheckInputStatus() < 0) /* check ikbd codes */
 		{
-			read_char = Cnecin();
+			read_char = ReadCharNoEcho();
 			switch (read_char)
 			{
 			case 119: /* w up */
@@ -117,7 +116,7 @@ int main(int argc, char *argv[])
 				game.gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Alpha(base, &game.gun_slinger[PLAYER_ONE].bullet[i].sprite);
 		*/
 
-		/* Check if player 2 is dead and update score */
+		/* check if player 2 is dead and update score */
 
 		if (EventPlayerDead(&game.gun_slinger[PLAYER_TWO]))
 		{
@@ -126,23 +125,17 @@ int main(int argc, char *argv[])
 			EventUpdateScore(&game.gun_slinger[PLAYER_ONE]);
 		}
 
+		/* check if player 1 is dead and update score */ 
+
 		if (EventPlayerDead(&game.gun_slinger[PLAYER_ONE]))
 		{
 			game.gun_slinger[PLAYER_ONE].flag_alive = ALIVE;
 			game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
 			EventUpdateScore(&game.gun_slinger[PLAYER_TWO]);
 		}
-
+		
 		EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
 		EventMoveBullets(&game.gun_slinger[PLAYER_TWO], &game.gun_slinger[PLAYER_ONE]);
-
-		/*
-		PlotChar(base, 80, 16, '0');
-		PlotChar(base, 88, 16, '0');
-
-		PlotChar(base, 548, 16, '0');
-		PlotChar(base, 552, 16, '0');
-		*/
 
 		Render(&game, base);
 	}
