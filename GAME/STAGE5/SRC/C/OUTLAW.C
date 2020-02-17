@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	int read_char = -1;
 	void *base = Physbase();
 	MDLInitGameStates(&game);
-	ClearScreen(base);
+	ClearScreen(base); 
 
 	while (read_char != 27)
 	{

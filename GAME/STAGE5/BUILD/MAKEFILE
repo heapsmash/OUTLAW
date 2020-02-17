@@ -15,8 +15,9 @@ obj\events.o \
 obj\model.o \
 obj\raster.o \
 obj\renderer.o \
-obj\tst_gun.o \
-obj\util.o 
+obj\outlaw.o \
+obj\util.o \
+obj\input.o
 
 ASM_OBJ = \
 obj\clear.o
@@ -26,6 +27,8 @@ OBJ = $(C_OBJ) $(ASM_OBJ)
 $(PROGNAME): $(OBJ)
 	$(CC) -o $(PROGNAME) $(OBJ)
 
+obj\input.o: ..\src\c\input.c
+	$(CC) $(CFLAGS) -c $< -o $@
 obj\events.o: ..\src\c\events.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\model.o: ..\src\c\model.c
@@ -34,7 +37,7 @@ obj\raster.o: ..\src\c\raster.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\renderer.o: ..\src\c\renderer.c
 	$(CC) $(CFLAGS) -c $< -o $@
-obj\tst_gun.o: ..\src\c\tst_gun.c
+obj\outlaw.o: ..\src\c\outlaw.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\util.o: ..\src\c\util.c
 	$(CC) $(CFLAGS) -c $< -o $@
