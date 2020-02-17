@@ -1,6 +1,6 @@
 
 /*      _    _
-       | |  | |	
+       | |  | |	OUTLAW. 
       -| |  | |- 
   _    | |- | |
 -| |   | |  | |- 	
@@ -164,7 +164,6 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs);
 void MDLPlayerCactusCollision(GunSlinger *gs);
 
 void MDLMoveGunSlinger(GunSlinger *gs);
-void MDLInitGunSlinger(Game *game);
 
 int MDLMoveBullet(Bullet *bullet, GunSlinger *shooter, GunSlinger *target);
 void MDLBulletCactusCollision(Bullet *bullet);
@@ -176,7 +175,5 @@ void MDLPlayerBulletCollision(Bullet *bullet, GunSlinger *shooter, GunSlinger *t
 void MDLTurnOffBullet(Bullet *Bullet);
 void MDLIncScore(GunSlinger *gs);
 int MDLGetScore(GunSlinger gs);
-
-void MDLInitGameStates(Game *game);
 
 #endif /* MODEL_H */
