@@ -78,14 +78,14 @@ void Render(Game *game, void *base)
 
 	/* render player one score */
 
-	/* render player two score */
-
 	if (game->gun_slinger[PLAYER_ONE].score.sprite.render_flag == ON)
 	{
 		RenderScore(game->gun_slinger[PLAYER_ONE].score.msd, base, 80, 16);
 		RenderScore(game->gun_slinger[PLAYER_ONE].score.lsd, base, 88, 16);
 		game->gun_slinger[PLAYER_ONE].score.sprite.render_flag = OFF;
 	}
+
+	/* render player two score */
 
 	if (game->gun_slinger[PLAYER_TWO].score.sprite.render_flag == ON)
 	{
