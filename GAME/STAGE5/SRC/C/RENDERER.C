@@ -3,7 +3,8 @@
 #include <RASTER.H>
 #include <stdio.h>
 
-#include <osbind.h>
+#include <osbind.h> /* for Vsync() */ 
+
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {
 	Vsync(); 
