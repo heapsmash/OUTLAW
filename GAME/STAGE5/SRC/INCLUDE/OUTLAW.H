@@ -2,6 +2,7 @@
 #define OUTLAW_H
 
 #include <MODEL.H> /* for data structures */ 
+#include <TYPES.H> /* for GetTime */ 
 
 /* player 1 and player 2 start locations */ 
 
@@ -30,5 +31,7 @@ void InitGameBackGround(Game *game);
 void InitP2(GunSlinger *gs);
 void InitP1(GunSlinger *gs);
 void InitGame(Game *game);
+
+uint32_t GetTime(void); 
 
 #endif /* OUTLAW_H */ 

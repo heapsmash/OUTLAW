@@ -16,16 +16,16 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs)
 
 	MDLPlayerCactusCollision(gs);
 
-	if (x >= SCREEN_LEFT_EDGE)
+	if (x > SCREEN_LEFT_EDGE)
 	{
-		if (x >= SCREEN_RIGHT_EDGE - sizeof(gs->sprite.bitmap.current_image))
+		if (x > SCREEN_RIGHT_EDGE - 64)
 			if (gs->sprite.x_vel == 32)
 				gs->sprite.x_vel = 0;
 	}
 	else if (gs->sprite.x_vel == -32)
 		gs->sprite.x_vel = 0;
 
-	if (y >= SCREEN_TOP_EDGE)
+	if (y > SCREEN_TOP_EDGE)
 	{
 		if (y >= SCREEN_BOTTOM_EDGE - gs->sprite.bitmap.height)
 			if (gs->sprite.y_vel == 32)
@@ -79,7 +79,7 @@ void MDLEnvBulletCollision(Bullet *bullet)
 	int x = bullet->sprite.x_pos;
 	int y = bullet->sprite.y_pos;
 
-	if (x >= SCREEN_LEFT_EDGE)
+	if (x > SCREEN_LEFT_EDGE)
 	{
 		if (x >= SCREEN_RIGHT_EDGE)
 			MDLTurnOffBullet(bullet);
@@ -118,8 +118,23 @@ void MDLPlayerCactusCollision(GunSlinger *gs)
 	int player_x = gs->sprite.x_pos;
 	int player_y = gs->sprite.y_pos;
 
-	if ((player_x >= BORDER_X0 && player_x <= BORDER_XF) && (player_y >= BORDER_Y0 && player_y <= BORDER_YF))
-		if (gs->sprite.x_vel == 32 * gs->orientation)
+	/* computer player */ 
+
+	if (gs->orientation < 0 && 
+		player_x >= (BORDER_X0 + 32) && 
+		player_x <= (BORDER_XF + 32) && 
+		player_y >= BORDER_Y0 && 
+		player_y <= BORDER_YF && 
+		gs->sprite.x_vel == 32 * gs->orientation) 
+			gs->sprite.x_vel = 0;
+
+	/* player one */ 
+
+	if (gs->orientation > 0 && 
+		player_x > (BORDER_X0 - 64) &&
+		player_y >= BORDER_Y0 && 
+		player_y <= BORDER_YF && 
+		gs->sprite.x_vel == 32 * gs->orientation) 
 			gs->sprite.x_vel = 0;
 }
 
@@ -128,8 +143,11 @@ void MDLBulletCactusCollision(Bullet *bullet)
 	int bullet_x = bullet->sprite.x_pos;
 	int bullet_y = bullet->sprite.y_pos;
 
-	if ((bullet_x >= CACTUS_X0 && bullet_x <= CACTUS_XF) && (bullet_y >= CACTUS_Y0 && bullet_y <= CACTUS_YF))
-		MDLTurnOffBullet(bullet);
+	if (bullet_x >= CACTUS_X0 
+		&& bullet_x <= CACTUS_XF 
+		&& bullet_y >= CACTUS_Y0 
+		&& bullet_y <= CACTUS_YF)
+			MDLTurnOffBullet(bullet);
 }
 
 void MDLTurnOffBullet(Bullet *bullet)

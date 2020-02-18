@@ -1,24 +1,30 @@
 #include <RENDERER.H>
 #include <TYPES.H>
 #include <RASTER.H>
-
 #include <stdio.h>
 
+#include <osbind.h>
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {
+	Vsync(); 
+
 	gs->sprite.bitmap.current_image = gs->sprite.bitmap.stored_images[gs->player_state];
-	gs->sprite.bitmap.raster.Alpha(base, &gs->sprite);
+	gs->sprite.bitmap.raster.Draw(base, &gs->sprite);
 	gs->sprite.render_flag = OFF;
 }
 
 void RenderBullet(Bullet *bullet, void *base)
 {
-	bullet->sprite.bitmap.raster.Alpha(base, &bullet->sprite);
+	Vsync(); 
+
+	bullet->sprite.bitmap.raster.Draw(base, &bullet->sprite);
 	bullet->sprite.render_flag = OFF;
 }
 
 void RenderCylinder(Cylinder *cylinder, void *base)
 {
+	Vsync(); 
+
 	cylinder->sprite.bitmap.current_image = cylinder->sprite.bitmap.stored_images[cylinder->state];
 	cylinder->sprite.bitmap.raster.Draw(base, &cylinder->sprite);
 	cylinder->sprite.render_flag = OFF;
@@ -26,11 +32,15 @@ void RenderCylinder(Cylinder *cylinder, void *base)
 
 void RenderScore(unsigned char c, void *base, int x0, int y0)
 {
+	Vsync(); 
+
 	PlotChar(base, x0, y0, c);
 }
 
 void RenderBackground(BackGround *bg, void *base)
 {
+	Vsync(); 
+
 	bg->sprite.bitmap.raster.Draw(base, &bg->sprite);
 	bg->sprite.render_flag = OFF;
 }
