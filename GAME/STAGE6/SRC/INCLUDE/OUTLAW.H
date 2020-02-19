@@ -19,6 +19,10 @@
 #define CYL_P2_X_LOC 570
 #define CYL_P2_Y_LOC 32
 
+#define SCREEN_SIZE 32000 /* 640 * 400 / sizeof(char) */
+#define NUM_FRAME_BUFFERS 2
+#define FRAMEBUFFER_PADDING_LEN 0x100
+
 void InitCylinder(Cylinder *cyl, int x_pos, int y_pos);
 void InitRaster8Lib(Sprite *sp);
 void InitRaster32Lib(Sprite *sp);

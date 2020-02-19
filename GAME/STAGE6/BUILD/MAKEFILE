@@ -20,7 +20,8 @@ obj\util.o \
 obj\input.o
 
 ASM_OBJ = \
-obj\clear.o
+obj\clear.o \
+obj\super.o
 
 OBJ = $(C_OBJ) $(ASM_OBJ)
 
@@ -43,6 +44,8 @@ obj\util.o: ..\src\c\util.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 obj\clear.o: ..\src\asm\clear.s
+	$(AS) $(ASFLAGS) $< -o$@
+obj\super.o: ..\src\asm\super.s
 	$(AS) $(ASFLAGS) $< -o$@
 
 clean:

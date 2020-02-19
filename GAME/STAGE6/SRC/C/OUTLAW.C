@@ -4,6 +4,7 @@
 #include <EVENTS.H>
 #include <RASTER.H>
 #include <RENDERER.H>
+#include <SYSCALLS.H> 
 
 #include <BITMAP/SCREEN.C>
 #include <BITMAP/P1_DEAD.C>
@@ -31,6 +32,8 @@
 
 #include <osbind.h>
 #include <stdlib.h>
+
+uint8_t g_framebuffers[NUM_FRAME_BUFFERS][SCREEN_SIZE + FRAMEBUFFER_PADDING_LEN];
 
 int main(int argc, char *argv[])
 {
@@ -190,9 +193,9 @@ uint32_t GetTime(void)
 	long old_ssp;
 	long *timer = (long *)0x462; /* address of longword auto-inc’ed 70 x per s */
 	
-	old_ssp = Super(0); /* enter privileged mode */
+	old_ssp = MySuper(0);	/* enter privileged mode */
 	time_now = *timer;
-	Super(old_ssp); 	/* exit privileged mode as soon as possible */
+	MySuper(old_ssp);		/* exit privileged mode as soon as possible */
 
 	return time_now; 
 }
