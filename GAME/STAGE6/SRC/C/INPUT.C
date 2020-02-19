@@ -7,7 +7,7 @@
 
 int CheckInputStatus(void)
 {
-    return Cconis() < 0 ? -1 : 0;
+    return Cconis();
 }
 
 /* 
