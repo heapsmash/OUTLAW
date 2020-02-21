@@ -3,7 +3,8 @@
 #include <stdio.h> 
 
 void TestTone(void); 
-void TestVolume(void); 
+void TestNoise(void);
+void TestVolume(void);
 void TestEnableChannel(void); 
 
 int main(int argc, char *argv[])
@@ -13,8 +14,9 @@ int main(int argc, char *argv[])
 	/*
 	TestTone(); 
 	TestVolume(); 
-	*/
 	TestEnableChannel(); 
+	*/ 
+	TestNoise(); 
 
 	Super(old_ssp);
 
@@ -100,4 +102,10 @@ void TestEnableChannel(void)
 	EnableChannel(CHANNEL_C, 0, 1); 
 	printf("0x3B IO_C_NOISEOFF_TONEON Value of R7: %x\n", ReadPsg(R7));
 	EnableChannel(-1, 0, 0); 
+}
+
+void TestNoise(void)
+{
+	SetNoise(0x1f);
+	printf("Value of R6: %x\n", ReadPsg(R6));
 }
