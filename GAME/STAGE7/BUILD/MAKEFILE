@@ -18,7 +18,10 @@ obj\renderer.o \
 obj\outlaw.o \
 obj\util.o \
 obj\input.o \
-obj\screen.o
+obj\screen.o \
+obj\effects.o \
+obj\music.o \
+obj\psg.o
 
 ASM_OBJ = \
 obj\clear.o \
@@ -45,6 +48,12 @@ obj\outlaw.o: ..\src\c\outlaw.c
 obj\util.o: ..\src\c\util.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\screen.o: ..\src\c\screen.c
+	$(CC) $(CFLAGS) -c $< -o $@
+obj\effects.o: ..\src\c\effects.c
+	$(CC) $(CFLAGS) -c $< -o $@
+obj\music.o: ..\src\c\music.c
+	$(CC) $(CFLAGS) -c $< -o $@
+obj\psg.o: ..\src\c\psg.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 obj\clear.o: ..\src\asm\clear.s
