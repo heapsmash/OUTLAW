@@ -5,6 +5,8 @@
 #include <RASTER.H>
 #include <RENDERER.H>
 #include <SYSCALLS.H> 
+#include <SCREEN.H> 
+#include <UTIL.H> 
 
 #include <BITMAP/SCREEN.C>
 #include <BITMAP/P1_DEAD.C>
@@ -30,30 +32,29 @@
 #include <BITMAP/5CYL.c>
 #include <BITMAP/6CYL.C>
 
-#include <osbind.h>
-#include <stdlib.h>
-
-uint8_t g_framebuffers[NUM_FRAME_BUFFERS][SCREEN_SIZE + FRAMEBUFFER_PADDING_LEN];
-
 int main(int argc, char *argv[])
 {
-	int i, n;
+	long old_ssp;
+	int i, n, x_tmp, y_tmp;
 	uint32_t time_then, time_now, time_elapsed; 
 	Game game;
 	int read_char = -1;
-	void *base = Physbase();
+	old_ssp = MySuper(0);	/* enter privileged mode */
+
+	ScrInit(&game.screen);
+
+	InitGame(&game); 
+	Render(&game, game.screen.next_buffer);
 
 	InitGame(&game);
-	ClearScreen(base);
+	Render(&game, game.screen.next_buffer);
 
-	EventShoot(RELOAD, &game.gun_slinger[PLAYER_ONE]); /* magic */ 
-	
 	while (read_char != 27)
 	{
 		time_now = GetTime();
 		time_elapsed = time_now - time_then;
-		
-		if (time_elapsed > 5) 
+
+		if (time_elapsed > 4) 
 		{
 			if (CheckInputStatus() < 0) /* check ikbd codes */
 			{
@@ -61,39 +62,28 @@ int main(int argc, char *argv[])
 				switch (read_char)
 				{
 				case 119: /* w up */
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventWalk(UP, &game.gun_slinger[PLAYER_ONE]);
+					EventInitWalk(UP, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
 				case 115: /* s down */
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventWalk(DOWN, &game.gun_slinger[PLAYER_ONE]);
+					EventInitWalk(DOWN, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
-				case 97: /* a left */
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventWalk(BACK, &game.gun_slinger[PLAYER_ONE]);
+				case 97: /* a BACK */
+					EventInitWalk(BACK, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
-				case 100: /* d right */
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventWalk(FORWARD, &game.gun_slinger[PLAYER_ONE]);
+				case 100: /* d FORWARD */
+					EventInitWalk(FORWARD, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
-				case 54: /* NUMPAD 6 shoot forward */
-					game.gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].cylinder.sprite);
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventShoot(STRAIGHT, &game.gun_slinger[PLAYER_ONE]);
+				case 54: /* NUMPAD 6 SHOOT STRAIGHT */
+					EventInitShoot(STRAIGHT, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
-				case 50: /* NUMPAD 2 shoot down */
-					game.gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].cylinder.sprite);
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventShoot(DOWN, &game.gun_slinger[PLAYER_ONE]);
+				case 50: /* NUMPAD 2 SHOOT DOWN */
+					EventInitShoot(DOWN, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
-				case 56: /* NUMPAD 8 shoot up */
-					game.gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].cylinder.sprite);
-					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
-					EventShoot(UP, &game.gun_slinger[PLAYER_ONE]);
+				case 56: /* NUMPAD 8 SHOOT UP */
+					EventInitShoot(UP, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer); 
 					break;
 				case 114: /* r RELOAD */
-					game.gun_slinger[PLAYER_ONE].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].cylinder.sprite);
-					EventShoot(RELOAD, &game.gun_slinger[PLAYER_ONE]);
+					EventShoot(RELOAD, &game.gun_slinger[PLAYER_ONE], 0);
 					break;
 				default:
 					break;
@@ -102,49 +92,31 @@ int main(int argc, char *argv[])
 
 			/* computer player movement */
 
-			switch (rand() % 200)
+			switch (MyRand() % 200)
 			{
-			case 0:
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventWalk(UP, &game.gun_slinger[PLAYER_TWO]);
+			case 0: /* Case UP */ 
+				EventInitWalk(UP, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 1:
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventWalk(DOWN, &game.gun_slinger[PLAYER_TWO]);
+			case 1: /* Case DOWN */ 
+				EventInitWalk(DOWN, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 2:
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventWalk(BACK, &game.gun_slinger[PLAYER_TWO]);
+			case 2: /* case BACK */ 
+				EventInitWalk(BACK, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 3:
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventWalk(FORWARD, &game.gun_slinger[PLAYER_TWO]);
+			case 3: /* case FORWARD */ 
+				EventInitWalk(FORWARD, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 4:
-				game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventShoot(STRAIGHT, &game.gun_slinger[PLAYER_TWO]);
+			case 4: /* case SHOOT STRAIGHT */ 
+				EventInitShoot(STRAIGHT, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 5:
-				game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventShoot(UP, &game.gun_slinger[PLAYER_TWO]);
+			case 5: /* case SHOOT DOWN */ 
+				EventInitShoot(DOWN, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 6:
-				game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
-				EventShoot(DOWN, &game.gun_slinger[PLAYER_TWO]);
+			case 6: /* case SHOOT UP */ 
+				EventInitShoot(UP, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer); 
 				break;
-
-			case 7:
-				game.gun_slinger[PLAYER_TWO].cylinder.sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].cylinder.sprite);
-				EventShoot(RELOAD, &game.gun_slinger[PLAYER_TWO]);
+			case 7: /* case RELOAD */ 
+				EventShoot(RELOAD, &game.gun_slinger[PLAYER_TWO], 0);
 				break;
 			default:
 				break;
@@ -155,7 +127,7 @@ int main(int argc, char *argv[])
 			if (EventPlayerDead(&game.gun_slinger[PLAYER_TWO]))
 			{
 				game.gun_slinger[PLAYER_TWO].flag_alive = ALIVE;
-				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].sprite);
+				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].sprite);
 				EventUpdateScore(&game.gun_slinger[PLAYER_ONE]);
 			}
 
@@ -164,40 +136,41 @@ int main(int argc, char *argv[])
 			if (EventPlayerDead(&game.gun_slinger[PLAYER_ONE]))
 			{
 				game.gun_slinger[PLAYER_ONE].flag_alive = ALIVE;
-				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].sprite);
+				game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].sprite);
 				EventUpdateScore(&game.gun_slinger[PLAYER_TWO]);
 			}
 
+			/* clear all bullets */ 
 
-			for (i = 0; i <= NUM_ROUNDS; i++) {		/* clear bullets */ 
+			for (i = 0; i <= NUM_ROUNDS; i++) {		  
 				if (game.gun_slinger[PLAYER_ONE].bullet[i].flag == ON)
-					game.gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_ONE].bullet[i].sprite);
-
+					game.gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].bullet[i].sprite);
 				if (game.gun_slinger[PLAYER_TWO].bullet[i].flag == ON)
-					game.gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Clear(base, &game.gun_slinger[PLAYER_TWO].bullet[i].sprite);
+					game.gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].bullet[i].sprite);
 			}
+			
+			/* update all bullets */
 
 			EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
 			EventMoveBullets(&game.gun_slinger[PLAYER_TWO], &game.gun_slinger[PLAYER_ONE]);
 
-			Render(&game, base);
+			Render(&game, game.screen.next_buffer);
 			time_then = time_now;
 		}
 	}
+	ScrCleanup(&game.screen); 
+	MySuper(old_ssp);		/* exit privileged mode */
 	return 0;
 }
 
 uint32_t GetTime(void)
 {
 	long time_now;
-	long old_ssp;
 	long *timer = (long *)0x462; /* address of longword auto-inc’ed 70 x per s */
 	
-	old_ssp = MySuper(0);	/* enter privileged mode */
 	time_now = *timer;
-	MySuper(old_ssp);		/* exit privileged mode as soon as possible */
 
-	return time_now; 
+	return time_now;
 }
 
 void InitGame(Game *game)
@@ -205,22 +178,24 @@ void InitGame(Game *game)
 	InitGameBackGround(game); 
 	InitBullets(game); 
 	InitScore(game); 
-	InitP1(&game->gun_slinger[PLAYER_ONE]); 
-	InitP2(&game->gun_slinger[PLAYER_TWO]); 
+	InitP1(&game->gun_slinger[PLAYER_ONE], game->screen.current_fb_index); 
+	InitP2(&game->gun_slinger[PLAYER_TWO], game->screen.current_fb_index);
 }
 
-void InitP1(GunSlinger *gs)
+void InitP1(GunSlinger *gs, int current_frame)
 {
 	InitP1States(gs); 
-	InitStartLocation(gs, P1_START_X, P1_START_Y, STANDARD);
-	InitCylinder(&gs->cylinder, CYL_P1_X_LOC, CYL_P1_Y_LOC); 
+	InitStartLocation(gs, P1_START_X, P1_START_Y, STANDARD, current_frame);
+	InitCylinder(&gs->cylinder, CYL_P1_X_LOC, CYL_P1_Y_LOC);
+	EventShoot(RELOAD, gs, 0);
 }
 
-void InitP2(GunSlinger *gs)
+void InitP2(GunSlinger *gs, int current_frame)
 {
 	InitP2States(gs); 
-	InitStartLocation(gs, P2_START_X, P2_START_Y, INVERTED); 
+	InitStartLocation(gs, P2_START_X, P2_START_Y, INVERTED, current_frame); 
 	InitCylinder(&gs->cylinder, CYL_P2_X_LOC, CYL_P2_Y_LOC); 
+	EventShoot(RELOAD, gs, 0);
 }
 
 void InitGameBackGround(Game *game)
@@ -251,7 +226,6 @@ void InitBullets(Game *game)
 		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.current_image = gs_bullet;
 		game->gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.height = (sizeof(gs_bullet) / (sizeof gs_bullet[0]));
 	}
-
 }
 
 void InitScore(Game *game)
@@ -297,19 +271,22 @@ void InitP2States(GunSlinger *gs)
 	InitRaster32Lib(&gs->sprite);
 }
 
-void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation)
+void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation, int current_frame)
 {
 	gs->sprite.x_pos = x_pos;
 	gs->sprite.y_pos = y_pos;
 	gs->sprite.bitmap.height = 32;
-	
+
 	gs->sprite.y_vel = 
 	gs->sprite.x_vel = 
 	gs->score.current_score = 0;
-	
+
 	gs->num_bullets = MAX_ROUNDS;
 	gs->flag_alive = ALIVE;
 	gs->orientation = orientation;
+
+	gs->sprite.last_x[current_frame] = gs->sprite.x_pos;
+	gs->sprite.last_y[current_frame] = gs->sprite.y_pos;
 }	
 
 void InitRaster8Lib(Sprite *sp)

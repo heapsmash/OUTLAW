@@ -26,14 +26,14 @@
 void InitCylinder(Cylinder *cyl, int x_pos, int y_pos);
 void InitRaster8Lib(Sprite *sp);
 void InitRaster32Lib(Sprite *sp);
-void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation);
+void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation, int current_frame);
 void InitP2States(GunSlinger *gs);
 void InitP1States(GunSlinger *gs);
 void InitScore(Game *game);
 void InitBullets(Game *game);
 void InitGameBackGround(Game *game);
-void InitP2(GunSlinger *gs);
-void InitP1(GunSlinger *gs);
+void InitP2(GunSlinger *gs, int current_frame);
+void InitP1(GunSlinger *gs, int current_frame);
 void InitGame(Game *game);
 
 uint32_t GetTime(void); 
