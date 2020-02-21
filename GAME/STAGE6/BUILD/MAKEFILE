@@ -17,11 +17,13 @@ obj\raster.o \
 obj\renderer.o \
 obj\outlaw.o \
 obj\util.o \
-obj\input.o
+obj\input.o \
+obj\screen.o
 
 ASM_OBJ = \
 obj\clear.o \
-obj\super.o
+obj\super.o \
+obj\scnbuf.o
 
 OBJ = $(C_OBJ) $(ASM_OBJ)
 
@@ -42,10 +44,14 @@ obj\outlaw.o: ..\src\c\outlaw.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\util.o: ..\src\c\util.c
 	$(CC) $(CFLAGS) -c $< -o $@
+obj\screen.o: ..\src\c\screen.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 obj\clear.o: ..\src\asm\clear.s
 	$(AS) $(ASFLAGS) $< -o$@
 obj\super.o: ..\src\asm\super.s
+	$(AS) $(ASFLAGS) $< -o$@
+obj\scnbuf.o: ..\src\asm\scnbuf.s
 	$(AS) $(ASFLAGS) $< -o$@
 
 clean:
