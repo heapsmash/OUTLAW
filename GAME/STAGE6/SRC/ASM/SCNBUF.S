@@ -40,18 +40,22 @@ old_ssp:	ds.l      1
 
 _GetBuffer:
 	move.l	d1,-(sp)
+
 	clr.l	d0		; clear register for high and mid byte
 	clr.l	d1		; clear register for low byte
+
 	move.b	(VDL_VBH),d0	; move the byte at $FFFF8201.B into palce	
 	move.b	(VDL_VBM),d1	; move the byte at $FFFF8203.B into place
+
 	lsl.l	#8,d0		; return (UINT8 *)((*VIDEO_BASE_ADDR_HIGH << 16) |
 	lsl.l	#8,d0		; (*VIDEO_BASE_ADDR_MED << 8); 
 	lsl.l	#8,d1
 	or.l	d1,d0
 	move.l	(sp)+,d1
+
 	rts
 	nop
-
+	
 *	-----------------(VOID) SetBuffer(UINT32*) -----
 *	===========#==#=======#==============#
 *	$FFFF8201.B|RW|VDL_VBH|Video Base Hi|	%xxxxxxx_ | STE,F
@@ -63,13 +67,16 @@ _GetBuffer:
 
 _SetBuffer:
 SCRBUF	equ 8
-	lnk	a6,#0
+	link	a6,#0
 	move.l	d0,-(sp)
 	move.l	SCRBUF(a6),d0
+
 	lsr.l	#8,d0		; (*scrbuf >> 8) & 0xFF
 	move.b	d0,(VDL_VBM)	; *VIDEO_BASE_ADDR_MID  
+
 	lsr.l	#8,d0		; (*scrbuf >> 16) & 0xFF
 	move.b	d0,(VDL_VBH)	; *VIDEO_BASE_ADDR_HIGH  
 	move.l	(sp)+,d0
+
 	unlk	a6
 	rts
