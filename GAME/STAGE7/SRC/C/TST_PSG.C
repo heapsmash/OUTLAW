@@ -5,8 +5,8 @@
 void TestTone(void); 
 void TestNoise(void);
 void TestVolume(void);
+void TestEnvelope(void);
 void TestEnableChannel(void); 
-
 int main(int argc, char *argv[])
 {
 	long old_ssp = Super(0);
@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 	TestTone(); 
 	TestVolume(); 
 	TestEnableChannel(); 
-	*/ 
 	TestNoise(); 
-
+	*/
+	TestEnvelope(); 
 	Super(old_ssp);
 
 	return 0;
@@ -27,17 +27,17 @@ void TestTone(void)
 {
 	int fine_tone = 0x11;
 	int rough_tone = 0x02;
-	int tone = MAKE_TONE(fine_tone, rough_tone);
+	int tone = MAKE_TONE_12BIT(fine_tone, rough_tone);
 	SetTone(CHANNEL_A, tone); 
 
 	fine_tone = 0x33;
 	rough_tone = 0x04;
-	tone = MAKE_TONE(fine_tone, rough_tone);
+	tone = MAKE_TONE_12BIT(fine_tone, rough_tone);
 	SetTone(CHANNEL_B, tone); 
 
 	fine_tone = 0x55;
 	rough_tone = 0x06; 
-	tone = MAKE_TONE(fine_tone, rough_tone);
+	tone = MAKE_TONE_12BIT(fine_tone, rough_tone);
 	SetTone(CHANNEL_C, tone); 
 
 	printf("FINE TONE RO: 0x%x\n", ReadPsg(R0)); 
@@ -109,3 +109,42 @@ void TestNoise(void)
 	SetNoise(0x1f);
 	printf("Value of R6: %x\n", ReadPsg(R6));
 }
+
+void TestEnvelope(void)
+{
+	int finetone = 0xaa; 
+	int roughtone = 0xbb; 
+	int sustain = MAKE_TONE_16BIT(finetone, roughtone);
+	printf("sustain: %x\n", sustain); 
+
+	SetEnvelope(ENV_CONT_OFF_ATT_OFF, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x00)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_OFF_ATT_ON, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x04)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_OFF_ALT_OFF_HOLD_OFF, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x08)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_OFF_ALT_OFF_HOLD_ON, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x09)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_OFF_ALT_ON_HOLD_OFF, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x0A)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_OFF_ALT_ON_HOLD_ON, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x0B)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_ON_ALT_OFF_HOLD_OFF, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x0C)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_ON_ALT_OFF_HOLD_ON, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x0D)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+	
+	SetEnvelope(ENV_CONT_ON_ATT_ON_ALT_ON_HOLD_OFF, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x0E)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+
+	SetEnvelope(ENV_CONT_ON_ATT_ON_ALT_ON_HOLD_ON, sustain); 
+	printf("(0xaa)RB fine tone: %x (0xbb)RC rough tone: %x (0x0F)RD shape: %x\n", ReadPsg(RB), ReadPsg(RC), ReadPsg(RD));
+}
+
