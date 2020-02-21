@@ -22,9 +22,6 @@
 #define UINT32_ROW_OFFSET(y) ((y)*UINT32_N_COL)
 #define UINT32_OFFSET(row, col) (UINT32_ROW_OFFSET(row) + (col))
 
-#define alignto(p, bits) (((p) >> (bits)) << (bits))
-#define aligntonext(p, bits) alignto(((p) + (1 << (bits)) - 1), (bits))
-
 void PLotRectangle(const void *base, int length, int width, int x_pos, int y_pos);
 void PlotHline(const void *base, int y0, int x0, int xf);
 void PlotVline(const void *base, int x0, int y0, int yf);
