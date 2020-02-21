@@ -37,19 +37,19 @@ void set_tone(int channel, int tuning)
     switch(channel)
     {
         case CHANNEL_A: 
-        write_psg(R0, fine_tone);
-        write_psg(R1, rough_tone);
-        break; 
+            write_psg(R0, fine_tone);
+            write_psg(R1, rough_tone);
+            break; 
         case CHANNEL_B:
-        write_psg(R2, fine_tone); 
-        write_psg(R3, rough_tone); 
-        break; 
+            write_psg(R2, fine_tone); 
+            write_psg(R3, rough_tone); 
+            break; 
         case CHANNEL_C: 
-        write_psg(R4, fine_tone); 
-        write_psg(R5, rough_tone); 
-        break; 
-        case default: 
-        break;
+            write_psg(R4, fine_tone); 
+            write_psg(R5, rough_tone); 
+            break; 
+        default: 
+           break;
     }
 }
 
