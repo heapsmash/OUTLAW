@@ -6,8 +6,9 @@
 #define CHANNEL_B 1
 #define CHANNEL_C 2
 
+#define MAKE_TONE(f,r) (((f) << 4) | (r))
 #define ROUGH_MASK(a) ((a) & 0x000F)
-#define FINE_MASK(a) ((a) & 0x0FF0) 
+#define FINE_MASK(a) (((a) & 0x0FF0) >> 4)
 
 #define R0 0x0
 #define R1 0x1
