@@ -27,13 +27,14 @@
 #define RE 0xE
 #define RF 0xF
 
-void write_psg(int reg, uint8_t val);
-uint8_t read_psg(int reg);
-void set_tone(int channel, int tuning);
-void set_volume(int channel, int volume);
-void enable_channel(int channel, int tone_on, int noise_on);
-void stop_sound(void);
-void set_noise(int tuning);
-void set_envelope(int shape, unsigned int sustain);
+void SetEnvelope(int shape, unsigned int sustain);
+void SetNoise(int tuning);
+void StopSound(void);
+void EnableChannel(int channel, int tone_on, int noise_on);
+void SetVolume(int channel, int volume);
+void SetTone(int channel, int tuning);
+uint8_t ReadPsg(int reg);
+void WritePsg(int reg, uint8_t val);
+
 
 #endif /* PSG_H */ 

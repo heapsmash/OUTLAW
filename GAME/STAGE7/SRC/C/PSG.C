@@ -8,7 +8,7 @@ volatile char *PSG_reg_write  = 0xFF8802;
  * used by the other functions in this module.
  */
 
-void write_psg(int reg, uint8_t val)
+void WritePsg(int reg, uint8_t val)
 {
     *PSG_reg_select = reg;
     *PSG_reg_write = val;
@@ -18,7 +18,7 @@ void write_psg(int reg, uint8_t val)
  * useful for testing purposes.
  */
 
-uint8_t read_psg(int reg)
+uint8_t ReadPsg(int reg)
 {
     *PSG_reg_select = reg; 
     return *PSG_reg_select;
@@ -29,7 +29,7 @@ uint8_t read_psg(int reg)
  * 12-bit tuning.
  */
 
-void set_tone(int channel, int tuning)
+void SetTone(int channel, int tuning)
 {
     uint8_t rough_tone = ROUGH_MASK(tuning); 
     uint8_t fine_tone = FINE_MASK(tuning); 
@@ -57,16 +57,29 @@ void set_tone(int channel, int tuning)
  * Loads the volume register for the given channel.
  */
 
-void set_volume(int channel, int volume)
+void SetVolume(int channel, int volume)
 {
-    
+        switch(channel)
+    {
+        case CHANNEL_A: 
+            write_psg(R8, volume);
+            break; 
+        case CHANNEL_B:
+            write_psg(R9, volume); 
+            break; 
+        case CHANNEL_C: 
+            write_psg(RA, volume); 
+            break; 
+        default: 
+           break;
+    }
 }
 
 /* 
  * Turns the given channel’s tone/noise signals on/off (0=off, 1=on).
  */
-
-void enable_channel(int channel, int tone_on, int noise_on)
+     
+void EnableChannel(int channel, int tone_on, int noise_on)
 {
 
 }
@@ -75,7 +88,7 @@ void enable_channel(int channel, int tone_on, int noise_on)
  * Silences all PSG sound production.
  */
 
-void stop_sound(void)
+void StopSound(void)
 {
 
 }
@@ -84,7 +97,7 @@ void stop_sound(void)
  * Loads the noise register with the given tuning.
  */
 
-void set_noise(int tuning)
+void SetNoise(int tuning)
 {
 
 }
@@ -93,8 +106,8 @@ void set_noise(int tuning)
  * Loads the PSG envelope control registers with the given envelope shape and
  * 16-bit sustain.
  */
-
-void set_envelope(int shape, unsigned int sustain)
+     
+void SetEnvelope(int shape, unsigned int sustain)
 {
     
 }
