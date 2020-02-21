@@ -176,7 +176,7 @@ void Rast32Draw(const void *base, Sprite *sprite)
 	for (i = 0; i < sprite->bitmap.height; i++)
 	{
 		loc = UINT32_OFFSET(i + sprite->y_pos, col);
-		bp[loc] |= img[i];
+		bp[loc] = img[i];
 	}
 }
 
