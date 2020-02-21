@@ -31,8 +31,8 @@ uint8_t ReadPsg(int reg)
 
 void SetTone(int channel, int tuning)
 {
-    uint8_t rough_tone = ROUGH_MASK(tuning); 
-    uint8_t fine_tone = FINE_MASK(tuning); 
+    uint8_t rough_tone = ROUGH_MASK_12BIT(tuning); 
+    uint8_t fine_tone = FINE_MASK_12BIT(tuning); 
 
     switch(channel)
     {
@@ -146,5 +146,10 @@ void SetNoise(int tuning)
 
 void SetEnvelope(int shape, unsigned int sustain)
 {
-    
+    uint8_t fine = FINE_MASK_16BIT(sustain);
+    uint8_t rough = ROUGH_MASK_16BIT(sustain);
+
+    WritePsg(RB, fine);
+    WritePsg(RC, rough);
+    WritePsg(RD, shape);
 }
