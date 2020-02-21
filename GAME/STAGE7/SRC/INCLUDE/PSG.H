@@ -26,6 +26,20 @@
 #define RD 0xD
 #define RE 0xE
 #define RF 0xF
+                                    /* IOB IOC | C B A | C B A */
+#define IO_A_NOISEON_TONEON 0x36    /*   0   0   1 1 0   1 1 0 */  
+#define IO_A_NOISEON_TONEOFF 0x37   /*   0   0   1 1 0   1 1 1 */ 
+#define IO_A_NOISEOFF_TONEON 0x3E   /*   0   0   1 1 1   1 1 0 */ 
+
+#define IO_B_NOISEON_TONEON 0x2D    /*   0   0   1 0 1   1 0 1*/ 
+#define IO_B_NOISEON_TONEOFF 0x2F   /*   0   0   1 0 1   1 1 1 */ 
+#define IO_B_NOISEOFF_TONEON 0x3D   /*   0   0   1 1 1   1 0 1 */ 
+
+#define IO_C_NOISEON_TONEON 0x1B    /*   0   0   0 1 1   0 1 1 */ 
+#define IO_C_NOISEON_TONEOFF 0x1F   /*   0   0   0 1 1   1 1 1 */ 
+#define IO_C_NOISEOFF_TONEON 0x3B   /*   0   0   1 1 1   0 1 1 */ 
+
+#define IO_OFF 0x3F                 /*   0   0   1 1 1   1 1 1 */ 
 
 void SetEnvelope(int shape, unsigned int sustain);
 void SetNoise(int tuning);
