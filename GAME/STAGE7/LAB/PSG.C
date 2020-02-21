@@ -8,7 +8,7 @@ int main()
 	long old_ssp = Super(0);
 	
 	*PSG_reg_select = 6; 
-	*PSG_reg_write = 0x1f;
+	*PSG_reg_write = 0x0f; 
 
 	*PSG_reg_select = 7; 
 	*PSG_reg_write = 0x07; 
