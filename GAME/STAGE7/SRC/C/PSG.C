@@ -136,14 +136,14 @@ void StopSound(void)
 
 void SetNoise(int tuning)
 {
-
+    WritePsg(R6, tuning); 
 }
 
 /* 
  * Loads the PSG envelope control registers with the given envelope shape and
  * 16-bit sustain.
  */
-     
+
 void SetEnvelope(int shape, unsigned int sustain)
 {
     
