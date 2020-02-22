@@ -3,7 +3,7 @@
 
 #include <TYPES.H> /* for uint32_t */
 
-void start_music(void);
-void update_music(uint32_t time_elapsed);
+void StartMusic(void);
+void UpdateMusic(uint32_t time_elapsed);
 
 #endif /* MUSIC_H */
