@@ -49,6 +49,9 @@ int main(int argc, char *argv[])
 	InitGame(&game);
 	Render(&game, game.screen.next_buffer);
 
+	time_now = GetTime();
+	time_then = time_now;
+
 	while (read_char != 27)
 	{
 		time_now = GetTime();
