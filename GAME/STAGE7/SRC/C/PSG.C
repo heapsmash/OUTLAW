@@ -95,15 +95,15 @@ void EnableChannel(int channel, int tone_on, int noise_on)
     case CHANNEL_A:
         if (tone_on && noise_on)
             WritePsg(R7, IO_A_NOISEON_TONEON);
-        else if (tone_on)
+        else if (noise_on)
             WritePsg(R7, IO_A_NOISEON_TONEOFF);
         else /* noise off */
             WritePsg(R7, IO_A_NOISEOFF_TONEON);
         break;
     case CHANNEL_B:
-        if (tone_on && noise_on)
+        if (noise_on && noise_on)
             WritePsg(R7, IO_B_NOISEON_TONEON);
-        else if (tone_on)
+        else if (noise_on)
             WritePsg(R7, IO_B_NOISEON_TONEOFF);
         else /* noise off */
             WritePsg(R7, IO_B_NOISEOFF_TONEON);
@@ -111,7 +111,7 @@ void EnableChannel(int channel, int tone_on, int noise_on)
     case CHANNEL_C:
         if (tone_on && noise_on)
             WritePsg(R7, IO_C_NOISEON_TONEON);
-        else if (tone_on)
+        else if (noise_on)
             WritePsg(R7, IO_C_NOISEON_TONEOFF);
         else /* noise off */
             WritePsg(R7, IO_C_NOISEOFF_TONEON);
