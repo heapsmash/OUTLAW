@@ -15,7 +15,7 @@ void TestEffectGunShoot(void);
 
 int main(int argc, char *argv[])
 {
-	uint32_t time_then, time_now, time_elapsed;
+	uint32_t music_time_then, music_time_now, music_time_elapsed;
 	int i;
 	uint8_t note = 0x0E;
 	long old_ssp = Super(0);
@@ -23,18 +23,18 @@ int main(int argc, char *argv[])
 
 	StopSound();
 	StartMusic();
-	time_now = GetTime();
-	time_then = time_now;
+	music_time_now = GetTime();
+	music_time_then = music_time_now;
 
 	while (1)
 	{
-		time_now = GetTime();
-		time_elapsed = time_now - time_then;
+		music_time_now = GetTime();
+		music_time_elapsed = music_time_now - music_time_then;
 
-		UpdateMusic(time_elapsed);
+		UpdateMusic(music_time_elapsed);
 
-		if (time_elapsed >= 20)
-			time_then = time_now;
+		if (music_time_elapsed >= 20)
+			music_time_then = music_time_now;
 	}
 
 	Super(old_ssp);
