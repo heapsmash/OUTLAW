@@ -6,6 +6,7 @@ void TestTone(void);
 void TestNoise(void);
 void TestVolume(void);
 void TestEnvelope(void);
+void TestStopStound(void);
 void TestEnableChannel(void);
 int main(int argc, char *argv[])
 {
@@ -18,9 +19,22 @@ int main(int argc, char *argv[])
 	TestNoise();
 	TestEnvelope();
 	*/
+	TestStopStound();
 	Super(old_ssp);
 
 	return 0;
+}
+
+void TestStopStound(void)
+{
+	int count;
+
+	StopSound();
+
+	for (count = 0x1; count <= 0xf; count++)
+	{
+		printf("0x%x: %x\n", count, ReadPsg(count));
+	}
 }
 
 void TestTone(void)

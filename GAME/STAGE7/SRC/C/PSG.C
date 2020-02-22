@@ -127,6 +127,9 @@ void EnableChannel(int channel, int tone_on, int noise_on)
 
 void StopSound(void)
 {
+    int count;
+    for (count = 0x1; count <= 0xd; count++)
+        WritePsg(count, 0);
 }
 
 /*
