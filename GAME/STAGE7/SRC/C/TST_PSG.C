@@ -4,6 +4,8 @@
 #include <MUSIC.H>
 
 uint32_t GetTime(void);
+
+void TestMusic(void);
 void TestTone(void);
 void TestNoise(void);
 void TestVolume(void);
@@ -15,10 +17,16 @@ void TestEffectGunShoot(void);
 
 int main(int argc, char *argv[])
 {
-	uint32_t music_time_then, music_time_now, music_time_elapsed;
-	int i;
-	uint8_t note = 0x0E;
 	long old_ssp = Super(0);
+	TestEffectReload();
+	Super(old_ssp);
+
+	return 0;
+}
+
+void TestMusic(void)
+{
+	uint32_t music_time_then, music_time_now, music_time_elapsed;
 	long *timer = 0x462;
 
 	StopSound();
@@ -36,10 +44,6 @@ int main(int argc, char *argv[])
 		if (music_time_elapsed >= 20)
 			music_time_then = music_time_now;
 	}
-
-	Super(old_ssp);
-
-	return 0;
 }
 
 uint32_t GetTime(void)
@@ -52,6 +56,13 @@ uint32_t GetTime(void)
 	return time_now;
 }
 
+void TestEffectReload(void)
+{
+	SetNoise(0x12);
+	EnableChannel(CHANNEL_C, 0, 1);
+	SetVolume(CHANNEL_C, 0x10);
+	SetEnvelope(ENV_CONT_OFF_ATT_OFF, (int)MAKE_TONE_16BIT(0x00, 0x05));
+}
 void TestEffectGunShoot(void)
 {
 	SetNoise(0x1F);
