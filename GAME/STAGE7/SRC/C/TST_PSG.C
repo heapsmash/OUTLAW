@@ -2,27 +2,89 @@
 #include <osbind.h> /* For super */
 #include <stdio.h>
 
+uint32_t GetTime(void);
 void TestTone(void);
 void TestNoise(void);
 void TestVolume(void);
 void TestEnvelope(void);
 void TestStopStound(void);
 void TestEnableChannel(void);
+
+void TestEffectGunShoot(void);
+
 int main(int argc, char *argv[])
 {
+	uint32_t time_then, time_now, time_elapsed;
+	int i;
+	uint8_t note = 0x0E;
 	long old_ssp = Super(0);
+	long *timer = 0x462;
 
-	/*
-	TestTone();
-	TestVolume();
-	TestEnableChannel();
-	TestNoise();
-	TestEnvelope();
-	*/
-	TestStopStound();
+	uint8_t song[] = {
+		0xd6,
+		0xaa,
+		0x8f,
+
+		0x6b,
+		0x55,
+		0x47,
+
+		0x35,
+		0x2a,
+		0x24,
+
+		0x1b,
+		0x15,
+		0x12,
+	};
+
+	time_now = GetTime();
+	time_then = time_now;
+
+	EnableChannel(CHANNEL_B, 1, 0);
+	i = 0;
+	while (1)
+	{
+		time_now = GetTime();
+		time_elapsed = time_now - time_then;
+
+		if (time_elapsed >= 5)
+		{
+			SetVolume(CHANNEL_B, 0x00);
+		}
+
+		if (time_elapsed >= 15)
+		{
+			SetTone(CHANNEL_B, song[i++]);
+			SetVolume(CHANNEL_B, 0x0F);
+			time_then = time_now;
+			if (song[i] == 0x00)
+				i = 0;
+		}
+	}
+
+	StopSound();
 	Super(old_ssp);
 
 	return 0;
+}
+
+uint32_t GetTime(void)
+{
+	long time_now;
+	long *timer = (long *)0x462; /* address of longword auto-inc’ed 70 x per s */
+
+	time_now = *timer;
+
+	return time_now;
+}
+
+void TestEffectGunShoot(void)
+{
+	SetNoise(0x1F);
+	EnableChannel(CHANNEL_C, 0, 1);
+	SetVolume(CHANNEL_C, 0x10);
+	SetEnvelope(ENV_CONT_OFF_ATT_OFF, (int)MAKE_TONE_16BIT(0x00, 0x38));
 }
 
 void TestStopStound(void)
