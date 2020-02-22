@@ -1,16 +1,15 @@
 #ifndef OUTLAW_H
 #define OUTLAW_H
 
-#include <MODEL.H> /* for data structures */ 
-#include <TYPES.H> /* for GetTime */ 
+#include <MODEL.H> /* for data structures */
+#include <TYPES.H> /* for GetTime */
 
-/* player 1 and player 2 start locations */ 
+/* player 1 and player 2 start locations */
 
 #define P1_START_X 32
 #define P1_START_Y 336
 #define P2_START_X 570
 #define P2_START_Y 336
-
 
 /* P1 and P2 revolver cylinder location */
 
@@ -36,6 +35,6 @@ void InitP2(GunSlinger *gs, int current_frame);
 void InitP1(GunSlinger *gs, int current_frame);
 void InitGame(Game *game);
 
-uint32_t GetTime(void); 
+uint32_t GetTime(void);
 
-#endif /* OUTLAW_H */ 
+#endif /* OUTLAW_H */

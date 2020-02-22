@@ -1,7 +1,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include <TYPES.H> /* for struct Screen */ 
+#include <TYPES.H> /* for struct Screen */
 
 #define SCREEN_SIZE 32000 /*  (640 * 400 / 8) Note:   Buffers are the same size for all resolutions  */
 #define NUM_FRAME_BUFFERS 2
@@ -25,4 +25,4 @@ void ScrInit(Screen *screen);
 extern void *GetBuffer(void);
 extern void SetBuffer(void *scrbuf);
 
-#endif /* SCREEN_H */ 
+#endif /* SCREEN_H */

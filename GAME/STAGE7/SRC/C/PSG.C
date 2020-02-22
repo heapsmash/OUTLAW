@@ -1,7 +1,7 @@
-#include <PSG.H> 
+#include <PSG.H>
 
 volatile char *PSG_reg_select = 0xFF8800;
-volatile char *PSG_reg_write  = 0xFF8802;
+volatile char *PSG_reg_write = 0xFF8802;
 
 /* 
  * Writes the given byte value (0-255) to the given PSG register (0-15). This is a helper routine to be
@@ -20,7 +20,7 @@ void WritePsg(int reg, uint8_t val)
 
 uint8_t ReadPsg(int reg)
 {
-    *PSG_reg_select = reg; 
+    *PSG_reg_select = reg;
     return *PSG_reg_select;
 }
 
@@ -31,25 +31,25 @@ uint8_t ReadPsg(int reg)
 
 void SetTone(int channel, int tuning)
 {
-    uint8_t rough_tone = ROUGH_MASK_12BIT(tuning); 
-    uint8_t fine_tone = FINE_MASK_12BIT(tuning); 
+    uint8_t rough_tone = ROUGH_MASK_12BIT(tuning);
+    uint8_t fine_tone = FINE_MASK_12BIT(tuning);
 
-    switch(channel)
+    switch (channel)
     {
-        case CHANNEL_A: 
-            WritePsg(R0, fine_tone);
-            WritePsg(R1, rough_tone);
-            break; 
-        case CHANNEL_B:
-            WritePsg(R2, fine_tone); 
-            WritePsg(R3, rough_tone); 
-            break; 
-        case CHANNEL_C: 
-            WritePsg(R4, fine_tone); 
-            WritePsg(R5, rough_tone); 
-            break; 
-        default: 
-           break;
+    case CHANNEL_A:
+        WritePsg(R0, fine_tone);
+        WritePsg(R1, rough_tone);
+        break;
+    case CHANNEL_B:
+        WritePsg(R2, fine_tone);
+        WritePsg(R3, rough_tone);
+        break;
+    case CHANNEL_C:
+        WritePsg(R4, fine_tone);
+        WritePsg(R5, rough_tone);
+        break;
+    default:
+        break;
     }
 }
 
@@ -62,19 +62,19 @@ void SetTone(int channel, int tuning)
 
 void SetVolume(int channel, int volume)
 {
-    switch(channel)
+    switch (channel)
     {
-        case CHANNEL_A: 
-            WritePsg(R8, volume);
-            break; 
-        case CHANNEL_B:
-            WritePsg(R9, volume); 
-            break; 
-        case CHANNEL_C: 
-            WritePsg(RA, volume); 
-            break; 
-        default: 
-            break;
+    case CHANNEL_A:
+        WritePsg(R8, volume);
+        break;
+    case CHANNEL_B:
+        WritePsg(R9, volume);
+        break;
+    case CHANNEL_C:
+        WritePsg(RA, volume);
+        break;
+    default:
+        break;
     }
 }
 
@@ -82,42 +82,42 @@ void SetVolume(int channel, int volume)
  * Turns the given channel’s tone/noise signals on/off (0=off, 1=on).
  */
 
-
 void EnableChannel(int channel, int tone_on, int noise_on)
 {
-    if (!tone_on && !noise_on) {
+    if (!tone_on && !noise_on)
+    {
         WritePsg(R7, IO_OFF);
         return;
     }
 
-    switch(channel)
+    switch (channel)
     {
-        case CHANNEL_A:
-            if (tone_on && noise_on)
-                WritePsg(R7, IO_A_NOISEON_TONEON); 
-            else if(tone_on)
-                WritePsg(R7, IO_A_NOISEON_TONEOFF); 
-            else /* noise off */ 
-                WritePsg(R7, IO_A_NOISEOFF_TONEON); 
-            break;
-        case CHANNEL_B:
-            if (tone_on && noise_on)
-                WritePsg(R7, IO_B_NOISEON_TONEON); 
-            else if(tone_on)
-                WritePsg(R7, IO_B_NOISEON_TONEOFF); 
-            else /* noise off */ 
-                WritePsg(R7, IO_B_NOISEOFF_TONEON); 
-            break; 
-        case CHANNEL_C:
-            if (tone_on && noise_on)
-                WritePsg(R7, IO_C_NOISEON_TONEON); 
-            else if(tone_on)
-                WritePsg(R7, IO_C_NOISEON_TONEOFF); 
-            else /* noise off */ 
-                WritePsg(R7, IO_C_NOISEOFF_TONEON); 
-            break;
-        default:
-            break;
+    case CHANNEL_A:
+        if (tone_on && noise_on)
+            WritePsg(R7, IO_A_NOISEON_TONEON);
+        else if (tone_on)
+            WritePsg(R7, IO_A_NOISEON_TONEOFF);
+        else /* noise off */
+            WritePsg(R7, IO_A_NOISEOFF_TONEON);
+        break;
+    case CHANNEL_B:
+        if (tone_on && noise_on)
+            WritePsg(R7, IO_B_NOISEON_TONEON);
+        else if (tone_on)
+            WritePsg(R7, IO_B_NOISEON_TONEOFF);
+        else /* noise off */
+            WritePsg(R7, IO_B_NOISEOFF_TONEON);
+        break;
+    case CHANNEL_C:
+        if (tone_on && noise_on)
+            WritePsg(R7, IO_C_NOISEON_TONEON);
+        else if (tone_on)
+            WritePsg(R7, IO_C_NOISEON_TONEOFF);
+        else /* noise off */
+            WritePsg(R7, IO_C_NOISEOFF_TONEON);
+        break;
+    default:
+        break;
     }
 }
 
@@ -127,7 +127,6 @@ void EnableChannel(int channel, int tone_on, int noise_on)
 
 void StopSound(void)
 {
-
 }
 
 /*
@@ -136,7 +135,7 @@ void StopSound(void)
 
 void SetNoise(int tuning)
 {
-    WritePsg(R6, tuning); 
+    WritePsg(R6, tuning);
 }
 
 /* 

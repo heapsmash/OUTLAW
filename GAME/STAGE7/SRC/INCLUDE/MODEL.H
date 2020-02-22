@@ -14,7 +14,7 @@
        |_| Michael S. Walker (2020)
 */
 
-#include <SCREEN.H> /* for struct Screen */ 
+#include <SCREEN.H> /* for struct Screen */
 
 #ifndef MODEL_H
 #define MODEL_H
@@ -111,10 +111,10 @@ typedef struct _Bitmap
 
 typedef struct _Sprite
 {
-	int last_x[NUM_FRAME_BUFFERS], last_y[NUM_FRAME_BUFFERS]; /* the last x, y coordinates to be plotted */ 
-	int x_vel, y_vel; /* horiz. & vert. displacement per clock tick */
-	int x_pos, y_pos; /* position coordinates */
-	int render_flag;  /* set to 1 if on 0 if off */
+	int last_x[NUM_FRAME_BUFFERS], last_y[NUM_FRAME_BUFFERS]; /* the last x, y coordinates to be plotted */
+	int x_vel, y_vel;										  /* horiz. & vert. displacement per clock tick */
+	int x_pos, y_pos;										  /* position coordinates */
+	int render_flag;										  /* set to 1 if on 0 if off */
 	Bitmap bitmap;
 } Sprite;
 

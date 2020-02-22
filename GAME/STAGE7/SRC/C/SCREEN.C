@@ -14,8 +14,9 @@ void ScrInit(Screen *screen)
     screen->current_fb_index = 0;
     screen->orig_framebuffer = ScrGetScreenBuffer(); /* save orig screen */
 
-    for (i = 0; i != NUM_FRAME_BUFFERS; i++) {
-        screen->framebuffs[i] = (uint8_t *) addr_roundup(g_framebuffers[i], 8);
+    for (i = 0; i != NUM_FRAME_BUFFERS; i++)
+    {
+        screen->framebuffs[i] = (uint8_t *)addr_roundup(g_framebuffers[i], 8);
         ClearScreen(screen->framebuffs[i]);
     }
 
@@ -26,7 +27,7 @@ void ScrInit(Screen *screen)
 void ScrFlipBuffers(Screen *screen)
 {
     ScrSetScreenBuffer(screen->next_buffer);
-    screen->current_fb_index ^= (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS; /* ... >:D */ 
+    screen->current_fb_index ^= (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS; /* ... >:D */
     screen->next_buffer = screen->framebuffs[screen->current_fb_index];
 }
 
@@ -37,7 +38,7 @@ uint8_t *ScrGetScreenBuffer(void)
 
 void ScrSetScreenBuffer(uint8_t *scrbuf)
 {
-	Vsync();
+    Vsync();
     SetBuffer(scrbuf);
 }
 

@@ -1,18 +1,18 @@
 #ifndef PSG_H
 #define PSG_H
-#include <TYPES.H> /* for type t */ 
+#include <TYPES.H> /* for type t */
 
 #define CHANNEL_A 0
 #define CHANNEL_B 1
 #define CHANNEL_C 2
 
-#define MAKE_TONE_12BIT(f,r) (((f) << 4) | (r))
-#define ROUGH_MASK_12BIT(a) ((a) & 0x000F)
-#define FINE_MASK_12BIT(a) (((a) & 0x0FF0) >> 4)
+#define MAKE_TONE_12BIT(f, r) (((f) << 4) | (r))
+#define ROUGH_MASK_12BIT(a) ((a)&0x000F)
+#define FINE_MASK_12BIT(a) (((a)&0x0FF0) >> 4)
 
-#define MAKE_TONE_16BIT(f,r) (((f) << 8) | (r))
-#define ROUGH_MASK_16BIT(a) ((a) & 0x00FF)
-#define FINE_MASK_16BIT(a) (((a) & 0xFF00) >> 8)
+#define MAKE_TONE_16BIT(f, r) (((f) << 8) | (r))
+#define ROUGH_MASK_16BIT(a) ((a)&0x00FF)
+#define FINE_MASK_16BIT(a) (((a)&0xFF00) >> 8)
 
 #define R0 0x0
 #define R1 0x1
@@ -30,21 +30,21 @@
 #define RD 0xD
 #define RE 0xE
 #define RF 0xF
-                                    /* IOB IOC | C B A | C B A */
-#define IO_A_NOISEON_TONEON 0x36    /*   0   0   1 1 0   1 1 0 */ 
-#define IO_A_NOISEON_TONEOFF 0x37   /*   0   0   1 1 0   1 1 1 */ 
-#define IO_A_NOISEOFF_TONEON 0x3E   /*   0   0   1 1 1   1 1 0 */ 
 
-#define IO_B_NOISEON_TONEON 0x2D    /*   0   0   1 0 1   1 0 1 */ 
-#define IO_B_NOISEON_TONEOFF 0x2F   /*   0   0   1 0 1   1 1 1 */ 
-#define IO_B_NOISEOFF_TONEON 0x3D   /*   0   0   1 1 1   1 0 1 */ 
+/* IOB IOC | C B A | C B A */
+#define IO_A_NOISEON_TONEON 0x36  /*   0   0   1 1 0   1 1 0 */
+#define IO_A_NOISEON_TONEOFF 0x37 /*   0   0   1 1 0   1 1 1 */
+#define IO_A_NOISEOFF_TONEON 0x3E /*   0   0   1 1 1   1 1 0 */
 
-#define IO_C_NOISEON_TONEON 0x1B    /*   0   0   0 1 1   0 1 1 */ 
-#define IO_C_NOISEON_TONEOFF 0x1F   /*   0   0   0 1 1   1 1 1 */ 
-#define IO_C_NOISEOFF_TONEON 0x3B   /*   0   0   1 1 1   0 1 1 */ 
+#define IO_B_NOISEON_TONEON 0x2D  /*   0   0   1 0 1   1 0 1 */
+#define IO_B_NOISEON_TONEOFF 0x2F /*   0   0   1 0 1   1 1 1 */
+#define IO_B_NOISEOFF_TONEON 0x3D /*   0   0   1 1 1   1 0 1 */
 
-#define IO_OFF 0x3F                 /*   0   0   1 1 1   1 1 1 */ 
+#define IO_C_NOISEON_TONEON 0x1B  /*   0   0   0 1 1   0 1 1 */
+#define IO_C_NOISEON_TONEOFF 0x1F /*   0   0   0 1 1   1 1 1 */
+#define IO_C_NOISEOFF_TONEON 0x3B /*   0   0   1 1 1   0 1 1 */
 
+#define IO_OFF 0x3F /*   0   0   1 1 1   1 1 1 */
 
 /*
  *  Envelope control register
@@ -85,5 +85,4 @@ void SetTone(int channel, int tuning);
 uint8_t ReadPsg(int reg);
 void WritePsg(int reg, uint8_t val);
 
-
-#endif /* PSG_H */ 
+#endif /* PSG_H */

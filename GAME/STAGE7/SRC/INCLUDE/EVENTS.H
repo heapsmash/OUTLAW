@@ -9,10 +9,10 @@
 #define BACK 3
 #define FORWARD 4
 
-void EventInitShoot(int direction, GunSlinger *gs, int buff_index, const void *base); 
-void EventInitWalk(int direction, GunSlinger *gs, int buff_index, const void *base); 
+void EventInitShoot(int direction, GunSlinger *gs, int buff_index, const void *base);
+void EventInitWalk(int direction, GunSlinger *gs, int buff_index, const void *base);
 
-void EventRemoveSprite(Sprite *sprite, int buff_index, const void *base); 
+void EventRemoveSprite(Sprite *sprite, int buff_index, const void *base);
 void EventSetLastXY(Sprite *sprite, int buff_index);
 
 void EventMoveBullets(GunSlinger *shooter, GunSlinger *target);

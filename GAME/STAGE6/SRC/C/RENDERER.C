@@ -3,7 +3,7 @@
 #include <RASTER.H>
 #include <stdio.h>
 
-#include <osbind.h> /* for Vsync() */ 
+#include <osbind.h> /* for Vsync() */
 
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {
@@ -42,67 +42,71 @@ void Render(Game *game, void *base)
 
 	/* render background */
 
-	if (game->background.sprite.render_flag == ON) {
+	if (game->background.sprite.render_flag == ON)
+	{
 		RenderBackground(&game->background, base);
-		flag = 1; 
+		flag = 1;
 	}
 
 	/* render player one state */
 
-	if (game->gun_slinger[PLAYER_ONE].sprite.render_flag == ON) {
+	if (game->gun_slinger[PLAYER_ONE].sprite.render_flag == ON)
+	{
 		RenderGunSlinger(&game->gun_slinger[PLAYER_ONE], base);
-		flag = 1; 
+		flag = 1;
 	}
 
 	/* render player two state */
 
-	if (game->gun_slinger[PLAYER_TWO].sprite.render_flag == ON) {
+	if (game->gun_slinger[PLAYER_TWO].sprite.render_flag == ON)
+	{
 		RenderGunSlinger(&game->gun_slinger[PLAYER_TWO], base);
-		flag = 1; 
+		flag = 1;
 	}
 
 	/* render player one bullets */
 
 	for (i = 0; i < NUM_ROUNDS; i++)
-		if (game->gun_slinger[PLAYER_ONE].bullet[i].sprite.render_flag == ON) {
+		if (game->gun_slinger[PLAYER_ONE].bullet[i].sprite.render_flag == ON)
+		{
 			RenderBullet(&game->gun_slinger[PLAYER_ONE].bullet[i], base);
-			flag = 1; 
-	}
+			flag = 1;
+		}
 
 	/* render player two bullets */
 
 	for (i = 0; i < NUM_ROUNDS; i++)
-		if (game->gun_slinger[PLAYER_TWO].bullet[i].sprite.render_flag == ON) {
+		if (game->gun_slinger[PLAYER_TWO].bullet[i].sprite.render_flag == ON)
+		{
 			RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
-			flag = 1; 
+			flag = 1;
 		}
 
 	/* render player one cylinder */
 
-	if (game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag == ON) {
+	if (game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag == ON)
+	{
 		RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
-		flag = 1; 
+		flag = 1;
 	}
 
 	/* render player two cylinder */
 
-	if (game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag == ON) {
+	if (game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag == ON)
+	{
 		RenderCylinder(&game->gun_slinger[PLAYER_TWO].cylinder, base);
-		flag = 1; 
+		flag = 1;
 	}
 
 	/* render player one score */
 
-
 	RenderScore(game->gun_slinger[PLAYER_ONE].score.msd, base, 80, 16);
 	RenderScore(game->gun_slinger[PLAYER_ONE].score.lsd, base, 88, 16);
-
 
 	/* render player two score */
 
 	RenderScore(game->gun_slinger[PLAYER_TWO].score.msd, base, 548, 16);
 	RenderScore(game->gun_slinger[PLAYER_TWO].score.lsd, base, 552, 16);
-
 
 	if (flag > 0)
 		ScrFlipBuffers(&game->screen);

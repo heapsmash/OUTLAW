@@ -118,24 +118,24 @@ void MDLPlayerCactusCollision(GunSlinger *gs)
 	int player_x = gs->sprite.x_pos;
 	int player_y = gs->sprite.y_pos;
 
-	/* computer player */ 
+	/* computer player */
 
-	if (gs->orientation < 0 && 
-		player_x >= (BORDER_X0 + 32) && 
-		player_x <= (BORDER_XF + 32) && 
-		player_y >= BORDER_Y0 && 
-		player_y <= BORDER_YF && 
-		gs->sprite.x_vel == 32 * gs->orientation) 
-			gs->sprite.x_vel = 0;
+	if (gs->orientation < 0 &&
+		player_x >= (BORDER_X0 + 32) &&
+		player_x <= (BORDER_XF + 32) &&
+		player_y >= BORDER_Y0 &&
+		player_y <= BORDER_YF &&
+		gs->sprite.x_vel == 32 * gs->orientation)
+		gs->sprite.x_vel = 0;
 
-	/* player one */ 
+	/* player one */
 
-	if (gs->orientation > 0 && 
+	if (gs->orientation > 0 &&
 		player_x > (BORDER_X0 - 64) &&
-		player_y >= BORDER_Y0 && 
-		player_y <= BORDER_YF && 
-		gs->sprite.x_vel == 32 * gs->orientation) 
-			gs->sprite.x_vel = 0;
+		player_y >= BORDER_Y0 &&
+		player_y <= BORDER_YF &&
+		gs->sprite.x_vel == 32 * gs->orientation)
+		gs->sprite.x_vel = 0;
 }
 
 void MDLBulletCactusCollision(Bullet *bullet)
@@ -143,11 +143,8 @@ void MDLBulletCactusCollision(Bullet *bullet)
 	int bullet_x = bullet->sprite.x_pos;
 	int bullet_y = bullet->sprite.y_pos;
 
-	if (bullet_x >= CACTUS_X0 
-		&& bullet_x <= CACTUS_XF 
-		&& bullet_y >= CACTUS_Y0 
-		&& bullet_y <= CACTUS_YF)
-			MDLTurnOffBullet(bullet);
+	if (bullet_x >= CACTUS_X0 && bullet_x <= CACTUS_XF && bullet_y >= CACTUS_Y0 && bullet_y <= CACTUS_YF)
+		MDLTurnOffBullet(bullet);
 }
 
 void MDLTurnOffBullet(Bullet *bullet)

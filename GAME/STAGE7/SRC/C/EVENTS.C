@@ -15,7 +15,7 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 	case UP:
 		MDLFireBullet(gs);
 		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;  
+		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
 
 		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = -BULLET_SPEED;
@@ -30,7 +30,7 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 	case DOWN:
 		MDLFireBullet(gs);
 		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos; 
+		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
 
 		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = BULLET_SPEED;
@@ -45,7 +45,7 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 	case STRAIGHT:
 		MDLFireBullet(gs);
 		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;  
+		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
 
 		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = 0;
@@ -145,7 +145,7 @@ void EventUpdateScore(GunSlinger *shooter)
 
 void EventInitShoot(int direction, GunSlinger *gs, int buff_index, const void *base)
 {
-	EventRemoveSprite(&gs->sprite, buff_index, base); 
+	EventRemoveSprite(&gs->sprite, buff_index, base);
 	EventShoot(direction, gs, buff_index);
 	EventSetLastXY(&gs->sprite, buff_index);
 }
@@ -153,14 +153,14 @@ void EventInitShoot(int direction, GunSlinger *gs, int buff_index, const void *b
 void EventInitWalk(int direction, GunSlinger *gs, int buff_index, const void *base)
 {
 	EventRemoveSprite(&gs->sprite, buff_index, base);
-	EventWalk(direction, gs); 
-	EventSetLastXY(&gs->sprite, buff_index); 
+	EventWalk(direction, gs);
+	EventSetLastXY(&gs->sprite, buff_index);
 }
 
 void EventRemoveSprite(Sprite *sprite, int buff_index, const void *base)
-{ 
-	int x_tmp; 
-	int y_tmp; 
+{
+	int x_tmp;
+	int y_tmp;
 
 	x_tmp = sprite->x_pos;
 	y_tmp = sprite->y_pos;
@@ -170,12 +170,12 @@ void EventRemoveSprite(Sprite *sprite, int buff_index, const void *base)
 
 	sprite->bitmap.raster.Clear(base, sprite);
 
-	sprite->x_pos = x_tmp; 
-	sprite->y_pos = y_tmp; 
+	sprite->x_pos = x_tmp;
+	sprite->y_pos = y_tmp;
 }
 
 void EventSetLastXY(Sprite *sprite, int buff_index)
 {
-	sprite->last_x[buff_index] = sprite->x_pos;  
-	sprite->last_y[buff_index] = sprite->y_pos;  
+	sprite->last_x[buff_index] = sprite->x_pos;
+	sprite->last_y[buff_index] = sprite->y_pos;
 }

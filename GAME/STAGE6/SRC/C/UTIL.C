@@ -28,6 +28,6 @@ void TrimLine(int *x, int min, int max)
 
 unsigned MyRand(void)
 {
-	bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;
-	return lfsr =  (lfsr >> 1) | (bit << 15);
+	bit = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5)) & 1;
+	return lfsr = (lfsr >> 1) | (bit << 15);
 }
