@@ -25,8 +25,8 @@ static int g_current_note = 0;
 
 void StartMusic(void)
 {
-	EnableChannel(CHANNEL_B, 1, 0);
-	SetVolume(CHANNEL_B, 0x0F);
+	EnableChannel(CHANNEL_A, 1, 0);
+	SetVolume(CHANNEL_A, 0x0F);
 	g_song[g_current_note++];
 }
 
@@ -40,12 +40,12 @@ void StartMusic(void)
 void UpdateMusic(uint32_t time_elapsed)
 {
 	if (time_elapsed >= 10)
-		SetVolume(CHANNEL_B, 0x00);
+		SetVolume(CHANNEL_A, 0x00);
 
 	if (time_elapsed >= 20)
 	{
-		SetTone(CHANNEL_B, g_song[g_current_note++]);
-		SetVolume(CHANNEL_B, 0x0F);
+		SetTone(CHANNEL_A, g_song[g_current_note++]);
+		SetVolume(CHANNEL_A, 0x0F);
 		if (g_song[g_current_note] == 0x00)
 			g_current_note = 0;
 	}
