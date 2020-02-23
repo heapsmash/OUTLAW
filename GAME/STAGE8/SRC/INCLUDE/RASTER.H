@@ -40,6 +40,8 @@
 #define UINT32_ROW_OFFSET(y) ((y)*UINT32_N_COL)
 #define UINT32_OFFSET(row, col) (UINT32_ROW_OFFSET(row) + (col))
 
+uint8_t *GetVideoBase(void);
+void SetVideoBase(uint8_t *scrbuf);
 extern void *GetBuffer(void);
 extern void SetBuffer(void *scrbuf);
 
