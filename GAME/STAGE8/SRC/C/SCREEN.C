@@ -1,9 +1,7 @@
 #include <TYPES.H>
 #include <SCREEN.H>
 #include <UTIL.H>
-#include <RASTER.H> /* for ClearScreen() */
-
-#include <osbind.h> /* for Vsync(); */
+#include <RASTER.H> /* for ClearScreen() GetScreenBuffer() SetScreenBuffer() */
 
 uint8_t g_framebuffers[NUM_FRAME_BUFFERS][SCREEN_SIZE + FRAMEBUFFER_PADDING_LEN];
 
@@ -12,7 +10,7 @@ void ScrInit(Screen *screen)
     int i;
 
     screen->current_fb_index = 0;
-    screen->orig_framebuffer = ScrGetScreenBuffer(); /* save orig screen */
+    screen->orig_framebuffer = GetVideoBase(); /* save orig screen */
 
     for (i = 0; i != NUM_FRAME_BUFFERS; i++)
     {
@@ -26,23 +24,12 @@ void ScrInit(Screen *screen)
 
 void ScrFlipBuffers(Screen *screen)
 {
-    ScrSetScreenBuffer(screen->next_buffer);
-    screen->current_fb_index ^= (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS; /* ... >:D */
+    SetVideoBase(screen->next_buffer);
+    screen->current_fb_index ^= (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS;
     screen->next_buffer = screen->framebuffs[screen->current_fb_index];
-}
-
-uint8_t *ScrGetScreenBuffer(void)
-{
-    return GetBuffer();
-}
-
-void ScrSetScreenBuffer(uint8_t *scrbuf)
-{
-    Vsync();
-    SetBuffer(scrbuf);
 }
 
 void ScrCleanup(Screen *screen)
 {
-    ScrSetScreenBuffer(screen->orig_framebuffer);
+    SetVideoBase(screen->orig_framebuffer);
 }

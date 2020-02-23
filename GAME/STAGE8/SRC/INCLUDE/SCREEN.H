@@ -22,7 +22,4 @@ uint8_t *ScrGetScreenBuffer(void);
 void ScrFlipBuffers(Screen *screen);
 void ScrInit(Screen *screen);
 
-extern void *GetBuffer(void);
-extern void SetBuffer(void *scrbuf);
-
 #endif /* SCREEN_H */
