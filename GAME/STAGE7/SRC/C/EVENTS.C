@@ -1,6 +1,6 @@
 #include <MODEL.H>
 #include <EVENTS.H>
-#include <stdio.h>
+#include <EFFECTS.H>
 
 void EventCylinderState(GunSlinger *gs)
 {
@@ -13,6 +13,8 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 	switch (direction)
 	{
 	case UP:
+		if (gs->num_bullets > 0)
+			EffectGunShoot();
 		MDLFireBullet(gs);
 		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
 		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
@@ -28,6 +30,8 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 		break;
 
 	case DOWN:
+		if (gs->num_bullets > 0)
+			EffectGunShoot();
 		MDLFireBullet(gs);
 		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
 		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
@@ -43,6 +47,8 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 		break;
 
 	case STRAIGHT:
+		if (gs->num_bullets > 0)
+			EffectGunShoot();
 		MDLFireBullet(gs);
 		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
 		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
@@ -58,6 +64,7 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 		break;
 
 	case RELOAD:
+		EffectReload();
 		MDLBulletReload(gs);
 		EventCylinderState(gs);
 		break;
