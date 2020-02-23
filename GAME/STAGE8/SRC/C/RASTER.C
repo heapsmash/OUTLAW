@@ -2,7 +2,19 @@
 #include <TYPES.H>
 #include <MODEL.H>
 #include <UTIL.H>
-#include <FONT.H> /* for PlotChar */
+#include <FONT.H>   /* for PlotChar */
+#include <osbind.h> /* for Vsync(); */
+
+uint8_t *GetVideoBase(void)
+{
+	return GetBuffer();
+}
+
+void SetVideoBase(uint8_t *scrbuf)
+{
+	Vsync();
+	SetBuffer(scrbuf);
+}
 
 void PlotChar(const void *base, int x0, int y0, uint8_t bm)
 {

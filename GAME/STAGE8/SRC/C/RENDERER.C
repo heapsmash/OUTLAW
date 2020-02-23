@@ -1,9 +1,6 @@
 #include <RENDERER.H>
 #include <TYPES.H>
 #include <RASTER.H>
-#include <stdio.h>
-
-#include <osbind.h> /* for Vsync() */
 
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {

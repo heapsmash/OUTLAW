@@ -1,7 +1,7 @@
 #include <TYPES.H>
 #include <SCREEN.H>
 #include <UTIL.H>
-#include <RASTER.H> /* for ClearScreen() GetScreenBuffer() SetScreenBuffer() */
+#include <RASTER.H>
 
 uint8_t g_framebuffers[NUM_FRAME_BUFFERS][SCREEN_SIZE + FRAMEBUFFER_PADDING_LEN];
 
@@ -10,7 +10,7 @@ void ScrInit(Screen *screen)
     int i;
 
     screen->current_fb_index = 0;
-    screen->orig_framebuffer = GetVideoBase(); /* save orig screen */
+    screen->orig_framebuffer = GetVideoBase();
 
     for (i = 0; i != NUM_FRAME_BUFFERS; i++)
     {
