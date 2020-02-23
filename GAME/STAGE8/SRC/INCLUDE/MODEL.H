@@ -113,10 +113,8 @@ typedef struct _Bitmap
 
 typedef struct _Sprite
 {
-	int last_x[NUM_FRAME_BUFFERS], last_y[NUM_FRAME_BUFFERS]; /* the last x, y coordinates to be plotted */
-	int x_vel, y_vel;										  /* horiz. & vert. displacement per clock tick */
-	int x_pos, y_pos;										  /* position coordinates */
-	int render_flag;										  /* set to 1 if on 0 if off */
+	int x_vel, y_vel; /* horiz. & vert. displacement per clock tick */
+	int x_pos, y_pos; /* position coordinates */
 	Bitmap bitmap;
 } Sprite;
 
@@ -158,11 +156,23 @@ typedef struct _GunSlinger
 	Sprite sprite;
 } GunSlinger;
 
+typedef struct _Splash
+{
+	Sprite sprite;
+} Splash;
+
+typedef struct _Menu
+{
+	Sprite sprite;
+} Menu;
+
 typedef struct _Game
 {
 	GunSlinger gun_slinger[NUM_PLAYERS];
 	BackGround background;
 	Screen screen;
+	Splash splash;
+	Menu menu;
 } Game;
 
 void MDLEnvGunSlingerCollision(GunSlinger *gs);
