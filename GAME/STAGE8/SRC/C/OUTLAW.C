@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
 	Game game;
 	long old_ssp;
 	int i, n, read_char, flag_music_on;
-
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
 
 	old_ssp = MySuper(0); /* enter privileged mode */
@@ -83,28 +82,32 @@ int main(int argc, char *argv[])
 				switch (read_char)
 				{
 				case 119: /* w up */
-					EventInitWalk(UP, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].sprite);
+					EventWalk(UP, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 115: /* s down */
-					EventInitWalk(DOWN, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].sprite);
+					EventWalk(DOWN, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 97: /* a BACK */
-					EventInitWalk(BACK, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].sprite);
+					EventWalk(BACK, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 100: /* d FORWARD */
-					EventInitWalk(FORWARD, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					game.gun_slinger[PLAYER_ONE].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].sprite);
+					EventWalk(FORWARD, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 54: /* NUMPAD 6 SHOOT STRAIGHT */
-					EventInitShoot(STRAIGHT, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					EventShoot(STRAIGHT, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 50: /* NUMPAD 2 SHOOT DOWN */
-					EventInitShoot(DOWN, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					EventShoot(DOWN, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 56: /* NUMPAD 8 SHOOT UP */
-					EventInitShoot(UP, &game.gun_slinger[PLAYER_ONE], game.screen.current_fb_index, game.screen.next_buffer);
+					EventShoot(UP, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				case 114: /* r RELOAD */
-					EventShoot(RELOAD, &game.gun_slinger[PLAYER_ONE], 0);
+					EventShoot(RELOAD, &game.gun_slinger[PLAYER_ONE]);
 					break;
 				default:
 					break;
@@ -116,28 +119,32 @@ int main(int argc, char *argv[])
 			switch (MyRand() % 200)
 			{
 			case 0: /* Case UP */
-				EventInitWalk(UP, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].sprite);
+				EventWalk(UP, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 1: /* Case DOWN */
-				EventInitWalk(DOWN, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].sprite);
+				EventWalk(DOWN, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 2: /* case BACK */
-				EventInitWalk(BACK, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].sprite);
+				EventWalk(BACK, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 3: /* case FORWARD */
-				EventInitWalk(FORWARD, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				game.gun_slinger[PLAYER_TWO].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].sprite);
+				EventWalk(FORWARD, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 4: /* case SHOOT STRAIGHT */
-				EventInitShoot(STRAIGHT, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				EventShoot(STRAIGHT, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 5: /* case SHOOT DOWN */
-				EventInitShoot(DOWN, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				EventShoot(DOWN, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 6: /* case SHOOT UP */
-				EventInitShoot(UP, &game.gun_slinger[PLAYER_TWO], game.screen.current_fb_index, game.screen.next_buffer);
+				EventShoot(UP, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			case 7: /* case RELOAD */
-				EventShoot(RELOAD, &game.gun_slinger[PLAYER_TWO], 0);
+				EventShoot(RELOAD, &game.gun_slinger[PLAYER_TWO]);
 				break;
 			default:
 				break;
@@ -166,9 +173,13 @@ int main(int argc, char *argv[])
 			for (i = 0; i <= NUM_ROUNDS; i++)
 			{
 				if (game.gun_slinger[PLAYER_ONE].bullet[i].flag == ON)
+				{
 					game.gun_slinger[PLAYER_ONE].bullet[i].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_ONE].bullet[i].sprite);
+				}
 				if (game.gun_slinger[PLAYER_TWO].bullet[i].flag == ON)
+				{
 					game.gun_slinger[PLAYER_TWO].bullet[i].sprite.bitmap.raster.Clear(game.screen.next_buffer, &game.gun_slinger[PLAYER_TWO].bullet[i].sprite);
+				}
 			}
 
 			/* update all bullets */
@@ -209,7 +220,7 @@ void InitP1(GunSlinger *gs, int current_frame)
 	InitP1States(gs);
 	InitStartLocation(gs, P1_START_X, P1_START_Y, STANDARD, current_frame);
 	InitCylinder(&gs->cylinder, CYL_P1_X_LOC, CYL_P1_Y_LOC);
-	EventShoot(RELOAD, gs, 0);
+	EventShoot(RELOAD, gs);
 }
 
 void InitP2(GunSlinger *gs, int current_frame)
@@ -217,7 +228,7 @@ void InitP2(GunSlinger *gs, int current_frame)
 	InitP2States(gs);
 	InitStartLocation(gs, P2_START_X, P2_START_Y, INVERTED, current_frame);
 	InitCylinder(&gs->cylinder, CYL_P2_X_LOC, CYL_P2_Y_LOC);
-	EventShoot(RELOAD, gs, 0);
+	EventShoot(RELOAD, gs);
 }
 
 void InitGameBackGround(Game *game)

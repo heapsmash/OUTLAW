@@ -80,20 +80,11 @@ void Render(Game *game, void *base)
 		}
 
 	/* render player one cylinder */
-
-	if (game->gun_slinger[PLAYER_ONE].cylinder.sprite.render_flag == ON)
-	{
-		RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
-		flag = 1;
-	}
+	RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
 
 	/* render player two cylinder */
 
-	if (game->gun_slinger[PLAYER_TWO].cylinder.sprite.render_flag == ON)
-	{
-		RenderCylinder(&game->gun_slinger[PLAYER_TWO].cylinder, base);
-		flag = 1;
-	}
+	RenderCylinder(&game->gun_slinger[PLAYER_TWO].cylinder, base);
 
 	/* render player one score */
 
