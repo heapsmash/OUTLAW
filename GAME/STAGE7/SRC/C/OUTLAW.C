@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	music_time_now = time_now = GetTime();
 	time_then = time_now;
 
-	flag_music_on = 0;
+	flag_music_on = 1;
 	if (flag_music_on) /* For menu selection later */
 	{
 		music_time_then = music_time_now;
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
 			UpdateMusic(music_time_elapsed);
 
-			if (music_time_elapsed >= 25)
+			if (music_time_elapsed >= 20)
 				music_time_then = music_time_now;
 		}
 
