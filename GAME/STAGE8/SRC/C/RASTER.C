@@ -1,3 +1,21 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <RASTER.H>
 #include <TYPES.H>
 #include <MODEL.H>
@@ -5,16 +23,46 @@
 #include <FONT.H>   /* for PlotChar */
 #include <osbind.h> /* for Vsync(); */
 
+/*-------------------------------------------- GetVideoBase -----
+|  Function GetVideoBase
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 uint8_t *GetVideoBase(void)
 {
 	return GetBuffer();
 }
+
+/*-------------------------------------------- SetVideoBase -----
+|  Function SetVideoBase
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void SetVideoBase(uint8_t *scrbuf)
 {
 	Vsync();
 	SetBuffer(scrbuf);
 }
+
+/*-------------------------------------------- PlotChar -----
+|  Function PlotChar
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void PlotChar(const void *base, int x0, int y0, uint8_t bm)
 {
@@ -32,6 +80,16 @@ void PlotChar(const void *base, int x0, int y0, uint8_t bm)
 	for (i = 0; i < FONT_HEIGHT; i++)
 		bp[((y0 + i) * col_offset) + row_offset] = ch[i];
 }
+
+/*-------------------------------------------- Rast8Clear -----
+|  Function Rast8Clear
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void Rast8Clear(const void *base, Sprite *sprite)
 {
@@ -51,6 +109,16 @@ void Rast8Clear(const void *base, Sprite *sprite)
 		bp[loc] = 0;								/* clear the bits at loc loc */
 	}
 }
+
+/*-------------------------------------------- Rast8Alpha -----
+|  Function Rast8Alpha
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void Rast8Alpha(const void *base, Sprite *sprite)
 {
@@ -73,6 +141,16 @@ void Rast8Alpha(const void *base, Sprite *sprite)
 	}
 }
 
+/*-------------------------------------------- Rast8Draw -----
+|  Function Rast8Draw
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void Rast8Draw(const void *base, Sprite *sprite)
 {
 	unsigned int i, loc, col;
@@ -94,6 +172,16 @@ void Rast8Draw(const void *base, Sprite *sprite)
 	}
 }
 
+/*-------------------------------------------- Rast16Clear -----
+|  Function Rast16Clear
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void Rast16Clear(const void *base, Sprite *sprite)
 {
 	unsigned int i, loc, col;
@@ -112,6 +200,16 @@ void Rast16Clear(const void *base, Sprite *sprite)
 		bp[loc] = 0;
 	}
 }
+
+/*-------------------------------------------- Rast16Alpha -----
+|  Function Rast16Alpha
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void Rast16Alpha(const void *base, Sprite *sprite)
 {
@@ -133,6 +231,16 @@ void Rast16Alpha(const void *base, Sprite *sprite)
 	}
 }
 
+/*-------------------------------------------- Rast16Draw -----
+|  Function Rast16Draw
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void Rast16Draw(const void *base, Sprite *sprite)
 {
 	unsigned int i, loc, col;
@@ -153,6 +261,16 @@ void Rast16Draw(const void *base, Sprite *sprite)
 	}
 }
 
+/*-------------------------------------------- Rast32Clear -----
+|  Function Rast32Clear
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void Rast32Clear(const void *base, Sprite *sprite)
 {
 	unsigned int i, loc, col;
@@ -171,6 +289,16 @@ void Rast32Clear(const void *base, Sprite *sprite)
 		bp[loc] = 0;
 	}
 }
+
+/*-------------------------------------------- Rast32Draw -----
+|  Function Rast32Draw
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void Rast32Draw(const void *base, Sprite *sprite)
 {
@@ -192,6 +320,16 @@ void Rast32Draw(const void *base, Sprite *sprite)
 	}
 }
 
+/*-------------------------------------------- Rast32Alpha -----
+|  Function Rast32Alpha
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void Rast32Alpha(const void *base, Sprite *sprite)
 {
 	unsigned int i, loc, col;
@@ -212,6 +350,16 @@ void Rast32Alpha(const void *base, Sprite *sprite)
 	}
 }
 
+/*-------------------------------------------- PLotRectangle -----
+|  Function PLotRectangle
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void PLotRectangle(const void *base, int length, int width, int x_pos, int y_pos)
 {
 	int x0 = x_pos;
@@ -224,6 +372,16 @@ void PLotRectangle(const void *base, int length, int width, int x_pos, int y_pos
 	PlotHline(base, y0, x0, xf);
 	PlotHline(base, yf, x0, xf);
 }
+
+/*-------------------------------------------- PlotVline -----
+|  Function PlotVline
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void PlotVline(const void *base, int x0, int y0, int yf)
 {
@@ -252,6 +410,16 @@ void PlotVline(const void *base, int x0, int y0, int yf)
 	for (i = y0; i < yf; i += N_BITS_IN_WORD)
 		Plot8Pixels((unsigned char *)base, x0, i); /* draw the line */
 }
+
+/*-------------------------------------------- PlotHline -----
+|  Function PlotHline
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void PlotHline(const void *base, int y0, int x0, int xf)
 {
@@ -287,11 +455,31 @@ void PlotHline(const void *base, int y0, int x0, int xf)
 	}
 }
 
+/*-------------------------------------------- PlotPoint -----
+|  Function PlotPoint
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void PlotPoint(unsigned char *base, int x, int y)
 {
 	int offset = (y * 80) + (x >> 3);
 	base[offset] |= 0x80;
 }
+
+/*-------------------------------------------- Plot8Pixels -----
+|  Function Plot8Pixels
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void Plot8Pixels(unsigned char *base, int x, int y)
 {
@@ -304,6 +492,16 @@ void Plot8Pixels(unsigned char *base, int x, int y)
 		base[offset] |= 0x80;
 	}
 }
+
+/*-------------------------------------------- PrintScreen -----
+|  Function PrintScreen
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void PrintScreen(void *base, Sprite *sprite)
 {

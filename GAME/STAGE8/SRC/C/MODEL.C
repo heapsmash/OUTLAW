@@ -1,5 +1,33 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <MODEL.H>
 #include <RASTER.H>
+
+/*-------------------------------------------- MDLMoveGunSlinger -----
+|  Function MDLMoveGunSlinger
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void MDLMoveGunSlinger(GunSlinger *gs)
 {
@@ -8,6 +36,16 @@ void MDLMoveGunSlinger(GunSlinger *gs)
 	gs->sprite.x_pos += gs->sprite.x_vel;
 	gs->sprite.y_pos += gs->sprite.y_vel;
 }
+
+/*-------------------------------------------- MDLEnvGunSlingerCollision -----
+|  Function MDLEnvGunSlingerCollision
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void MDLEnvGunSlingerCollision(GunSlinger *gs)
 {
@@ -35,6 +73,16 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs)
 		gs->sprite.y_vel = 0;
 }
 
+/*-------------------------------------------- MDLFireBullet -----
+|  Function MDLFireBullet
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void MDLFireBullet(GunSlinger *gs)
 {
 	if (gs->num_bullets >= 0 && gs->bullet[gs->num_bullets].flag == OFF)
@@ -50,6 +98,16 @@ void MDLFireBullet(GunSlinger *gs)
 		; /* Out of ammo handle */
 }
 
+/*-------------------------------------------- MDLBulletReload -----
+|  Function MDLBulletReload
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void MDLBulletReload(GunSlinger *gs)
 {
 	int next_bullet = (gs->num_bullets + 1);
@@ -63,6 +121,16 @@ void MDLBulletReload(GunSlinger *gs)
 		; /* to much ammo handle*/
 }
 
+/*-------------------------------------------- MDLMoveBullet -----
+|  Function MDLMoveBullet
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 int MDLMoveBullet(Bullet *bullet, GunSlinger *shooter, GunSlinger *target)
 {
 	int bullet_status;
@@ -73,6 +141,16 @@ int MDLMoveBullet(Bullet *bullet, GunSlinger *shooter, GunSlinger *target)
 	bullet->sprite.x_pos += bullet->sprite.x_vel;
 	bullet->sprite.y_pos += bullet->sprite.y_vel;
 }
+
+/*-------------------------------------------- MDLEnvBulletCollision -----
+|  Function MDLEnvBulletCollision
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void MDLEnvBulletCollision(Bullet *bullet)
 {
@@ -96,6 +174,16 @@ void MDLEnvBulletCollision(Bullet *bullet)
 		bullet->sprite.y_vel = BULLET_SPEED;
 }
 
+/*-------------------------------------------- MDLPlayerBulletCollision -----
+|  Function MDLPlayerBulletCollision
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void MDLPlayerBulletCollision(Bullet *bullet, GunSlinger *shooter, GunSlinger *target)
 {
 	int x0 = target->sprite.x_pos;
@@ -112,6 +200,16 @@ void MDLPlayerBulletCollision(Bullet *bullet, GunSlinger *shooter, GunSlinger *t
 		MDLIncScore(shooter);
 	}
 }
+
+/*-------------------------------------------- MDLPlayerCactusCollision -----
+|  Function MDLPlayerCactusCollision
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void MDLPlayerCactusCollision(GunSlinger *gs)
 {
@@ -138,6 +236,16 @@ void MDLPlayerCactusCollision(GunSlinger *gs)
 		gs->sprite.x_vel = 0;
 }
 
+/*-------------------------------------------- MDLBulletCactusCollision -----
+|  Function MDLBulletCactusCollision
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void MDLBulletCactusCollision(Bullet *bullet)
 {
 	int bullet_x = bullet->sprite.x_pos;
@@ -147,16 +255,46 @@ void MDLBulletCactusCollision(Bullet *bullet)
 		MDLTurnOffBullet(bullet);
 }
 
+/*-------------------------------------------- MDLTurnOffBullet -----
+|  Function MDLTurnOffBullet
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void MDLTurnOffBullet(Bullet *bullet)
 {
 	bullet->sprite.x_pos = bullet->sprite.y_pos = bullet->sprite.x_vel = bullet->sprite.y_vel = 0;
 	bullet->flag = OFF;
 }
 
+/*-------------------------------------------- MDLIncScore -----
+|  Function MDLIncScore
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void MDLIncScore(GunSlinger *gs)
 {
 	gs->score.current_score += 1;
 }
+
+/*-------------------------------------------- MDLGetScore -----
+|  Function MDLGetScore
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 int MDLGetScore(GunSlinger gs)
 {

@@ -1,11 +1,25 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *	    _    _
+ *       | |  | |	OUTLAW. 
+ *      -| |  | |- 
+ *  _    | |- | |
+ *-| |   | |  | |- 	
+ * |.|  -| ||/  |
+ * | |-  |  ___/ 
+ *-|.|   | | |
+ * |  \_|| |
+ *  \____  |
+ *   |   | |- 
+ *       | |
+ *      -| |
+ *       |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #ifndef RENDERER_H
 #define RENDERER_H
 
 #include <MODEL.H>
-
-/* 
- *  Main game
- */
 
 void RenderScore(unsigned char c, void *base, int x0, int y0);
 void RenderGunSlinger(const GunSlinger *gs, void *base);

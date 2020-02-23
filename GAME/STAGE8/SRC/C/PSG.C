@@ -1,12 +1,36 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <PSG.H>
 
 volatile char *PSG_reg_select = 0xFF8800;
 volatile char *PSG_reg_write = 0xFF8802;
 
-/* 
- * Writes the given byte value (0-255) to the given PSG register (0-15). This is a helper routine to be
- * used by the other functions in this module.
- */
+/*-------------------------------------------- InitCylinder -----
+|  Function InitCylinder
+|
+|  Purpose: Writes the given byte value (0-255) to the given PSG register (0-15). This is a helper routine to be
+|   used by the other functions in this module.
+|
+|  Parameters: reg PSG register, val byte value for PSG register
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void WritePsg(int reg, uint8_t val)
 {
@@ -14,9 +38,15 @@ void WritePsg(int reg, uint8_t val)
     *PSG_reg_write = val;
 }
 
-/* 
- * useful for testing purposes.
- */
+/*-------------------------------------------- ReadPsg -----
+|  Function ReadPsg
+|
+|  Purpose: useful for testing purposes.
+|
+|  Parameters: reg PSG register
+|
+|  Returns: Value of register
+*-------------------------------------------------------------------*/
 
 uint8_t ReadPsg(int reg)
 {
@@ -24,10 +54,16 @@ uint8_t ReadPsg(int reg)
     return *PSG_reg_select;
 }
 
-/* 
- * Loads the tone registers (coarse and fine) for the given channel (0=A, 1=B, 2=C) with the given
- * 12-bit tuning.
- */
+/*-------------------------------------------- SetTone -----
+|  Function SetTone
+|
+|  Purpose: Loads the tone registers (coarse and fine) for the given channel (0=A, 1=B, 2=C) with the given
+|   12-bit tuning.
+|
+|  Parameters: channel, tuning
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void SetTone(int channel, int tuning)
 {
@@ -53,12 +89,17 @@ void SetTone(int channel, int tuning)
     }
 }
 
-/* 
- * Loads the volume register for the given channel.
- * 
- * Bit 4 (mode): When M = 0 level is determined by b3, b2, b1, b0,
- *               When M = 1 level is determined by the 5 bit outpuit of e4, e3, e2, e1, and e0 of the envelope generator of the SSG. 
- */
+/*-------------------------------------------- SetVolume -----
+|  Function SetVolume
+|  Bit 4 (mode): When M = 0 level is determined by b3, b2, b1, b0,
+|                When M = 1 level is determined by the 5 bit outpuit of e4, e3, e2, e1, and e0 of the envelope generator of the SSG
+|
+|  Purpose: Loads the volume register for the given channel.
+|
+|  Parameters: channel, volume
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void SetVolume(int channel, int volume)
 {
@@ -78,9 +119,15 @@ void SetVolume(int channel, int volume)
     }
 }
 
-/* 
- * Turns the given channel’s tone/noise signals on/off (0=off, 1=on).
- */
+/*-------------------------------------------- EnableChannel -----
+|  Function EnableChannel
+|
+|  Purpose: Turns the given channel’s tone/noise signals on/off (0=off, 1=on).
+|
+|  Parameters: channel, tone_on, noise_on
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void EnableChannel(int channel, int tone_on, int noise_on)
 {
@@ -121,9 +168,15 @@ void EnableChannel(int channel, int tone_on, int noise_on)
     }
 }
 
-/* 
- * Silences all PSG sound production.
- */
+/*-------------------------------------------- StopSound -----
+|  Function StopSound
+|
+|  Purpose: Silences all PSG sound production.
+|
+|  Parameters: 
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void StopSound(void)
 {
@@ -132,19 +185,30 @@ void StopSound(void)
         WritePsg(count, 0);
 }
 
-/*
- * Loads the noise register with the given tuning.
- */
+/*-------------------------------------------- SetNoise -----
+|  Function SetNoise
+|
+|  Purpose: Loads the noise register with the given tuning.
+|
+|  Parameters: tuning
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void SetNoise(int tuning)
 {
     WritePsg(R6, tuning);
 }
 
-/* 
- * Loads the PSG envelope control registers with the given envelope shape and
- * 16-bit sustain.
- */
+/*-------------------------------------------- SetEnvelope -----
+|  Function SetEnvelope
+|
+|  Purpose: Loads the PSG envelope control registers with the given envelope shape and 16-bit sustain.
+|
+|  Parameters: shape, sustain
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void SetEnvelope(int shape, unsigned int sustain)
 {

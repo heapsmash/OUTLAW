@@ -1,3 +1,21 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <OUTLAW.H>
 #include <INPUT.H>
 #include <MODEL.H>
@@ -196,6 +214,16 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+/*-------------------------------------------- GetTime -----
+|  Function GetTime
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 uint32_t GetTime(void)
 {
 	long time_now;
@@ -206,6 +234,16 @@ uint32_t GetTime(void)
 	return time_now;
 }
 
+/*-------------------------------------------- InitGame -----
+|  Function InitGame
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitGame(Game *game)
 {
 	InitGameBackGround(game);
@@ -215,6 +253,16 @@ void InitGame(Game *game)
 	InitP2(&game->gun_slinger[PLAYER_TWO], game->screen.current_fb_index);
 }
 
+/*-------------------------------------------- InitP1 -----
+|  Function InitP1
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitP1(GunSlinger *gs, int current_frame)
 {
 	InitP1States(gs);
@@ -223,6 +271,16 @@ void InitP1(GunSlinger *gs, int current_frame)
 	EventShoot(RELOAD, gs);
 }
 
+/*-------------------------------------------- InitP2 -----
+|  Function InitP2
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitP2(GunSlinger *gs, int current_frame)
 {
 	InitP2States(gs);
@@ -230,6 +288,16 @@ void InitP2(GunSlinger *gs, int current_frame)
 	InitCylinder(&gs->cylinder, CYL_P2_X_LOC, CYL_P2_Y_LOC);
 	EventShoot(RELOAD, gs);
 }
+
+/*-------------------------------------------- InitGameBackGround -----
+|  Function InitGameBackGround
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void InitGameBackGround(Game *game)
 {
@@ -240,6 +308,16 @@ void InitGameBackGround(Game *game)
 
 	game->background.sprite.render_flag = ON;
 }
+
+/*-------------------------------------------- InitBullets -----
+|  Function InitBullets
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void InitBullets(Game *game)
 {
@@ -261,6 +339,16 @@ void InitBullets(Game *game)
 	}
 }
 
+/*-------------------------------------------- InitScore -----
+|  Function InitScore
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitScore(Game *game)
 {
 	/* initialize score to zero */
@@ -273,6 +361,16 @@ void InitScore(Game *game)
 	game->gun_slinger[PLAYER_ONE].score.sprite.render_flag = ON;
 	game->gun_slinger[PLAYER_TWO].score.sprite.render_flag = ON;
 }
+
+/*-------------------------------------------- InitP1States -----
+|  Function InitP1States
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void InitP1States(GunSlinger *gs)
 {
@@ -289,6 +387,16 @@ void InitP1States(GunSlinger *gs)
 	InitRaster32Lib(&gs->sprite);
 }
 
+/*-------------------------------------------- InitP2States -----
+|  Function InitP2States
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitP2States(GunSlinger *gs)
 {
 	gs->sprite.bitmap.stored_images[STATE_DEAD] = p2_dead;
@@ -303,6 +411,16 @@ void InitP2States(GunSlinger *gs)
 
 	InitRaster32Lib(&gs->sprite);
 }
+
+/*-------------------------------------------- InitStartLocation -----
+|  Function InitStartLocation
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation, int current_frame)
 {
@@ -322,6 +440,16 @@ void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation, in
 	gs->sprite.last_y[current_frame] = gs->sprite.y_pos;
 }
 
+/*-------------------------------------------- InitRaster8Lib -----
+|  Function InitRaster8Lib
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitRaster8Lib(Sprite *sp)
 {
 	sp->bitmap.raster.Alpha = Rast8Alpha;
@@ -329,12 +457,32 @@ void InitRaster8Lib(Sprite *sp)
 	sp->bitmap.raster.Draw = Rast8Draw;
 }
 
+/*-------------------------------------------- InitRaster32Lib -----
+|  Function InitRaster32Lib
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitRaster32Lib(Sprite *sp)
 {
 	sp->bitmap.raster.Alpha = Rast32Alpha;
 	sp->bitmap.raster.Clear = Rast32Clear;
 	sp->bitmap.raster.Draw = Rast32Draw;
 }
+
+/*-------------------------------------------- InitCylinder -----
+|  Function InitCylinder
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void InitCylinder(Cylinder *cyl, int x_pos, int y_pos)
 {

@@ -1,12 +1,50 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <MODEL.H>
 #include <EVENTS.H>
 #include <EFFECTS.H>
+
+/*-------------------------------------------- EventCylinderState -----
+|  Function EventCylinderState
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void EventCylinderState(GunSlinger *gs)
 {
 	gs->cylinder.state = gs->num_bullets + 1;
 	gs->cylinder.sprite.render_flag = ON;
 }
+
+/*-------------------------------------------- EventShoot -----
+|  Function EventShoot
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void EventShoot(int direction, GunSlinger *gs)
 {
@@ -65,6 +103,16 @@ void EventShoot(int direction, GunSlinger *gs)
 	}
 }
 
+/*-------------------------------------------- EventWalk -----
+|  Function EventWalk
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void EventWalk(int direction, GunSlinger *gs)
 {
 	int forward_velocity = gs->orientation * PLAYER_SPEED;
@@ -109,6 +157,16 @@ void EventWalk(int direction, GunSlinger *gs)
 	}
 }
 
+/*-------------------------------------------- EventMoveBullets -----
+|  Function EventMoveBullets
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void EventMoveBullets(GunSlinger *shooter, GunSlinger *target)
 {
 	int i;
@@ -120,6 +178,16 @@ void EventMoveBullets(GunSlinger *shooter, GunSlinger *target)
 		}
 }
 
+/*-------------------------------------------- EventPlayerDead -----
+|  Function EventPlayerDead
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 int EventPlayerDead(GunSlinger *gs)
 {
 	if (gs->flag_alive == DEAD)
@@ -130,6 +198,16 @@ int EventPlayerDead(GunSlinger *gs)
 	}
 	return 0;
 }
+
+/*-------------------------------------------- EventUpdateScore -----
+|  Function EventUpdateScore
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void EventUpdateScore(GunSlinger *shooter)
 {

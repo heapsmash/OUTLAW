@@ -1,6 +1,34 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <RENDERER.H>
 #include <TYPES.H>
 #include <RASTER.H>
+
+/*-------------------------------------------- RenderGunSlinger -----
+|  Function RenderGunSlinger
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void RenderGunSlinger(GunSlinger *gs, void *base)
 {
@@ -9,11 +37,31 @@ void RenderGunSlinger(GunSlinger *gs, void *base)
 	gs->sprite.render_flag = OFF;
 }
 
+/*-------------------------------------------- RenderBullet -----
+|  Function RenderBullet
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void RenderBullet(Bullet *bullet, void *base)
 {
 	bullet->sprite.bitmap.raster.Draw(base, &bullet->sprite);
 	bullet->sprite.render_flag = OFF;
 }
+
+/*-------------------------------------------- RenderCylinder -----
+|  Function RenderCylinder
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void RenderCylinder(Cylinder *cylinder, void *base)
 {
@@ -22,16 +70,46 @@ void RenderCylinder(Cylinder *cylinder, void *base)
 	cylinder->sprite.render_flag = OFF;
 }
 
+/*-------------------------------------------- RenderScore -----
+|  Function RenderScore
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void RenderScore(unsigned char c, void *base, int x0, int y0)
 {
 	PlotChar(base, x0, y0, c);
 }
+
+/*-------------------------------------------- RenderBackground -----
+|  Function RenderBackground
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void RenderBackground(BackGround *bg, void *base)
 {
 	bg->sprite.bitmap.raster.Draw(base, &bg->sprite);
 	bg->sprite.render_flag = OFF;
 }
+
+/*-------------------------------------------- Render -----
+|  Function Render
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void Render(Game *game, void *base)
 {

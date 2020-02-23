@@ -1,3 +1,21 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *         _    _
+ *        | |  | |	OUTLAW. 
+ *       -| |  | |- 
+ *   _    | |- | |
+ * -| |   | |  | |- 	
+ *  |.|  -| ||/  |
+ *  | |-  |  ___/ 
+ * -|.|   | | |
+ *  |  \_|| |
+ *   \____  |
+ *    |   | |- 
+ *        | |
+ *       -| |
+ *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <MUSIC.H>
 #include <PSG.H>
 
@@ -19,9 +37,15 @@ uint8_t g_song[] = {
 
 static int g_current_note = 0;
 
-/*
- * Begins the playing of the song by loading the data for the first note into the PSG.
- */
+/*-------------------------------------------- StartMusic -----
+|  Function StartMusic
+|
+|  Purpose: Begins the playing of the song by loading the data for the first note into the PSG.
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void StartMusic(void)
 {
@@ -30,12 +54,18 @@ void StartMusic(void)
 	g_song[g_current_note++];
 }
 
-/* 
- * Advances to the next note of the song if necessary, as determined by the amount of time elapsed
- * since the previous call. The time elapsed is determined by the caller. It is intended that this value
- * is equal to the current value of the vertical blank clock, minus its value when the function was last
- * called.
- */
+/*-------------------------------------------- UpdateMusic -----
+|  Function UpdateMusic
+|
+|  Purpose:  Advances to the next note of the song if necessary, as determined by the amount of time elapsed
+| 		since the previous call. The time elapsed is determined by the caller. It is intended that this value
+| 		is equal to the current value of the vertical blank clock, minus its value when the function was last
+| 		called.
+|
+|  Parameters: time_elapsed (IN) amount of time elapsed since the previous call
+|
+|  Returns:
+*-------------------------------------------------------------------*/
 
 void UpdateMusic(uint32_t time_elapsed)
 {

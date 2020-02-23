@@ -1,3 +1,21 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *	    _    _
+ *       | |  | |	OUTLAW. 
+ *      -| |  | |- 
+ *  _    | |- | |
+ *-| |   | |  | |- 	
+ * |.|  -| ||/  |
+ * | |-  |  ___/ 
+ *-|.|   | | |
+ * |  \_|| |
+ *  \____  |
+ *   |   | |- 
+ *       | |
+ *      -| |
+ *       |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #ifndef PSG_H
 #define PSG_H
 #include <TYPES.H> /* for type t */
