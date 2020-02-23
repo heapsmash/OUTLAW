@@ -8,7 +8,7 @@ void EventCylinderState(GunSlinger *gs)
 	gs->cylinder.sprite.render_flag = ON;
 }
 
-void EventShoot(int direction, GunSlinger *gs, int buff_index)
+void EventShoot(int direction, GunSlinger *gs)
 {
 	switch (direction)
 	{
@@ -16,9 +16,6 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 		if (gs->num_bullets > 0)
 			EffectGunShoot();
 		MDLFireBullet(gs);
-		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
-
 		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = -BULLET_SPEED;
 		gs->bullet[gs->current_bullet].sprite.render_flag = ON;
@@ -33,9 +30,6 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 		if (gs->num_bullets > 0)
 			EffectGunShoot();
 		MDLFireBullet(gs);
-		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
-
 		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = BULLET_SPEED;
 		gs->bullet[gs->current_bullet].sprite.render_flag = ON;
@@ -50,9 +44,6 @@ void EventShoot(int direction, GunSlinger *gs, int buff_index)
 		if (gs->num_bullets > 0)
 			EffectGunShoot();
 		MDLFireBullet(gs);
-		gs->bullet[gs->current_bullet].sprite.last_x[buff_index] = gs->bullet[gs->current_bullet].sprite.x_pos;
-		gs->bullet[gs->current_bullet].sprite.last_y[buff_index] = gs->bullet[gs->current_bullet].sprite.y_pos;
-
 		gs->bullet[gs->current_bullet].sprite.x_vel = (PLAYER_SPEED * gs->orientation);
 		gs->bullet[gs->current_bullet].sprite.y_vel = 0;
 		gs->bullet[gs->current_bullet].sprite.render_flag = ON;
@@ -148,41 +139,4 @@ void EventUpdateScore(GunSlinger *shooter)
 	temp /= 10;
 	shooter->score.msd = (temp % 10) + 48;
 	shooter->score.sprite.render_flag = ON;
-}
-
-void EventInitShoot(int direction, GunSlinger *gs, int buff_index, const void *base)
-{
-	EventRemoveSprite(&gs->sprite, buff_index, base);
-	EventShoot(direction, gs, buff_index);
-	EventSetLastXY(&gs->sprite, buff_index);
-}
-
-void EventInitWalk(int direction, GunSlinger *gs, int buff_index, const void *base)
-{
-	EventRemoveSprite(&gs->sprite, buff_index, base);
-	EventWalk(direction, gs);
-	EventSetLastXY(&gs->sprite, buff_index);
-}
-
-void EventRemoveSprite(Sprite *sprite, int buff_index, const void *base)
-{
-	int x_tmp;
-	int y_tmp;
-
-	x_tmp = sprite->x_pos;
-	y_tmp = sprite->y_pos;
-
-	sprite->x_pos = sprite->last_x[buff_index];
-	sprite->y_pos = sprite->last_y[buff_index];
-
-	sprite->bitmap.raster.Clear(base, sprite);
-
-	sprite->x_pos = x_tmp;
-	sprite->y_pos = y_tmp;
-}
-
-void EventSetLastXY(Sprite *sprite, int buff_index)
-{
-	sprite->last_x[buff_index] = sprite->x_pos;
-	sprite->last_y[buff_index] = sprite->y_pos;
 }
