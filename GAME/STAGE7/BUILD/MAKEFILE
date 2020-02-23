@@ -15,7 +15,7 @@ obj\events.o \
 obj\model.o \
 obj\raster.o \
 obj\renderer.o \
-obj\tst_psg.o \
+obj\outlaw.o \
 obj\util.o \
 obj\input.o \
 obj\screen.o \
@@ -43,7 +43,7 @@ obj\raster.o: ..\src\c\raster.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\renderer.o: ..\src\c\renderer.c
 	$(CC) $(CFLAGS) -c $< -o $@
-obj\tst_psg.o: ..\src\c\tst_psg.c
+obj\outlaw.o: ..\src\c\outlaw.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\util.o: ..\src\c\util.c
 	$(CC) $(CFLAGS) -c $< -o $@
