@@ -63,7 +63,7 @@ void ScrInit(Screen *screen)
 void ScrFlipBuffers(Screen *screen)
 {
     SetVideoBase(screen->next_buffer);
-    screen->current_fb_index ^= (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS;
+    screen->current_fb_index = (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS;
     screen->next_buffer = screen->framebuffs[screen->current_fb_index];
 }
 

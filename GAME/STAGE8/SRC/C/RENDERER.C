@@ -34,7 +34,6 @@ void RenderGunSlinger(GunSlinger *gs, void *base)
 {
 	gs->sprite.bitmap.current_image = gs->sprite.bitmap.stored_images[gs->player_state];
 	gs->sprite.bitmap.raster.Draw(base, &gs->sprite);
-	gs->sprite.render_flag = OFF;
 }
 
 /*-------------------------------------------- RenderBullet -----
@@ -50,7 +49,6 @@ void RenderGunSlinger(GunSlinger *gs, void *base)
 void RenderBullet(Bullet *bullet, void *base)
 {
 	bullet->sprite.bitmap.raster.Draw(base, &bullet->sprite);
-	bullet->sprite.render_flag = OFF;
 }
 
 /*-------------------------------------------- RenderCylinder -----
@@ -67,7 +65,6 @@ void RenderCylinder(Cylinder *cylinder, void *base)
 {
 	cylinder->sprite.bitmap.current_image = cylinder->sprite.bitmap.stored_images[cylinder->state];
 	cylinder->sprite.bitmap.raster.Draw(base, &cylinder->sprite);
-	cylinder->sprite.render_flag = OFF;
 }
 
 /*-------------------------------------------- RenderScore -----
@@ -98,7 +95,6 @@ void RenderScore(unsigned char c, void *base, int x0, int y0)
 void RenderBackground(BackGround *bg, void *base)
 {
 	bg->sprite.bitmap.raster.Draw(base, &bg->sprite);
-	bg->sprite.render_flag = OFF;
 }
 
 /*-------------------------------------------- Render -----
@@ -113,49 +109,29 @@ void RenderBackground(BackGround *bg, void *base)
 
 void Render(Game *game, void *base)
 {
-	int i, flag = -1;
+	int i;
 
 	/* render background */
 
-	if (game->background.sprite.render_flag == ON)
-	{
-		RenderBackground(&game->background, base);
-		flag = 1;
-	}
+	RenderBackground(&game->background, base);
 
 	/* render player one state */
 
-	if (game->gun_slinger[PLAYER_ONE].sprite.render_flag == ON)
-	{
-		RenderGunSlinger(&game->gun_slinger[PLAYER_ONE], base);
-		flag = 1;
-	}
+	RenderGunSlinger(&game->gun_slinger[PLAYER_ONE], base);
 
 	/* render player two state */
 
-	if (game->gun_slinger[PLAYER_TWO].sprite.render_flag == ON)
-	{
-		RenderGunSlinger(&game->gun_slinger[PLAYER_TWO], base);
-		flag = 1;
-	}
+	RenderGunSlinger(&game->gun_slinger[PLAYER_TWO], base);
 
 	/* render player one bullets */
 
 	for (i = 0; i < NUM_ROUNDS; i++)
-		if (game->gun_slinger[PLAYER_ONE].bullet[i].sprite.render_flag == ON)
-		{
-			RenderBullet(&game->gun_slinger[PLAYER_ONE].bullet[i], base);
-			flag = 1;
-		}
+		RenderBullet(&game->gun_slinger[PLAYER_ONE].bullet[i], base);
 
 	/* render player two bullets */
 
 	for (i = 0; i < NUM_ROUNDS; i++)
-		if (game->gun_slinger[PLAYER_TWO].bullet[i].sprite.render_flag == ON)
-		{
-			RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
-			flag = 1;
-		}
+		RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
 
 	/* render player one cylinder */
 	RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
@@ -174,6 +150,5 @@ void Render(Game *game, void *base)
 	RenderScore(game->gun_slinger[PLAYER_TWO].score.msd, base, 548, 16);
 	RenderScore(game->gun_slinger[PLAYER_TWO].score.lsd, base, 552, 16);
 
-	if (flag > 0)
-		ScrFlipBuffers(&game->screen);
+	ScrFlipBuffers(&game->screen);
 }
