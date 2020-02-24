@@ -214,6 +214,16 @@ uint32_t GetTime(void)
 	return time_now;
 }
 
+/*-------------------------------------------- LoadSplash -----
+|  Function LoadSplash
+|
+|  Purpose: Load the intro screen
+|
+|  Parameters: game
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void LoadSplash(Game *game)
 {
 	game->splash.sprite.bitmap.current_image = splscrn;
