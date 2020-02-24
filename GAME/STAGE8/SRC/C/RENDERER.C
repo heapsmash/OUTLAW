@@ -111,7 +111,7 @@ void RenderWin(Screen *sc, void *base, int player)
 
 	ScrFlipBuffers(sc);
 
-	sleep(4);
+	sleep(5);
 }
 
 /*-------------------------------------------- RenderBackground -----

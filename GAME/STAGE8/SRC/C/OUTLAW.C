@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
 		if (EventWin(game.gun_slinger[PLAYER_TWO]))
 		{
-			RenderWin(&game.screen, game.screen.next_buffer, 1);
+			RenderWin(&game.screen, game.screen.next_buffer, 2);
 			InitGame(&game);
 			Render(&game, game.screen.next_buffer);
 		}
