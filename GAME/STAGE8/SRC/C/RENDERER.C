@@ -70,9 +70,9 @@ void RenderCylinder(Cylinder *cylinder, void *base)
 /*-------------------------------------------- RenderScore -----
 |  Function RenderScore
 |
-|  Purpose:
+|  Purpose: Write the score to the screen
 |
-|  Parameters:
+|  Parameters: C the score, base, x0, y0
 |
 |  Returns:
 *-------------------------------------------------------------------*/
@@ -82,12 +82,44 @@ void RenderScore(unsigned char c, void *base, int x0, int y0)
 	PlotChar(base, x0, y0, c);
 }
 
+/*-------------------------------------------- RenderString -----
+|  Function RenderString
+|
+|  Purpose: Draw a string to the screen
+|
+|  Parameters: base, x the x pos to plot, y the y post to plot, st the string
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void RenderString(void *base, int x, int y, char *st)
+{
+	while (*st)
+	{
+		PlotChar(base, x, y, *st++);
+		x += 8;
+	}
+}
+
+void RenderWin(Screen *sc, void *base, int player)
+{
+	ClearScreen(base);
+	if (player == 1)
+		RenderString(base, 280, 200, "Player One Wins");
+	else
+		RenderString(base, 280, 200, "Player Two Wins");
+
+	ScrFlipBuffers(sc);
+
+	sleep(4);
+}
+
 /*-------------------------------------------- RenderBackground -----
 |  Function RenderBackground
 |
-|  Purpose:
+|  Purpose: Render the background
 |
-|  Parameters:
+|  Parameters: bg, base
 |
 |  Returns:
 *-------------------------------------------------------------------*/

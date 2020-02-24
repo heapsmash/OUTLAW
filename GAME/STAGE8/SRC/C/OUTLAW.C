@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	}
 
 	read_char = -1;
-	while (read_char != 27)
+	while (read_char != 27) /* main game loop */
 	{
 		music_time_now = time_now = GetTime();
 		time_elapsed = time_now - time_then;
@@ -75,6 +75,24 @@ int main(int argc, char *argv[])
 
 			if (music_time_elapsed >= 20)
 				music_time_then = music_time_now;
+		}
+
+		/* Player 1 wins */
+
+		if (EventWin(game.gun_slinger[PLAYER_ONE]))
+		{
+			RenderWin(&game.screen, game.screen.next_buffer, 1);
+			InitGame(&game);
+			Render(&game, game.screen.next_buffer);
+		}
+
+		/* Player 2 wins */
+
+		if (EventWin(game.gun_slinger[PLAYER_TWO]))
+		{
+			RenderWin(&game.screen, game.screen.next_buffer, 1);
+			InitGame(&game);
+			Render(&game, game.screen.next_buffer);
 		}
 
 		if (CheckInputStatus() < 0) /* check ikbd codes */
@@ -143,6 +161,13 @@ int main(int argc, char *argv[])
 			break;
 		}
 
+		/* update all bullets */
+		if (time_elapsed > 3)
+		{
+			EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
+			EventMoveBullets(&game.gun_slinger[PLAYER_TWO], &game.gun_slinger[PLAYER_ONE]);
+		}
+
 		/* check if player 2 is dead and update score */
 
 		if (EventPlayerDead(&game.gun_slinger[PLAYER_TWO]))
@@ -159,19 +184,13 @@ int main(int argc, char *argv[])
 			EventUpdateScore(&game.gun_slinger[PLAYER_TWO]);
 		}
 
-		/* update all bullets */
-		if (time_elapsed > 3)
-		{
-			EventMoveBullets(&game.gun_slinger[PLAYER_ONE], &game.gun_slinger[PLAYER_TWO]);
-			EventMoveBullets(&game.gun_slinger[PLAYER_TWO], &game.gun_slinger[PLAYER_ONE]);
-		}
-
-		Render(&game, game.screen.next_buffer);
+		Render(&game, game.screen.next_buffer); /* render the frame */
 		time_then = time_now;
 	}
 
 	ScrCleanup(&game.screen);
 	MySuper(old_ssp); /* exit privileged mode */
+
 	return 0;
 }
 

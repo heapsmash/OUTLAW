@@ -27,6 +27,8 @@
 #define FRAMEBUFFER_PADDING_LEN 0x100
 
 uint32_t GetTime(void);
+
 void LoadSplash(Game *game);
+void Dance(GunSlinger *gs, void *base, Screen *screen);
 
 #endif /* OUTLAW_H */

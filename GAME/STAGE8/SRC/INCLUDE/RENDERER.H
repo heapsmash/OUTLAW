@@ -27,5 +27,7 @@ void RenderBackground(const BackGround *bg, void *base);
 void RenderBullet(const Bullet *bullet, void *base);
 void RenderSplash(Game *game, void *base);
 void Render(const Game *game, void *base);
+void RenderString(void *base, int x, int y, char *st);
+void RenderWin(Screen *sc, void *base, int player);
 
 #endif /* RENDERER_H */

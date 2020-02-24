@@ -186,6 +186,21 @@ int EventPlayerDead(GunSlinger *gs)
 	return 0;
 }
 
+/*-------------------------------------------- EventPlayerDead -----
+|  Function EventPlayerDead
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+int EventWin(GunSlinger gs)
+{
+	return (gs.score.current_score == 10);
+}
+
 /*-------------------------------------------- EventUpdateScore -----
 |  Function EventUpdateScore
 |
