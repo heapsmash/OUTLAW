@@ -62,7 +62,7 @@ void StartMusic(void)
 | 		is equal to the current value of the vertical blank clock, minus its value when the function was last
 | 		called.
 |
-|  Parameters: time_elapsed (IN) amount of time elapsed since the previous call
+|  Parameters: time_elapsed amount of time elapsed since the previous call
 |
 |  Returns:
 *-------------------------------------------------------------------*/

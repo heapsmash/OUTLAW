@@ -97,6 +97,22 @@ void RenderBackground(BackGround *bg, void *base)
 	bg->sprite.bitmap.raster.Draw(base, &bg->sprite);
 }
 
+/*-------------------------------------------- RenderSplash -----
+|  Function RenderSplash
+|
+|  Purpose: Render the splash screen
+|
+|  Parameters: game, base pointer to current framebuffer
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void RenderSplash(Game *game, void *base)
+{
+	game->splash.sprite.bitmap.raster.Draw(base, &game->splash.sprite);
+	ScrFlipBuffers(&game->screen);
+}
+
 /*-------------------------------------------- Render -----
 |  Function Render
 |

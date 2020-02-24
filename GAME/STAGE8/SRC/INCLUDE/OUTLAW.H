@@ -27,6 +27,6 @@
 #define FRAMEBUFFER_PADDING_LEN 0x100
 
 uint32_t GetTime(void);
-void LoadSplash(Game *splscrn);
+void LoadSplash(Game *game);
 
 #endif /* OUTLAW_H */

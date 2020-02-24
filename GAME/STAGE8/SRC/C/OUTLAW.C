@@ -27,8 +27,11 @@
 #include <PSG.H>
 #include <MUSIC.H>
 #include <INIT.H>
+#include <RASTER.H>
 
 #include <BITMAP/SPL_SCRN.C>
+
+#include <unistd.h>
 
 int main(int argc, char *argv[])
 {
@@ -40,6 +43,11 @@ int main(int argc, char *argv[])
 	old_ssp = MySuper(0); /* enter privileged mode */
 
 	ScrInit(&game.screen);
+
+	LoadSplash(&game);
+	RenderSplash(&game, game.screen.next_buffer);
+	sleep(5);
+
 	InitGame(&game);
 	Render(&game, game.screen.next_buffer);
 
@@ -47,7 +55,7 @@ int main(int argc, char *argv[])
 	time_then = time_now;
 
 	flag_music_on = 1;
-	if (flag_music_on) /* For menu selection later */
+	if (flag_music_on) /* For menu selection */
 	{
 		music_time_then = music_time_now;
 		StartMusic();
@@ -187,9 +195,9 @@ uint32_t GetTime(void)
 	return time_now;
 }
 
-void LoadSplash(Game *splscrn)
+void LoadSplash(Game *game)
 {
-	game->splash.sprite.bitmap.current_image = screen;
+	game->splash.sprite.bitmap.current_image = splscrn;
 	game->splash.sprite.bitmap.raster.Draw = PrintScreen;
-	game->splash.sprite.bitmap.height = (sizeof(screen) / (sizeof screen[0]));
+	game->splash.sprite.bitmap.height = (sizeof(splscrn) / (sizeof splscrn[0]));
 }
