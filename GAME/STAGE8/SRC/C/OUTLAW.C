@@ -28,10 +28,8 @@
 #include <MUSIC.H>
 #include <INIT.H>
 #include <RASTER.H>
-
+#include <unistd.h> /* for sleep */
 #include <BITMAP/SPL_SCRN.C>
-
-#include <unistd.h>
 
 int main(int argc, char *argv[])
 {

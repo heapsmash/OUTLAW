@@ -19,6 +19,7 @@
 #include <RENDERER.H>
 #include <TYPES.H>
 #include <RASTER.H>
+#include <unistd.h> /* for sleep() */
 
 /*-------------------------------------------- RenderGunSlinger -----
 |  Function RenderGunSlinger
