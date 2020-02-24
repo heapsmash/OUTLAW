@@ -21,8 +21,8 @@
 #include <RASTER.H>
 #include <unistd.h> /* for sleep() */
 
-/*-------------------------------------------- RenderGunSlinger -----
-|  Function RenderGunSlinger
+/*-------------------------------------------- RenderMenu -----
+|  Function RenderMenu
 |
 |  Purpose: Draw the game menu
 |
