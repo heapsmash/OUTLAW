@@ -101,6 +101,16 @@ void RenderString(void *base, int x, int y, char *st)
 	}
 }
 
+/*-------------------------------------------- RenderWin -----
+|  Function RenderWin
+|
+|  Purpose: Print win condition to the screen
+|
+|  Parameters: sc, base, player the number of the player who won
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void RenderWin(Screen *sc, void *base, int player)
 {
 	ClearScreen(base);
