@@ -29,6 +29,6 @@
 uint32_t GetTime(void);
 
 void LoadSplash(Game *game);
-void Dance(GunSlinger *gs, void *base, Screen *screen);
+void LoadMenu(Game *game);
 
 #endif /* OUTLAW_H */

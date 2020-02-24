@@ -30,21 +30,42 @@
 #include <RASTER.H>
 #include <unistd.h> /* for sleep */
 #include <BITMAP/SPL_SCRN.C>
+#include <BITMAP/MENU.C>
 
 int main(int argc, char *argv[])
 {
 	Game game;
 	long old_ssp;
-	int i, n, read_char, flag_music_on;
+	int i, n, read_char, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
 
 	old_ssp = MySuper(0); /* enter privileged mode */
 
 	ScrInit(&game.screen);
-
+	LoadMenu(&game);
 	LoadSplash(&game);
 	RenderSplash(&game, game.screen.next_buffer);
-	sleep(5);
+	sleep(2);
+
+	player_mode_flag = -1;
+	RenderMenu(&game, game.screen.next_buffer);
+	while (read_char < 0) /* menu loop */
+	{
+		if (CheckInputStatus() < 0) /* check ikbd codes */
+		{
+			read_char = ReadCharNoEcho();
+			switch (read_char)
+			{
+			case UP: /* (KEY W) Or mouse one player game */
+				player_mode_flag = 1;
+				break;
+			case DOWN: /* (KEY S) Or mouse two player game */
+				player_mode_flag = 2;
+				break;
+			}
+		}
+		RenderMenu(&game, game.screen.next_buffer);
+	}
 
 	InitGame(&game);
 	Render(&game, game.screen.next_buffer);
@@ -53,7 +74,7 @@ int main(int argc, char *argv[])
 	time_then = time_now;
 
 	flag_music_on = 1;
-	if (flag_music_on) /* For menu selection */
+	if (flag_music_on) /* For (POSSIBLE) menu selection in future */
 	{
 		music_time_then = music_time_now;
 		StartMusic();
@@ -227,4 +248,21 @@ void LoadSplash(Game *game)
 	game->splash.sprite.bitmap.current_image = splscrn;
 	game->splash.sprite.bitmap.raster.Draw = PrintScreen;
 	game->splash.sprite.bitmap.height = (sizeof(splscrn) / (sizeof splscrn[0]));
+}
+
+/*-------------------------------------------- LoadMenu -----
+|  Function LoadMenu
+|
+|  Purpose: Load the menu screen
+|
+|  Parameters: game
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void LoadMenu(Game *game)
+{
+	game->menu.sprite.bitmap.current_image = menu;
+	game->menu.sprite.bitmap.raster.Draw = PrintScreen;
+	game->menu.sprite.bitmap.height = (sizeof(menu) / (sizeof menu[0]));
 }

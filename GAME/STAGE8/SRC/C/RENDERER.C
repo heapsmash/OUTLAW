@@ -24,6 +24,23 @@
 /*-------------------------------------------- RenderGunSlinger -----
 |  Function RenderGunSlinger
 |
+|  Purpose: Draw the game menu
+|
+|  Parameters: game, base
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void RenderMenu(Game *game, void *base)
+{
+	game->menu.sprite.bitmap.raster.Draw(base, &game->menu.sprite);
+	RenderString(base, 0, 390, "Michael S. Walker <mwalk762@mtroyal.ca>");
+	ScrFlipBuffers(&game->screen);
+}
+
+/*-------------------------------------------- RenderGunSlinger -----
+|  Function RenderGunSlinger
+|
 |  Purpose:
 |
 |  Parameters:
