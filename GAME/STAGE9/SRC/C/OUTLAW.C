@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
 
 	old_ssp = MySuper(0); /* enter privileged mode */
 
+	StopSound();
 	ScrInit(&game.screen);
 	LoadMenu(&game);
 	LoadSplash(&game);
@@ -208,6 +209,7 @@ int main(int argc, char *argv[])
 	}
 
 	ScrCleanup(&game.screen);
+	StopSound();
 	MySuper(old_ssp); /* exit privileged mode */
 
 	return 0;
