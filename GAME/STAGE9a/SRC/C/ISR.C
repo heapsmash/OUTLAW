@@ -61,7 +61,7 @@ void do_VBL_ISR(void)
 
 	if (g_ticks % 70 == 0)
 		g_seconds++;
-	g_vblank_flag = true;
+	g_vblank_flag = 1;
 }
 
 /*-------------------------------------------- MyVsync -----
@@ -78,7 +78,7 @@ void MyVsync(void)
 {
 	while (!g_vblank_flag)
 		;
-	g_vblank_flag = false;
+	g_vblank_flag = 0;
 }
 
 /*-------------------------------------------- MyVblank -----
@@ -139,4 +139,19 @@ void ResetSeconds(void)
 void ResetTicks(void)
 {
 	g_ticks = 0;
+}
+
+/*-------------------------------------------- ResetVblankFlag -----
+|  Function ResetVblankFlag
+|
+|  Purpose: set flag to 0 
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void ResetVblankFlag(void)
+{
+	g_vblank_flag = 0;
 }
