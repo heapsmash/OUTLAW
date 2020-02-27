@@ -20,6 +20,7 @@
 
 int g_seconds;
 long g_ticks;
+char g_vblank_flag;
 
 /*-------------------------------------------- InstallVector -----
 |  Function InstallVector
@@ -60,6 +61,24 @@ void do_VBL_ISR(void)
 
 	if (g_ticks % 70 == 0)
 		g_seconds++;
+	g_vblank_flag = true;
+}
+
+/*-------------------------------------------- MyVsync -----
+|  Function MyVsync
+|
+|  Purpose: busywait for vblank
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void MyVsync(void)
+{
+	while (!g_vblank_flag)
+		;
+	g_vblank_flag = false;
 }
 
 /*-------------------------------------------- MyVblank -----

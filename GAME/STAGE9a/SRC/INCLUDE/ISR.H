@@ -29,5 +29,6 @@ int GetSeconds(void);
 long MyVblank(void);
 void do_VBL_ISR(void);
 void Vbl(void);
+void MyVsync(void);
 
 #endif /* ISR_H */
