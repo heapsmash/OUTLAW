@@ -26,8 +26,6 @@
 #define NUM_FRAME_BUFFERS 2
 #define FRAMEBUFFER_PADDING_LEN 0x100
 
-uint32_t GetTime(void);
-
 void LoadSplash(Game *game);
 void LoadMenu(Game *game);
 

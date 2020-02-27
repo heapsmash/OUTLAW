@@ -101,3 +101,18 @@ void MySleep(int n)
 			i++;
 	return;
 }
+
+/*-------------------------------------------- GetTime -----
+|  Function GetTime
+|
+|  Purpose: Get vblank time 
+|
+|  Parameters:
+|
+|  Returns: n vblank cycles since reset
+*-------------------------------------------------------------------*/
+
+uint32_t GetTime(void)
+{
+	return MyVblank();
+}
