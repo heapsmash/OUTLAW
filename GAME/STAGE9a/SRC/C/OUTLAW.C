@@ -28,27 +28,31 @@
 #include <MUSIC.H>
 #include <INIT.H>
 #include <RASTER.H>
-#include <unistd.h> /* for sleep */
+#include <ISR.H>
 #include <BITMAP/SPL_SCRN.C>
 #include <BITMAP/MENU.C>
 
 int main(int argc, char *argv[])
 {
 	Game game;
-	long old_ssp;
 	int i, n, read_char, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
 
-	old_ssp = MySuper(0); /* enter privileged mode */
+	long old_ssp = MySuper(0);										/* enter privileged mode */
+	Vector orig_vector = orig_vector = InstallVector(VBL_ISR, Vbl); /* install VBL vector */
 
-	StopSound();
-	ScrInit(&game.screen);
-	LoadMenu(&game);
-	LoadSplash(&game);
+	ResetVblankFlag();	 /* reset VBL flag for MyVsync() */
+	ScrInit(&game.screen); /* initialize frame buffers */
+	ResetTicks();		   /* reset vblank timer */
+	ResetSeconds();		   /* reset seconds timer */
+	StopSound();		   /* stop all st sounds */
+	LoadMenu(&game);	   /* load game menu */
+	LoadSplash(&game);	 /* load game splash screen */
+
 	RenderSplash(&game, game.screen.next_buffer);
-	sleep(2);
+	MySleep(4);
 
-	player_mode_flag = -1;
+	player_mode_flag = -11;
 	RenderMenu(&game, game.screen.next_buffer);
 	while (read_char < 0) /* menu loop */
 	{
@@ -104,6 +108,7 @@ int main(int argc, char *argv[])
 			RenderWin(&game.screen, game.screen.next_buffer, 1);
 			InitGame(&game);
 			Render(&game, game.screen.next_buffer);
+			MySleep(5);
 		}
 
 		/* Player 2 wins */
@@ -113,6 +118,7 @@ int main(int argc, char *argv[])
 			RenderWin(&game.screen, game.screen.next_buffer, 2);
 			InitGame(&game);
 			Render(&game, game.screen.next_buffer);
+			MySleep(5);
 		}
 
 		if (CheckInputStatus() < 0) /* check ikbd codes */
@@ -208,31 +214,12 @@ int main(int argc, char *argv[])
 		time_then = time_now;
 	}
 
-	ScrCleanup(&game.screen);
-	StopSound();
-	MySuper(old_ssp); /* exit privileged mode */
+	StopSound();						 /* stop all game sound */
+	ScrCleanup(&game.screen);			 /* restore original frame buffer */
+	InstallVector(VBL_ISR, orig_vector); /* install old ISR vector */
+	MySuper(old_ssp);					 /* exit privileged mode */
 
 	return 0;
-}
-
-/*-------------------------------------------- GetTime -----
-|  Function GetTime
-|
-|  Purpose:
-|
-|  Parameters:
-|
-|  Returns:
-*-------------------------------------------------------------------*/
-
-uint32_t GetTime(void)
-{
-	long time_now;
-	long *timer = (long *)0x462; /* address of longword auto-inc’ed 70 x per s */
-
-	time_now = *timer;
-
-	return time_now;
 }
 
 /*-------------------------------------------- LoadSplash -----
