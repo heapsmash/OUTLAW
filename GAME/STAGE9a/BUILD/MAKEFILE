@@ -22,12 +22,14 @@ obj\screen.o \
 obj\effects.o \
 obj\music.o \
 obj\psg.o \
-obj\init.o 
+obj\init.o \
+obj\isr.o
 
 ASM_OBJ = \
 obj\clear.o \
 obj\super.o \
-obj\scnbuf.o
+obj\scnbuf.o \
+obj\thunk.o
 
 OBJ = $(C_OBJ) $(ASM_OBJ)
 
@@ -58,12 +60,16 @@ obj\music.o: ..\src\c\music.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\psg.o: ..\src\c\psg.c
 	$(CC) $(CFLAGS) -c $< -o $@
+obj\isr.o: ..\src\c\isr.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 obj\clear.o: ..\src\asm\clear.s
 	$(AS) $(ASFLAGS) $< -o$@
 obj\super.o: ..\src\asm\super.s
 	$(AS) $(ASFLAGS) $< -o$@
 obj\scnbuf.o: ..\src\asm\scnbuf.s
+	$(AS) $(ASFLAGS) $< -o$@
+obj\thunk.o: ..\src\asm\thunk.s
 	$(AS) $(ASFLAGS) $< -o$@
 
 clean:
