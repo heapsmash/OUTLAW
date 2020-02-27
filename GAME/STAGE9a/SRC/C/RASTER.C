@@ -20,8 +20,8 @@
 #include <TYPES.H>
 #include <MODEL.H>
 #include <UTIL.H>
-#include <FONT.H>   /* for PlotChar */
-#include <osbind.h> /* for Vsync(); */
+#include <FONT.H> /* for PlotChar */
+#include <ISR.H>
 
 /*-------------------------------------------- GetVideoBase -----
 |  Function GetVideoBase
@@ -50,7 +50,7 @@ uint8_t *GetVideoBase(void)
 
 void SetVideoBase(uint8_t *scrbuf)
 {
-	Vsync();
+	MyVsync();
 	SetBuffer(scrbuf);
 }
 
