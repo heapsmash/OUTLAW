@@ -28,5 +28,6 @@
 int WrapInteger(int x, int min, int range);
 void TrimLine(int *x, int min, int max);
 unsigned MyRand(void);
+void MySleep(int n);
 
 #endif /* UTIL_H */

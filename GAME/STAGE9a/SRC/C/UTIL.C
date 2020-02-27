@@ -17,6 +17,7 @@
  */
 
 #include <UTIL.H>
+#include <ISR.H>
 
 unsigned short lfsr = 0xACE1u;
 unsigned bit;
@@ -78,4 +79,25 @@ unsigned MyRand(void)
 {
 	bit = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5)) & 1;
 	return lfsr = (lfsr >> 1) | (bit << 15);
+}
+
+/*-------------------------------------------- MySleep -----
+|  Function MySleep
+|
+|  Purpose: sleep for n seconds
+|
+|  Parameters: n time to sleep 
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void MySleep(int n)
+{
+	int i = 0;
+
+	ResetSeconds();
+	while (GetSeconds() < 2)
+		if ((i + 1) == GetSeconds())
+			i++;
+	return;
 }
