@@ -19,7 +19,6 @@
 #include <RENDERER.H>
 #include <TYPES.H>
 #include <RASTER.H>
-#include <unistd.h> /* for sleep() */
 
 /*-------------------------------------------- RenderMenu -----
 |  Function RenderMenu
@@ -136,10 +135,7 @@ void RenderWin(Screen *sc, void *base, int player)
 		RenderString(base, 280, 200, "Player One Wins");
 	else
 		RenderString(base, 280, 200, "Player Two Wins");
-
 	ScrFlipBuffers(sc);
-
-	sleep(5);
 }
 
 /*-------------------------------------------- RenderBackground -----
