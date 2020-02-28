@@ -24,7 +24,7 @@
 
 typedef void (*Vector)(void); /* a Vector is a function start addr. */
 Vector InstallVector(int num, Vector vector);
-extern void Vbl(void); 
-extern void Ikbd(void); 
+extern void Vbl(void);
+extern void Ikbd(void);
 
 #endif /* ISR_H */

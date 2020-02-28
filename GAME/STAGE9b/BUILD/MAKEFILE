@@ -23,7 +23,8 @@ obj\effects.o \
 obj\music.o \
 obj\psg.o \
 obj\init.o \
-obj\isr.o
+obj\isr.o \
+obj\vbl.o
 
 ASM_OBJ = \
 obj\clear.o \
@@ -36,6 +37,8 @@ OBJ = $(C_OBJ) $(ASM_OBJ)
 $(PROGNAME): $(OBJ)
 	$(CC) -o $(PROGNAME) $(OBJ)
 
+obj\vbl.o: ..\src\c\vbl.c
+	$(CC) $(CFLAGS) -c $< -o $@
 obj\init.o: ..\src\c\init.c
 	$(CC) $(CFLAGS) -c $< -o $@
 obj\input.o: ..\src\c\input.c

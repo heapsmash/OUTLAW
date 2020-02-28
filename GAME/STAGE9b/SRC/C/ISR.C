@@ -40,4 +40,3 @@ Vector InstallVector(int num, Vector vector)
 	/*	Super(old_ssp); */
 	return orig;
 }
-
