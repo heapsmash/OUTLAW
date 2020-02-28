@@ -2,7 +2,8 @@
 #include <unistd.h>
 #include <osbind.h>
 
-#define RDR_FULL 3
+#define RDR_FULL(ikbdstatus) ((ikbdstatus) | 0x01)
+
 #define CR_MASK (ACIA_CONTROL_CDSB_CLOCKDIVIDE_64 | ACIA_CONTROL_WSB_8n1)
 #define CR_SETTINGS (CR_MASK | ACIA_CONTROL_TCB_RTS_LO_TX_INTERRUPT_DISABLED_BREAK)
 #define CR_SETTINGS_RXINT (CR_SETTINGS | ACIA_CONTROL_RX_INTERRUPT_ENABLED)
@@ -107,33 +108,80 @@
 
 typedef unsigned char UINT8;
 typedef UINT8 SCANCODE;
+
+/* CONTROL REGISTER 6850: RIE | TC2 | TC1 | WS3 | WS2 | WS1 | CDS2 | CDS1 */
 volatile UINT8 *const IKBD_control = 0xfffffc00;
+
+/* STATUS REGISTER 6850: IRQ | PE | OVRN | PE | CTS | DCD | TxDRE | RxDRF 						     */
+/* bit 7: interupt request: 			set to 1 when pin is activated 							  	 */
+/* bit 6: Parity error: 				when parity of received word != parity bit 				 	 */
+/* bit 5: overrun error: 				processor did not read previous input reset when rectified   */
+/* bit 4: framing error: 				set when no stop bit is observed reset when rectified		 */
+/* bit 3: state of clear: 				to send input pin											 */
+/* bit 2: state of data carrier: 		detect input pin											 */
+/* bit 1: transmitter data register:	is empty when flag = 1										 */
+/* bit 0: receive data register: 		is full when flag = 1										 */
 volatile const UINT8 *const IKBD_status = 0xfffffc00;
 volatile const SCANCODE *const IKBD_RDR = 0xfffffc02;
 
 SCANCODE read_scancode(void);
 
+SCANCODE g_mouse_action;
+SCANCODE g_mouse_delta_x;
+SCANCODE g_mouse_delta_y;
+
 int main(int argc, char *argv[])
 {
-    long old_ssp = Super(0);
-    char *scancode_2_ascii = (char *)((Keytbl(-1, -1, -1))->unshift);
-    SCANCODE sc;
+	SCANCODE delta_x;
+	SCANCODE delta_y;
+	long old_ssp = Super(0);
+	char *scancode_2_ascii = (char *)((Keytbl(-1, -1, -1))->unshift);
+	SCANCODE sc;
 
-    *IKBD_control = CR_SETTINGS;
+	*IKBD_control = CR_SETTINGS;
 
-    while ((sc = read_scancode()) != BREAK_CODE(ESC))
-        printf("code 0x%x = %c\n", sc, scancode_2_ascii[sc]);
+	while ((sc = read_scancode()) != BREAK_CODE(ESC))
+	{
+		switch (sc)
+		{
+		case 0xfa: /* left click */
+			printf("left click\n");
+			printf("2: %x\n", *IKBD_RDR);
+			printf("3: %x\n", *IKBD_RDR);
+			break;
 
-    *IKBD_control = CR_SETTINGS_RXINT;
+		case 0xf9: /* right click */
+			printf("right click\n");
+			printf("2: %x\n", *IKBD_RDR);
+			printf("3: %x\n", *IKBD_RDR);
+			break;
 
-    Super(old_ssp);
+		case 0xfb: /* both click */
+			printf("both click\n");
+			break;
 
-    return 0;
+		case 0xf8: /* mouse move */
+			printf("mouse move\n");
+			printf("2: %x\n", *IKBD_RDR);
+			printf("3: %x\n", *IKBD_RDR);
+			printf("4: %x\n", *IKBD_RDR);
+			break;
+
+		default:
+			printf("code 0x%x = %c\n", sc, scancode_2_ascii[sc]);
+		}
+	}
+
+	*IKBD_control = CR_SETTINGS_RXINT;
+
+	Super(old_ssp);
+
+	return 0;
 }
 
-SCANCODE read_scancode()
+SCANCODE read_scancode(void)
 {
-    while (*IKBD_status != RDR_FULL)
-        ;
-    return *IKBD_RDR;
+	while (!RDR_FULL(*IKBD_status))
+		;
+	return *IKBD_RDR;
 }
