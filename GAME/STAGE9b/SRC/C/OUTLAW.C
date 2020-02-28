@@ -106,9 +106,9 @@ int main(int argc, char *argv[])
 		if (EventWin(game.gun_slinger[PLAYER_ONE]))
 		{
 			RenderWin(&game.screen, game.screen.next_buffer, 1);
+			MySleep(5);
 			InitGame(&game);
 			Render(&game, game.screen.next_buffer);
-			MySleep(5);
 		}
 
 		/* Player 2 wins */
@@ -116,9 +116,9 @@ int main(int argc, char *argv[])
 		if (EventWin(game.gun_slinger[PLAYER_TWO]))
 		{
 			RenderWin(&game.screen, game.screen.next_buffer, 2);
+			MySleep(5);
 			InitGame(&game);
 			Render(&game, game.screen.next_buffer);
-			MySleep(5);
 		}
 
 		if (CheckInputStatus() < 0) /* check ikbd codes */
