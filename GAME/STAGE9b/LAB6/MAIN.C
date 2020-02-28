@@ -2,8 +2,6 @@
 #include <unistd.h>
 #include <osbind.h>
 
-#define RDR_FULL(ikbdstatus) ((ikbdstatus) | 0x01)
-
 #define CR_MASK (ACIA_CONTROL_CDSB_CLOCKDIVIDE_64 | ACIA_CONTROL_WSB_8n1)
 #define CR_SETTINGS (CR_MASK | ACIA_CONTROL_TCB_RTS_LO_TX_INTERRUPT_DISABLED_BREAK)
 #define CR_SETTINGS_RXINT (CR_SETTINGS | ACIA_CONTROL_RX_INTERRUPT_ENABLED)
@@ -34,7 +32,6 @@
 #define ACIA_CONTROL_CDSB_CLOCKDIVIDE_64 (0x02)
 #define ACIA_CONTROL_WSB_8n1 (0x05 << 2)
 
-#define BREAK_CODE(make_code) ((make_code) | 0x80)
 #define ALPHA_A 0x1E
 #define ALPHA_B 0x30
 #define ALPHA_C 0x2E
@@ -106,6 +103,9 @@
 #define F9 0x43
 #define F10 0x44
 
+#define BREAK_CODE(make_code) ((make_code) | 0x80)
+#define RDR_FULL(ikbdstatus) ((ikbdstatus)&ACIA_STATUS_RDRF)
+
 typedef unsigned char UINT8;
 typedef UINT8 SCANCODE;
 
@@ -121,6 +121,7 @@ volatile UINT8 *const IKBD_control = 0xfffffc00;
 /* bit 2: state of data carrier: 		detect input pin											 */
 /* bit 1: transmitter data register:	is empty when flag = 1										 */
 /* bit 0: receive data register: 		is full when flag = 1										 */
+
 volatile const UINT8 *const IKBD_status = 0xfffffc00;
 volatile const SCANCODE *const IKBD_RDR = 0xfffffc02;
 
@@ -136,39 +137,51 @@ int main(int argc, char *argv[])
 	SCANCODE delta_y;
 	long old_ssp = Super(0);
 	char *scancode_2_ascii = (char *)((Keytbl(-1, -1, -1))->unshift);
-	SCANCODE sc;
+	SCANCODE volatile scan_code;
 
 	*IKBD_control = CR_SETTINGS;
 
-	while ((sc = read_scancode()) != BREAK_CODE(ESC))
+	while ((scan_code = read_scancode()) != BREAK_CODE(ESC))
 	{
-		switch (sc)
+		switch (scan_code)
 		{
 		case 0xfa: /* left click */
 			printf("left click\n");
-			printf("2: %x\n", *IKBD_RDR);
-			printf("3: %x\n", *IKBD_RDR);
+			while (*IKBD_RDR == 0xfa)
+				;
+			printf("byte 2: %x\n", *IKBD_RDR);
+			while (*IKBD_RDR == 0xfa)
+				;
+			printf("byte 3: %x\n", *IKBD_RDR);
 			break;
 
 		case 0xf9: /* right click */
 			printf("right click\n");
-			printf("2: %x\n", *IKBD_RDR);
-			printf("3: %x\n", *IKBD_RDR);
+			while (*IKBD_RDR == 0xfa)
+				;
+			printf("byte 2: %x\n", *IKBD_RDR);
+			while (*IKBD_RDR == 0xfa)
+				;
+			printf("byte 3: %x\n", *IKBD_RDR);
 			break;
 
 		case 0xfb: /* both click */
 			printf("both click\n");
+			while (*IKBD_RDR == 0xfb)
+				;
 			break;
 
 		case 0xf8: /* mouse move */
 			printf("mouse move\n");
-			printf("2: %x\n", *IKBD_RDR);
-			printf("3: %x\n", *IKBD_RDR);
-			printf("4: %x\n", *IKBD_RDR);
+			while (*IKBD_RDR == 0xf8) /* busy wait */
+				;
+			printf("byte 2: %x\n", *IKBD_RDR);
+			while (*IKBD_RDR == 0xf8) /* busy wait */
+				;
+			printf("byte 3: %x\n", *IKBD_RDR);
 			break;
-
 		default:
-			printf("code 0x%x = %c\n", sc, scancode_2_ascii[sc]);
+			printf("code 0x%x = %c\n", scan_code, scancode_2_ascii[scan_code]);
 		}
 	}
 
