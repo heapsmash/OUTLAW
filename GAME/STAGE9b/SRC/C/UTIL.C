@@ -17,7 +17,7 @@
  */
 
 #include <UTIL.H>
-#include <ISR.H>
+#include <VBL.H>
 
 unsigned short lfsr = 0xACE1u;
 unsigned bit;

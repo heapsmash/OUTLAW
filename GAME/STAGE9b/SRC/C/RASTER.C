@@ -21,7 +21,7 @@
 #include <MODEL.H>
 #include <UTIL.H>
 #include <FONT.H> /* for PlotChar */
-#include <ISR.H>
+#include <VBL.H>
 
 /*-------------------------------------------- GetVideoBase -----
 |  Function GetVideoBase
