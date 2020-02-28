@@ -1,12 +1,28 @@
+*  Michael S. Walker <mwalk762@mtroyal.ca>
+* 	    _    _
+*        | |  | |	OUTLAW. 
+*       -| |  | |- 
+*   _    | |- | |
+* -| |   | |  | |- 	
+*  |.|  -| ||/  |
+*  | |-  |  ___/ 
+* -|.|   | | |
+*  |  \_|| |
+*   \____  |
+*    |   | |- 
+*        | |
+*       -| |
+*        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+
 	xdef       _MySuper
 
-*      --------------- long MySuper(long ssp) ------
-*      Usage: 
-* 
-*      long MySuper(long ssp);
-*      long old_ssp = super(0);        // for super
-*      MySuper(old_ssp);               // for user. 
-*      ------------------------------------------------
+*	--------------- long MySuper(long ssp) ------
+*	Usage: 
+*	
+*	long MySuper(long ssp);
+*	long old_ssp = super(0);        // for super
+*	MySuper(old_ssp);               // for user. 
+*	------------------------------------------------
 
 _MySuper:
 SSP	equ	8
