@@ -57,7 +57,6 @@
 
 void InitGame(Game *game)
 {
-	InitMouse(game);
 	InitGameBackGround(game);
 	InitBullets(game);
 	InitScore(game);
