@@ -121,3 +121,73 @@ SCANCODE ReadScancode(void)
         sc = *IKBD_RDR;
     return sc;
 }
+
+/*-------------------------------------------- IsFull -----
+|  Function IsFull
+|
+|  Purpose: Check if the queue is full
+|  
+|  Parameters:
+|
+|  Returns: 1 (true) 0 (false)
+*-------------------------------------------------------------------*/
+
+int IsFull(void)
+{
+}
+
+/*-------------------------------------------- IsEmpty -----
+|  Function IsEmpty
+|
+|  Purpose: Check if the queue is empty
+|  
+|  Parameters:
+|
+|  Returns: 1 (true) 0 (false)
+*-------------------------------------------------------------------*/
+
+int IsEmpty(void)
+{
+}
+
+/*-------------------------------------------- AddToQ -----
+|  Function AddToQ
+|
+|  Purpose: Add a new item (code) to the back of the queue
+|  
+|  Parameters: code the scancode to add 
+|
+|  Returns: 
+*-------------------------------------------------------------------*/
+
+void AddToQ(SCANCODE code)
+{
+}
+
+/*-------------------------------------------- DeleteFromQ -----
+|  Function DeleteFromQ
+|
+|  Purpose: Remove the front value from the queue
+|  
+|  Parameters: 
+|
+|  Returns: 
+*-------------------------------------------------------------------*/
+
+void DeleteFromQ(void)
+{
+}
+
+/*-------------------------------------------- ClearQ -----
+|  Function ClearQ
+|
+|  Purpose: Empty the queue
+|  
+|  Parameters: 
+|
+|  Returns: 
+*-------------------------------------------------------------------*/
+
+void ClearQ(void)
+{
+}
