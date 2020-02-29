@@ -143,7 +143,7 @@ void FifoInit(void)
 |  
 |  Parameters:
 |
-|  Returns: 0 full, 1 Success!  
+|  Returns:  
 *-------------------------------------------------------------------*/
 
 void FifoPut(SCANCODE data)
@@ -168,7 +168,7 @@ void FifoPut(SCANCODE data)
 |  
 |  Parameters:
 |
-|  Returns: 0 empty, 1 Success!  
+|  Returns: the scancode 
 *-------------------------------------------------------------------*/
 
 SCANCODE FifoGet(void)
