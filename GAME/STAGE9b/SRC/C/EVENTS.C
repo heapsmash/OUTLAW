@@ -19,6 +19,7 @@
 #include <MODEL.H>
 #include <EVENTS.H>
 #include <EFFECTS.H>
+#include <INPUT.H>
 
 /*-------------------------------------------- EventCylinderState -----
 |  Function EventCylinderState
@@ -218,4 +219,21 @@ void EventUpdateScore(GunSlinger *shooter)
 	shooter->score.lsd = (temp % 10) + 48;
 	temp /= 10;
 	shooter->score.msd = (temp % 10) + 48;
+}
+
+/*-------------------------------------------- EventUpdateMouse -----
+|  Function EventUpdateMouse
+|
+|  Purpose: update mouse x and y
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void EventUpdateMouse(Mouse *mouse)
+{
+	mouse->sprite.x_pos = g_delta_x;
+	mouse->sprite.y_pos = g_delta_y;
+	MDLMoveMouse(mouse);
 }

@@ -22,6 +22,22 @@
 /*-------------------------------------------- MDLMoveGunSlinger -----
 |  Function MDLMoveGunSlinger
 |
+|  Purpose: Wrap mouse if on borders
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void MDLMoveMouse(Mouse *mouse)
+{
+	mouse->sprite.x_pos = WrapInteger(mouse->sprite.x_pos, 0, 640);
+	mouse->sprite.y_pos = WrapInteger(mouse->sprite.x_pos, 0, 400);
+}
+
+/*-------------------------------------------- MDLMoveGunSlinger -----
+|  Function MDLMoveGunSlinger
+|
 |  Purpose:
 |
 |  Parameters:
