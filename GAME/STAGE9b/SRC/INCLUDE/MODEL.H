@@ -166,6 +166,11 @@ typedef struct _Menu
 	Sprite sprite;
 } Menu;
 
+typedef struct _Mouse
+{
+	Sprite sprite;
+} Mouse;
+
 typedef struct _Game
 {
 	GunSlinger gun_slinger[NUM_PLAYERS];
@@ -173,6 +178,7 @@ typedef struct _Game
 	Screen screen;
 	Splash splash;
 	Menu menu;
+	Mouse mouse;
 } Game;
 
 void MDLEnvGunSlingerCollision(GunSlinger *gs);
