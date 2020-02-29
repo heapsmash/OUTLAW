@@ -18,6 +18,7 @@
 
 #include <MODEL.H>
 #include <RASTER.H>
+#include <UTIL.H>
 
 /*-------------------------------------------- MDLMoveGunSlinger -----
 |  Function MDLMoveGunSlinger
@@ -32,7 +33,7 @@
 void MDLMoveMouse(Mouse *mouse)
 {
 	mouse->sprite.x_pos = WrapInteger(mouse->sprite.x_pos, 0, 640);
-	mouse->sprite.y_pos = WrapInteger(mouse->sprite.x_pos, 0, 400);
+	mouse->sprite.y_pos = WrapInteger(mouse->sprite.y_pos, 0, 400);
 }
 
 /*-------------------------------------------- MDLMoveGunSlinger -----
