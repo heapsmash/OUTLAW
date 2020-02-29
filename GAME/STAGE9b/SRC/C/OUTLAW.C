@@ -50,9 +50,7 @@ const uint8_t mouse[] = {
 int main(int argc, char *argv[])
 {
 	Game game;
-	uint8_t test_1;
-	uint8_t test_2;
-	int x, y;
+	SCANCODE tmp;
 
 	int i, n, read_char, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
@@ -68,9 +66,12 @@ int main(int argc, char *argv[])
 	game.mouse.sprite.bitmap.raster.Clear = Rast8Clear;
 	game.mouse.sprite.bitmap.raster.Alpha = Rast8Alpha;
 
-	test_1 = 0xfe;
-	test_2 = 0xfa;
+	FifoInit();
+	while (1)
+		if (CheckInputStatus() < 0)
+			printf("0x%x\n", ReadCharNoEcho());
 
+	/* 
 	while (1)
 	{
 		if (g_click == ON)
@@ -87,6 +88,7 @@ int main(int argc, char *argv[])
 		ClearScreen(fb);
 		game.mouse.sprite.bitmap.raster.Draw(fb, &game.mouse.sprite);
 	}
+	*/
 
 	InstallVector(IKBD_ISR, ikbd_orig_vector); /* install old IKBD vector */
 	InstallVector(VBL_ISR, vbl_orig_vector);   /* install old ISR vector */

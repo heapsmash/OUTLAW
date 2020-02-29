@@ -35,7 +35,7 @@
 
 #define DELTA_X_STATE 1
 #define DELTA_Y_STATE 2
-#define MAXSZ_QUEUE 7
+#define FIFO_SIZE 10
 
 #define RIGHT_CLICK_SCAN_CODE 0xf9
 #define LEFT_CLICK_SCAN_CODE 0xfa
@@ -115,19 +115,17 @@
 #define F9 0x43
 #define F10 0x44
 
-extern int g_delta_x;					  /* in INPUT.C */
-extern int g_delta_y;					  /* in INPUT.C */
-extern int g_click;						  /* in INPUT.C */
-extern SCANCODE g_key_queue[MAXSZ_QUEUE]; /* in INPUT.C */
+extern int g_delta_x; /* in INPUT.C */
+extern int g_delta_y; /* in INPUT.C */
+extern int g_click;   /* in INPUT.C */
 
-int IsFull(void);
-int IsEmpty(void);
-void ClearQ(void);
-void DeleteFromQ(void);
 void do_IKBD_ISR(void);
 int ReadCharNoEcho(void);
-void AddToQ(SCANCODE code);
 int CheckInputStatus(void);
 SCANCODE ReadScancode(void);
+
+void FifoInit(void);
+SCANCODE FifoGet(void);
+void FifoPut(SCANCODE data);
 
 #endif

@@ -25,15 +25,14 @@
 #include <MFP.H>
 #include <UTIL.H>
 
+SCANCODE static *put_pt;
+SCANCODE static *get_pt;
+SCANCODE static fifo[FIFO_SIZE];
+
 uint8_t g_state = START;
 int g_click = OFF;
 int g_delta_x = 0;
 int g_delta_y = 0;
-
-int g_head_local = 0;
-int g_tail_local = 0;
-
-SCANCODE g_key_queue[MAXSZ_QUEUE];
 
 /*-------------------------------------------- CheckInputStatus -----
 |  Function CheckInputStatus
@@ -47,7 +46,7 @@ SCANCODE g_key_queue[MAXSZ_QUEUE];
 
 int CheckInputStatus(void)
 {
-    return Cconis();
+    return (put_pt == get_pt) ? 0 : -1;
 }
 
 /*-------------------------------------------- ReadCharNoEcho -----
@@ -62,7 +61,7 @@ int CheckInputStatus(void)
 
 int ReadCharNoEcho(void)
 {
-    return Cnecin();
+    return FifoGet();
 }
 
 /*-------------------------------------------- do_IKBD_ISR -----
@@ -98,11 +97,7 @@ void do_IKBD_ISR(void)
             g_delta_y += ((char)sc > 0) ? 2 : -1;
             g_state = START;
         }
-        else /* keyboard */
-        {
-            g_state = START;
-            /* key was pressed handle */
-        }
+        FifoPut(sc);
     }
     bit_clear_no_shift(*MFP_ISRB, MFP_VR_VECTOR_6);
 }
@@ -126,85 +121,68 @@ SCANCODE ReadScancode(void)
     return sc;
 }
 
-/*-------------------------------------------- IsFull -----
-|  Function IsFull
+/*-------------------------------------------- FifoInit -----
+|  Function FifoInit
 |
-|  Purpose: Check if the queue is full
+|  Purpose: initialize the fifo
 |  
 |  Parameters:
 |
-|  Returns: 1 (true) 0 (false)
+|  Returns: 
 *-------------------------------------------------------------------*/
 
-int IsFull(void)
+void FifoInit(void)
 {
-    return (g_head == ((g_tail % MAXSZ_QUEUE) + 1));
+    put_pt = get_pt = &fifo[0];
 }
 
-/*-------------------------------------------- IsEmpty -----
-|  Function IsEmpty
+/*-------------------------------------------- FifoPut -----
+|  Function FifoPut
 |
-|  Purpose: Check if the queue is empty
+|  Purpose: Add to the fifo
 |  
 |  Parameters:
 |
-|  Returns: 1 (true) 0 (false)
+|  Returns: 0 full, 1 Success!  
 *-------------------------------------------------------------------*/
 
-int IsEmpty(void)
+void FifoPut(SCANCODE data)
 {
-    return (g_head == g_tail);
+    SCANCODE *temp_pt;
+    temp_pt = put_pt;
+
+    *(temp_pt++) = data;             /* try */
+    if (temp_pt == &fifo[FIFO_SIZE]) /* mod */
+        temp_pt = &fifo[0];
+
+    if (temp_pt == get_pt)
+        return; /* full! */
+    else
+        put_pt = temp_pt; /* OK */
 }
 
-/*-------------------------------------------- AddToQ -----
-|  Function AddToQ
+/*-------------------------------------------- FifoGet -----
+|  Function FifoGet
 |
-|  Purpose: Add a new item (code) to the back of the queue
+|  Purpose: Get from the fifo
 |  
-|  Parameters: code the scancode to add 
+|  Parameters:
 |
-|  Returns: 
+|  Returns: 0 empty, 1 Success!  
 *-------------------------------------------------------------------*/
 
-void AddToQ(SCANCODE code)
+SCANCODE FifoGet(void)
 {
-    if (IsFull())
-        return;
-
-    g_tail = (g_tail + 1) % MAXSZ_QUEUE;
-    g_key_queue[g_tail] = code;
-}
-
-/*-------------------------------------------- DeleteFromQ -----
-|  Function DeleteFromQ
-|
-|  Purpose: Remove the front value from the queue
-|  
-|  Parameters: 
-|
-|  Returns: 
-*-------------------------------------------------------------------*/
-
-void DeleteFromQ(void)
-{
-    if (IsEmpty())
-        return;
-
-    g_key_queue[g_head] = 0x00;
-    g_head = (g_head + 1) % MAXSZ_QUEUE;
-}
-
-/*-------------------------------------------- ClearQ -----
-|  Function ClearQ
-|
-|  Purpose: Empty the queue
-|  
-|  Parameters: 
-|
-|  Returns: 
-*-------------------------------------------------------------------*/
-
-void ClearQ(void)
-{
-    g_head = g_tail = 0;
+    SCANCODE data;
+    if (put_pt == get_pt)
+        return 0; /* empty */
+    else
+    {
+        data = *(get_pt++);
+        if (get_pt == &fifo[FIFO_SIZE])
+        { /* mod */
+            get_pt = &fifo[0];
+        }
+        return data;
+    }
 }
