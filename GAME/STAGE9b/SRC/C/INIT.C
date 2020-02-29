@@ -1,3 +1,21 @@
+/*
+ * Michael S. Walker <mwalk762@mtroyal.ca>
+ *	    _    _
+ *       | |  | |	OUTLAW. 
+ *      -| |  | |- 
+ *  _    | |- | |
+ *-| |   | |  | |- 	
+ * |.|  -| ||/  |
+ * | |-  |  ___/ 
+ *-|.|   | | |
+ * |  \_|| |
+ *  \____  |
+ *   |   | |- 
+ *       | |
+ *      -| |
+ *       |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
+ */
+
 #include <RASTER.H>
 #include <INIT.H>
 #include <EVENTS.H>
@@ -39,6 +57,7 @@
 
 void InitGame(Game *game)
 {
+	InitMouse(game);
 	InitGameBackGround(game);
 	InitBullets(game);
 	InitScore(game);

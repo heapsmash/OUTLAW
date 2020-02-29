@@ -72,7 +72,7 @@ void UpdateMusic(uint32_t time_elapsed)
 	if (time_elapsed >= 10)
 		SetVolume(CHANNEL_A, 0x00);
 
-	if (time_elapsed >= 20)
+	if (time_elapsed >= 15)
 	{
 		SetTone(CHANNEL_A, g_song[g_current_note++]);
 		SetVolume(CHANNEL_A, 0x0F);
