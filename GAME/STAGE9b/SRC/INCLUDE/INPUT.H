@@ -21,35 +21,27 @@
 
 #include <TYPES.H>
 
-#define CR_MASK (ACIA_CONTROL_CDSB_CLOCKDIVIDE_64 | ACIA_CONTROL_WSB_8n1)
-#define CR_SETTINGS (CR_MASK | ACIA_CONTROL_TCB_RTS_LO_TX_INTERRUPT_DISABLED_BREAK)
-#define CR_SETTINGS_RXINT (CR_SETTINGS | ACIA_CONTROL_RX_INTERRUPT_ENABLED)
-#define ACIA_STATUS_RDRF (0x01)
-#define ACIA_STATUS_TDRE (0x02)
-#define ACIA_STATUS_DCD (0x04)
-#define ACIA_STATUS_CTS (0x08)
-#define ACIA_STATUS_FE (0x10)
-#define ACIA_STATUS_OVRN (0x20)
-#define ACIA_STATUS_PE (0x40)
-#define ACIA_STATUS_IRQ (0x80)
-#define ACIA_CONTROL_CDSB_CLOCKDIVIDE_1 (0x00)
-#define ACIA_CONTROL_CDSB_CLOCKDIVIDE_16 (0x01)
-#define ACIA_CONTROL_CDSB_MASTER_RESET (0x03)
-#define ACIA_CONTROL_WSB_7e2 (0x00 << 2)
-#define ACIA_CONTROL_WSB_7o2 (0x01 << 2)
-#define ACIA_CONTROL_WSB_7e1 (0x02 << 2)
-#define ACIA_CONTROL_WSB_7o1 (0x03 << 2)
-#define ACIA_CONTROL_WSB_8n2 (0x04 << 2)
-#define ACIA_CONTROL_WSB_8e1 (0x06 << 2)
-#define ACIA_CONTROL_WSB_8o1 (0x07 << 2)
-#define ACIA_CONTROL_TCB_RTS_HI_TX_INTERRUPT_DISABLED (0x00 << 5)
-#define ACIA_CONTROL_TCB_RTS_LO_TX_INTERRUPT_ENABLED (0x01 << 5)
-#define ACIA_CONTROL_TCB_RTS_HI_TX_INTERRUPT_DISABLED (0x02 << 5)
-#define ACIA_CONTROL_TCB_RTS_LO_TX_INTERRUPT_DISABLED_BREAK (0x03 << 5)
-#define ACIA_CONTROL_RX_INTERRUPT_ENABLED (0x01 << 7)
-#define ACIA_CONTROL_TCB_RTS_LO_TX_INTERRUPT_DISABLED_BREAK (0x03 << 5)
-#define ACIA_CONTROL_CDSB_CLOCKDIVIDE_64 (0x02)
-#define ACIA_CONTROL_WSB_8n1 (0x05 << 2)
+#ifndef ON
+#define ON 1
+#endif /* ON */
+
+#ifndef OFF
+#define OFF 0
+#endif /* OFF */
+
+#ifndef START
+#define START 0
+#endif /* START*/
+
+#define DELTA_X_STATE 1
+#define DELTA_Y_STATE 2
+
+#define RIGHT_CLICK_SCAN_CODE 0xf9
+#define LEFT_CLICK_SCAN_CODE 0xfa
+#define BOTH_CLICK_SCAN_CODE 0xfb
+#define MOUSE_MOVE_SCAN_CODE 0xf8
+
+/* scan codes */
 
 #define ALPHA_A 0x1E
 #define ALPHA_B 0x30
@@ -122,16 +114,13 @@
 #define F9 0x43
 #define F10 0x44
 
-#define BREAK_CODE(make_code) ((make_code) | 0x80)
-#define RDR_FULL(ikbdstatus) ((ikbdstatus)&ACIA_STATUS_RDRF)
+extern int g_delta_x;
+extern int g_delta_y;
+extern int g_click;
 
 void do_IKBD_ISR(void);
 int ReadCharNoEcho(void);
 int CheckInputStatus(void);
 SCANCODE ReadScancode(void);
-
-extern SCANCODE volatile g_action;
-extern signed int volatile g_mouse_delta_x;
-extern signed int volatile g_mouse_delta_y;
 
 #endif
