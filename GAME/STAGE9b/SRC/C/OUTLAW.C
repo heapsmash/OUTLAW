@@ -36,17 +36,6 @@
 #include <stdio.h>
 #include <osbind.h>
 
-const uint8_t mouse[] = {
-	0xaa,
-	0x55,
-	0xaa,
-	0x55,
-	0xaa,
-	0x55,
-	0xaa,
-	0x55,
-};
-
 int main(int argc, char *argv[])
 {
 	Game game;
@@ -59,12 +48,6 @@ int main(int argc, char *argv[])
 	Vector vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
 	Vector ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
 	void *fb = Physbase();
-
-	game.mouse.sprite.bitmap.current_image = mouse;
-	game.mouse.sprite.bitmap.height = (sizeof(mouse) / sizeof mouse[0]);
-	game.mouse.sprite.bitmap.raster.Draw = Rast8Draw;
-	game.mouse.sprite.bitmap.raster.Clear = Rast8Clear;
-	game.mouse.sprite.bitmap.raster.Alpha = Rast8Alpha;
 
 	FifoInit();
 	while (1)
