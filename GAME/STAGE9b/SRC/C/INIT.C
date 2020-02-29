@@ -30,7 +30,7 @@
 /*-------------------------------------------- InitGame -----
 |  Function InitGame
 |
-|  Purpose:
+|  Purpose: setup game states
 |
 |  Parameters:
 |
@@ -49,7 +49,7 @@ void InitGame(Game *game)
 /*-------------------------------------------- InitP1 -----
 |  Function InitP1
 |
-|  Purpose:
+|  Purpose: init human players bitmaps and start location
 |
 |  Parameters:
 |
@@ -67,7 +67,7 @@ void InitP1(GunSlinger *gs, int current_frame)
 /*-------------------------------------------- InitP2 -----
 |  Function InitP2
 |
-|  Purpose:
+|  Purpose: init computer players bitmaps and start location
 |
 |  Parameters:
 |
@@ -85,7 +85,7 @@ void InitP2(GunSlinger *gs, int current_frame)
 /*-------------------------------------------- InitGameBackGround -----
 |  Function InitGameBackGround
 |
-|  Purpose:
+|  Purpose: init the background
 |
 |  Parameters:
 |
@@ -103,7 +103,7 @@ void InitGameBackGround(Game *game)
 /*-------------------------------------------- InitBullets -----
 |  Function InitBullets
 |
-|  Purpose:
+|  Purpose: init bullet bitmap states
 |
 |  Parameters:
 |
@@ -133,7 +133,7 @@ void InitBullets(Game *game)
 /*-------------------------------------------- InitScore -----
 |  Function InitScore
 |
-|  Purpose:
+|  Purpose: initialize scores to 0 
 |
 |  Parameters:
 |
@@ -153,7 +153,7 @@ void InitScore(Game *game)
 /*-------------------------------------------- InitP1States -----
 |  Function InitP1States
 |
-|  Purpose:
+|  Purpose: init player 1 bitmap states
 |
 |  Parameters:
 |
@@ -177,7 +177,7 @@ void InitP1States(GunSlinger *gs)
 /*-------------------------------------------- InitP2States -----
 |  Function InitP2States
 |
-|  Purpose:
+|  Purpose: initt player 2 bitmap states
 |
 |  Parameters:
 |
@@ -201,7 +201,7 @@ void InitP2States(GunSlinger *gs)
 /*-------------------------------------------- InitStartLocation -----
 |  Function InitStartLocation
 |
-|  Purpose:
+|  Purpose: init gunslingers start location
 |
 |  Parameters:
 |
@@ -226,7 +226,7 @@ void InitStartLocation(GunSlinger *gs, int x_pos, int y_pos, int orientation, in
 /*-------------------------------------------- InitRaster8Lib -----
 |  Function InitRaster8Lib
 |
-|  Purpose:
+|  Purpose: initialize raster 8 bit lib
 |
 |  Parameters:
 |
@@ -243,7 +243,7 @@ void InitRaster8Lib(Sprite *sp)
 /*-------------------------------------------- InitRaster32Lib -----
 |  Function InitRaster32Lib
 |
-|  Purpose:
+|  Purpose: init sprites raster 32 bit lib
 |
 |  Parameters:
 |
@@ -260,7 +260,7 @@ void InitRaster32Lib(Sprite *sp)
 /*-------------------------------------------- InitCylinder -----
 |  Function InitCylinder
 |
-|  Purpose:
+|  Purpose: init gun cylinders (for ammunition bitmap)
 |
 |  Parameters:
 |
@@ -289,11 +289,19 @@ void InitCylinder(Cylinder *cyl, int x_pos, int y_pos)
 	cyl->sprite.bitmap.current_image = cylinder_6;
 }
 
+/*-------------------------------------------- InitMouse -----
+|  Function InitMouse
+|
+|  Purpose: init the mouse 
+|
+|  Parameters: Game ptr
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void InitMouse(Game *game)
 {
 	game->mouse.sprite.bitmap.current_image = mouse_ptr;
 	game->mouse.sprite.bitmap.height = (sizeof(mouse_ptr) / sizeof mouse_ptr[0]);
-	game->mouse.sprite.bitmap.raster.Draw = Rast8Draw;
-	game->mouse.sprite.bitmap.raster.Clear = Rast8Clear;
-	game->mouse.sprite.bitmap.raster.Alpha = Rast8Alpha;
+	InitRaster8Lib(&game->mouse.sprite);
 }
