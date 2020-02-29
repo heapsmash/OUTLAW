@@ -26,10 +26,14 @@
 #include <UTIL.H>
 
 uint8_t g_state = START;
-
 int g_click = OFF;
 int g_delta_x = 0;
 int g_delta_y = 0;
+
+int g_head_local = 0;
+int g_tail_local = 0;
+
+SCANCODE g_key_queue[MAXSZ_QUEUE];
 
 /*-------------------------------------------- CheckInputStatus -----
 |  Function CheckInputStatus
@@ -134,6 +138,7 @@ SCANCODE ReadScancode(void)
 
 int IsFull(void)
 {
+    return (g_head == ((g_tail % MAXSZ_QUEUE) + 1));
 }
 
 /*-------------------------------------------- IsEmpty -----
@@ -148,6 +153,7 @@ int IsFull(void)
 
 int IsEmpty(void)
 {
+    return (g_head == g_tail);
 }
 
 /*-------------------------------------------- AddToQ -----
@@ -162,6 +168,11 @@ int IsEmpty(void)
 
 void AddToQ(SCANCODE code)
 {
+    if (IsFull())
+        return;
+
+    g_tail = (g_tail + 1) % MAXSZ_QUEUE;
+    g_key_queue[g_tail] = code;
 }
 
 /*-------------------------------------------- DeleteFromQ -----
@@ -176,6 +187,11 @@ void AddToQ(SCANCODE code)
 
 void DeleteFromQ(void)
 {
+    if (IsEmpty())
+        return;
+
+    g_key_queue[g_head] = 0x00;
+    g_head = (g_head + 1) % MAXSZ_QUEUE;
 }
 
 /*-------------------------------------------- ClearQ -----
@@ -190,4 +206,5 @@ void DeleteFromQ(void)
 
 void ClearQ(void)
 {
+    g_head = g_tail = 0;
 }
