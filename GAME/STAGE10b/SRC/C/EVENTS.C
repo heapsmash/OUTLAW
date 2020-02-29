@@ -238,6 +238,16 @@ void EventUpdateMouse(Mouse *mouse)
 	MDLMoveMouse(mouse);
 }
 
+/*-------------------------------------------- EventMenuClick -----
+|  Function EventMenuClick
+|
+|  Purpose: Select n players (check if click is p1 or p2)
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void EventMenuClick(Game *game)
 {
 	int x = game->mouse.sprite.x_pos;

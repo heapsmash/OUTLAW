@@ -16,9 +16,6 @@
  *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
  */
 
-#include <stdio.h>
-#include <osbind.h>
-
 #include <INPUT.H>
 #include <IKBD.H>
 #include <ISR.H>

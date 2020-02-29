@@ -26,4 +26,5 @@ int GetSeconds(void);
 void ResetSeconds(void);
 void ResetTicks(void);
 void ResetVblankFlag(void);
+
 #endif /* VBL_H */
