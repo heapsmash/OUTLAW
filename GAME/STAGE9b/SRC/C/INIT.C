@@ -2,6 +2,7 @@
 #include <INIT.H>
 #include <EVENTS.H>
 
+#include <BITMAP/MOUSE.C>
 #include <BITMAP/BG.C>
 #include <BITMAP/P1_DEAD.C>
 #include <BITMAP/P1_NORM.C>
@@ -286,4 +287,13 @@ void InitCylinder(Cylinder *cyl, int x_pos, int y_pos)
 
 	cyl->sprite.bitmap.height = sizeof(cylinder_6) / sizeof cylinder_6[0];
 	cyl->sprite.bitmap.current_image = cylinder_6;
+}
+
+void InitMouse(Game *game)
+{
+	game->mouse.sprite.bitmap.current_image = mouse_ptr;
+	game->mouse.sprite.bitmap.height = (sizeof(mouse_ptr) / sizeof mouse_ptr[0]);
+	game->mouse.sprite.bitmap.raster.Draw = Rast8Draw;
+	game->mouse.sprite.bitmap.raster.Clear = Rast8Clear;
+	game->mouse.sprite.bitmap.raster.Alpha = Rast8Alpha;
 }

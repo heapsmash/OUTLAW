@@ -30,5 +30,6 @@ void InitGameBackGround(Game *game);
 void InitP2(GunSlinger *gs, int current_frame);
 void InitP1(GunSlinger *gs, int current_frame);
 void InitGame(Game *game);
+void InitMouse(Game *game);
 
 #endif /* INIT_H */
