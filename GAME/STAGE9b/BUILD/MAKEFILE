@@ -30,7 +30,8 @@ ASM_OBJ = \
 obj\clear.o \
 obj\super.o \
 obj\scnbuf.o \
-obj\thunk.o
+obj\thunk.o \
+obj\ikbd.o
 
 OBJ = $(C_OBJ) $(ASM_OBJ)
 
@@ -73,6 +74,8 @@ obj\super.o: ..\src\asm\super.s
 obj\scnbuf.o: ..\src\asm\scnbuf.s
 	$(AS) $(ASFLAGS) $< -o$@
 obj\thunk.o: ..\src\asm\thunk.s
+	$(AS) $(ASFLAGS) $< -o$@
+obj\ikbd.o: ..\src\asm\ikbd.s
 	$(AS) $(ASFLAGS) $< -o$@
 
 clean:
