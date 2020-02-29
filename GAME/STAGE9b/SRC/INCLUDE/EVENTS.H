@@ -34,6 +34,8 @@ void EventWalk(int direction, GunSlinger *gs);
 void EventUpdateScore(GunSlinger *shooter);
 void EventCylinderState(GunSlinger *gs);
 int EventPlayerDead(GunSlinger *gs);
+void EventUpdateMouse(Mouse *mouse);
+void EventMenuClick(Game *game);
 int EventWin(GunSlinger gs);
 
 #endif /* EVENTS_H */

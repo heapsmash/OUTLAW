@@ -30,5 +30,6 @@ void Render(const Game *game, void *base);
 void RenderString(void *base, int x, int y, char *st);
 void RenderWin(Screen *sc, void *base, int player);
 void RenderMenu(Game *game, void *base);
+void RenderMouse(Mouse *mouse, void *base);
 
 #endif /* RENDERER_H */

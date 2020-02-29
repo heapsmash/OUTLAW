@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 	Vector vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
 	Vector ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
 
+	FlushIKBD();		   /* flush the keyboard */
 	FifoInit();			   /* init circular keyboard buffer */
 	ResetVblankFlag();	 /* reset VBL flag for MyVsync() */
 	ScrInit(&game.screen); /* initialize frame buffers */
@@ -52,31 +53,23 @@ int main(int argc, char *argv[])
 	ResetSeconds();		   /* reset seconds timer */
 	LoadMenu(&game);	   /* load game menu */
 	LoadSplash(&game);	 /* load game splash screen */
+	InitMouse(&game);	  /* init mouse */
 
 	RenderSplash(&game, game.screen.next_buffer);
 	MySleep(4);
 
-	player_mode_flag = -1;
+	game.num_players = -1;
 	RenderMenu(&game, game.screen.next_buffer);
-	while (player_mode_flag == -1) /* menu loop */
+
+	while (game.num_players == -1) /* menu loop */
 	{
-		if (CheckInputStatus() < 0) /* check ikbd codes */
-		{
-			read_char = ReadCharNoEcho();
-			switch (read_char)
-			{
-			case ALPHA_W: /* (KEY W) Or mouse one player game */
-				player_mode_flag = 1;
-				break;
-			case ALPHA_S: /* (KEY S) Or mouse two player game */
-				player_mode_flag = 2;
-				break;
-			}
-		}
+		EventUpdateMouse(&game.mouse);
+		EventMenuClick(&game);
 		RenderMenu(&game, game.screen.next_buffer);
 	}
 
-	InitGame(&game);
+	MouseOff();		 /* disable the mouse */
+	InitGame(&game); /* initialize main game loop */
 	Render(&game, game.screen.next_buffer);
 
 	music_time_now = time_now = GetTime();
@@ -90,7 +83,7 @@ int main(int argc, char *argv[])
 	}
 
 	read_char = -1;
-	while (read_char != ESC) /* main game loop */
+	while (read_char != ALPHA_Q) /* main game loop */
 	{
 		music_time_now = time_now = GetTime();
 		time_elapsed = time_now - time_then;
@@ -220,9 +213,12 @@ int main(int argc, char *argv[])
 
 	StopSound();							   /* stop all game sound */
 	ScrCleanup(&game.screen);				   /* restore original frame buffer */
+	FlushIKBD();							   /* flush the keyboard */
+	MouseOn();								   /* re enable the mouse */
 	InstallVector(IKBD_ISR, ikbd_orig_vector); /* install old IKBD vector */
 	InstallVector(VBL_ISR, vbl_orig_vector);   /* install old ISR vector */
-	MySuper(old_ssp);						   /* exit privileged mode */
+
+	MySuper(old_ssp); /* exit privileged mode */
 
 	return 0;
 }

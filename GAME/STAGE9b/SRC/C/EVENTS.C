@@ -237,3 +237,17 @@ void EventUpdateMouse(Mouse *mouse)
 	mouse->sprite.y_pos = g_delta_y;
 	MDLMoveMouse(mouse);
 }
+
+void EventMenuClick(Game *game)
+{
+	int x = game->mouse.sprite.x_pos;
+	int y = game->mouse.sprite.y_pos;
+
+	if (g_click == ON)
+		if (x > P1_MENU_X_START && x < P1_MENU_X_END)
+			if (y > P1_MENU_Y_START && y < P1_MENU_Y_END)
+				game->num_players = 1;
+			else if (y > P2_MENU_Y_START && y < P2_MENU_Y_END)
+				game->num_players = 2;
+	g_click = OFF;
+}

@@ -56,6 +56,20 @@
 #define SCREEN_RIGHT_EDGE (640 - BORDER_WIDTH)
 #define SCREEN_BOTTOM_EDGE (400 - BORDER_WIDTH)
 
+/* select 1 player menu boundary */
+
+#define P1_MENU_X_START 220
+#define P1_MENU_X_END ((P1_MENU_X_START) + 220)
+#define P1_MENU_Y_START 80
+#define P1_MENU_Y_END ((P1_MENU_Y_START) + 40)
+
+/* select 2 player menu boundary */
+
+#define P2_MENU_X_START 220
+#define P2_MENU_X_END ((P1_MENU_X_START) + 220)
+#define P2_MENU_Y_START 220
+#define P2_MENU_Y_END ((P2_MENU_Y_START) + 40)
+
 /* Player States */
 
 #define STATE_DEAD 0
@@ -173,6 +187,7 @@ typedef struct _Mouse
 
 typedef struct _Game
 {
+	int num_players;
 	GunSlinger gun_slinger[NUM_PLAYERS];
 	BackGround background;
 	Screen screen;
@@ -185,6 +200,7 @@ void MDLEnvGunSlingerCollision(GunSlinger *gs);
 void MDLPlayerCactusCollision(GunSlinger *gs);
 
 void MDLMoveGunSlinger(GunSlinger *gs);
+void MDLMoveMouse(Mouse *mouse);
 
 int MDLMoveBullet(Bullet *bullet, GunSlinger *shooter, GunSlinger *target);
 void MDLBulletCactusCollision(Bullet *bullet);

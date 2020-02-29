@@ -128,4 +128,8 @@ void FifoInit(void);
 SCANCODE FifoGet(void);
 void FifoPut(SCANCODE data);
 
+extern void FlushIKBD(void);
+extern void MouseOff(void);
+extern void MouseOn(void);
+
 #endif

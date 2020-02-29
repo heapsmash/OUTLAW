@@ -20,6 +20,21 @@
 #include <TYPES.H>
 #include <RASTER.H>
 
+/*-------------------------------------------- RenderMouse -----
+|  Function RenderMouse
+|
+|  Purpose: Draw the game mouse
+|
+|  Parameters: game, base
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void RenderMouse(Mouse *mouse, void *base)
+{
+	mouse->sprite.bitmap.raster.Alpha(base, &mouse->sprite);
+}
+
 /*-------------------------------------------- RenderMenu -----
 |  Function RenderMenu
 |
@@ -34,6 +49,7 @@ void RenderMenu(Game *game, void *base)
 {
 	game->menu.sprite.bitmap.raster.Draw(base, &game->menu.sprite);
 	RenderString(base, 0, 390, "Michael S. Walker <mwalk762@mtroyal.ca>");
+	RenderMouse(&game->mouse, base);
 	ScrFlipBuffers(&game->screen);
 }
 
