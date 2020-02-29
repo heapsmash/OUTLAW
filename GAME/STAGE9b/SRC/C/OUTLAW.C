@@ -34,23 +34,58 @@
 #include <BITMAP/MENU.C>
 
 #include <stdio.h>
+#include <osbind.h>
+
+const uint8_t mouse[] = {
+	0xaa,
+	0x55,
+	0xaa,
+	0x55,
+	0xaa,
+	0x55,
+	0xaa,
+	0x55,
+};
 
 int main(int argc, char *argv[])
 {
 	Game game;
+	uint8_t test_1;
+	uint8_t test_2;
+	int x, y;
+
 	int i, n, read_char, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
 
-	long old_ssp = MySuper(0); /* enter privileged mode */
-
+	long old_ssp = MySuper(0);								 /* enter privileged mode */
 	Vector vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
 	Vector ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
+	void *fb = Physbase();
 
-	while (BREAK_CODE(g_action) != ESC)
+	game.mouse.sprite.bitmap.current_image = mouse;
+	game.mouse.sprite.bitmap.height = (sizeof(mouse) / sizeof mouse[0]);
+	game.mouse.sprite.bitmap.raster.Draw = Rast8Draw;
+	game.mouse.sprite.bitmap.raster.Clear = Rast8Clear;
+	game.mouse.sprite.bitmap.raster.Alpha = Rast8Alpha;
+
+	test_1 = 0xfe;
+	test_2 = 0xfa;
+
+	while (1)
 	{
-		printf("action -> %x\n", g_action);
-		printf("delta_x -> %d\n", g_mouse_delta_x);
-		printf("delta_y -> %d\n", g_mouse_delta_y);
+		if (g_click == ON)
+		{
+			g_click = OFF;
+		}
+
+		g_delta_x = WrapInteger(g_delta_x, 0, 640);
+		g_delta_y = WrapInteger(g_delta_y, 0, 400);
+
+		game.mouse.sprite.x_pos = g_delta_x;
+		game.mouse.sprite.y_pos = g_delta_y;
+
+		ClearScreen(fb);
+		game.mouse.sprite.bitmap.raster.Draw(fb, &game.mouse.sprite);
 	}
 
 	InstallVector(IKBD_ISR, ikbd_orig_vector); /* install old IKBD vector */
