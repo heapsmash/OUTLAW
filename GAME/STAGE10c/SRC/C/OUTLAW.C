@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 
 		/* computer player movement */
 
-		switch (MyRand() % 200)
+		switch (MyRand() % 50)
 		{
 		case 0: /* Case UP */
 			EventWalk(UP, &game.gun_slinger[PLAYER_TWO]);
