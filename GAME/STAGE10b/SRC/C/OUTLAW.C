@@ -40,11 +40,10 @@ int main(int argc, char *argv[])
 
 	int i, n, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
-	Vector vbl_orig_vector, ikbd_orig_vector;
 
-	do_super();										  /* enter privileged mode */
-	vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
-	ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
+	long old_ssp = MySuper(0);								 /* enter privileged mode */
+	Vector vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
+	Vector ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
 
 	FlushIKBD();		   /* flush the keyboard */
 	FifoInit();			   /* init circular keyboard buffer */
@@ -219,7 +218,7 @@ int main(int argc, char *argv[])
 	InstallVector(IKBD_ISR, ikbd_orig_vector); /* install old IKBD vector */
 	InstallVector(VBL_ISR, vbl_orig_vector);   /* install old ISR vector */
 
-	do_super(); /* exit privileged mode */
+	MySuper(old_ssp); /* exit privileged mode */
 
 	return 0;
 }
