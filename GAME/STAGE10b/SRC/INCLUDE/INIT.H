@@ -22,6 +22,9 @@
 #include <MODEL.H>
 #include <TYPES.H>
 
+#define OS_ROM_START ((Vector)0xFC0030)
+#define TRAP_1 33
+
 /* player 1 and player 2 start locations */
 
 #define P1_START_X 32
@@ -49,5 +52,9 @@ void InitP2(GunSlinger *gs, int current_frame);
 void InitP1(GunSlinger *gs, int current_frame);
 void InitGame(Game *game);
 void InitMouse(Game *game);
+void do_super(void);
+
+void init_IO(void);
+void init_vector_table(void);
 
 #endif /* INIT_H */
