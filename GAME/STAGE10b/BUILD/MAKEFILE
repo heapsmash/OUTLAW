@@ -1,4 +1,4 @@
-PROGNAME = os.prg
+PROGNAME = outlaw.tos
 
 CC = cc68x
 AS = gen
@@ -31,8 +31,7 @@ obj\clear.o \
 obj\super.o \
 obj\scnbuf.o \
 obj\thunk.o \
-obj\ikbd.o \
-obj\start.o
+obj\ikbd.o
 
 OBJ = $(C_OBJ) $(ASM_OBJ)
 
@@ -77,8 +76,6 @@ obj\scnbuf.o: ..\src\asm\scnbuf.s
 obj\thunk.o: ..\src\asm\thunk.s
 	$(AS) $(ASFLAGS) $< -o$@
 obj\ikbd.o: ..\src\asm\ikbd.s
-	$(AS) $(ASFLAGS) $< -o$@
-obj\start.o: ..\src\asm\start.s
 	$(AS) $(ASFLAGS) $< -o$@
 
 clean:
