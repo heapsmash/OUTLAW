@@ -1,23 +1,20 @@
 /*
  * Michael S. Walker <mwalk762@mtroyal.ca>
  *         _    _
- *        | |  | |	OUTLAW. 
- *       -| |  | |- 
+ *        | |  | |	OUTLAW.
+ *       -| |  | |-
  *   _    | |- | |
- * -| |   | |  | |- 	
+ * -| |   | |  | |-
  *  |.|  -| ||/  |
- *  | |-  |  ___/ 
+ *  | |-  |  ___/
  * -|.|   | | |
  *  |  \_|| |
  *   \____  |
- *    |   | |- 
+ *    |   | |-
  *        | |
  *       -| |
  *        |_| Copyleft !(c) 2020 All Rights Unreserved in all Federations, including Alpha Centauris.
  */
-
-#include <stdio.h>
-#include <osbind.h>
 
 #include <INPUT.H>
 #include <IKBD.H>
@@ -37,7 +34,7 @@ int g_delta_y = 0;
 /*-------------------------------------------- CheckInputStatus -----
 |  Function CheckInputStatus
 |
-|  Purpose: Check the status of the console input device. 
+|  Purpose: Check the status of the console input device.
 |
 |  Parameters:
 |
@@ -52,7 +49,7 @@ int CheckInputStatus(void)
 /*-------------------------------------------- ReadCharNoEcho -----
 |  Function ReadCharNoEcho
 |
-|  Purpose: Read a character from the console with no echo. 
+|  Purpose: Read a character from the console with no echo.
 |
 |  Parameters:
 |
@@ -67,7 +64,7 @@ int ReadCharNoEcho(void)
 /*-------------------------------------------- do_IKBD_ISR -----
 |  Function do_IKBD_ISR
 |
-|  Purpose: IKBD Driver. 
+|  Purpose: IKBD Driver.
 |
 |  Parameters:
 |
@@ -99,6 +96,7 @@ void do_IKBD_ISR(void)
         }
         FifoPut(sc);
     }
+
     bit_clear_no_shift(*MFP_ISRB, MFP_VR_VECTOR_6);
 }
 
@@ -106,7 +104,7 @@ void do_IKBD_ISR(void)
 |  Function ReadScancode
 |
 |  Purpose: Read a ScanCode if RDR_FULL == true
-|  
+|
 |  Parameters:
 |
 |  Returns: The scancode
@@ -118,6 +116,7 @@ SCANCODE ReadScancode(void)
 
     if (RDR_FULL(*IKBD_status))
         sc = *IKBD_RDR;
+
     return sc;
 }
 
@@ -125,10 +124,10 @@ SCANCODE ReadScancode(void)
 |  Function FifoInit
 |
 |  Purpose: initialize the fifo
-|  
+|
 |  Parameters:
 |
-|  Returns: 
+|  Returns:
 *-------------------------------------------------------------------*/
 
 void FifoInit(void)
@@ -140,10 +139,10 @@ void FifoInit(void)
 |  Function FifoPut
 |
 |  Purpose: Add to the fifo
-|  
+|
 |  Parameters:
 |
-|  Returns:  
+|  Returns:
 *-------------------------------------------------------------------*/
 
 void FifoPut(SCANCODE data)
@@ -165,10 +164,10 @@ void FifoPut(SCANCODE data)
 |  Function FifoGet
 |
 |  Purpose: Get from the fifo
-|  
+|
 |  Parameters:
 |
-|  Returns: the scancode 
+|  Returns: the scancode
 *-------------------------------------------------------------------*/
 
 SCANCODE FifoGet(void)

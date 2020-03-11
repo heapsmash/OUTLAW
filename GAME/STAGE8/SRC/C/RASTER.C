@@ -20,8 +20,7 @@
 #include <TYPES.H>
 #include <MODEL.H>
 #include <UTIL.H>
-#include <FONT.H>   /* for PlotChar */
-#include <osbind.h> /* for Vsync(); */
+#include <FONT.H> /* for PlotChar */
 
 /*-------------------------------------------- GetVideoBase -----
 |  Function GetVideoBase
