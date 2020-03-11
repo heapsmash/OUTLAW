@@ -238,6 +238,16 @@ void EventUpdateMouse(Mouse *mouse)
 	MDLMoveMouse(mouse);
 }
 
+/*-------------------------------------------- EventMenuClick -----
+|  Function EventMenuClick
+|
+|  Purpose: update mouse x and y
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
 void EventMenuClick(Game *game)
 {
 	int x = game->mouse.sprite.x_pos;
