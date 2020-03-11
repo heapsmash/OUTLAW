@@ -19,7 +19,6 @@
 #include <INPUT.H>
 #include <IKBD.H>
 #include <ISR.H>
-#include <MFP.H>
 #include <UTIL.H>
 
 SCANCODE static *put_pt;
