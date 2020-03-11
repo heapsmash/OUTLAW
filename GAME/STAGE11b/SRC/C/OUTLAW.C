@@ -33,15 +33,17 @@
 #include <BITMAP/SPL_SCRN.C>
 #include <BITMAP/MENU.C>
 
-int main(int argc, char *argv[])
+#include <osbind.h>
+
+int main()
 {
 	Game game;
 	SCANCODE read_char;
-	int i, n, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
 	Vector hbl_orig_vector, vbl_orig_vector, ikbd_orig_vector;
+	int i, n, flag_music_on, player_mode_flag;
 
-	long old_ssp = MySuper(0);						  /* enter privileged mode */
+	long old_ssp = Super(0);
 	InstallMfp();									  /* Set up MFP */
 	ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
 	vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
@@ -220,7 +222,7 @@ int main(int argc, char *argv[])
 	InstallVector(VBL_ISR, vbl_orig_vector);   /* install old ISR vector */
 	InstallVector(HBL_ISR, hbl_orig_vector);   /* install old HBL vector */
 
-	MySuper(old_ssp); /* exit privileged mode */
+	Super(old_ssp); /* exit privileged mode */
 
 	return 0;
 }
