@@ -37,23 +37,24 @@ int main(int argc, char *argv[])
 {
 	Game game;
 	SCANCODE read_char;
-
 	int i, n, flag_music_on, player_mode_flag;
 	uint32_t time_then, time_now, time_elapsed, music_time_then, music_time_now, music_time_elapsed;
+	Vector hbl_orig_vector, vbl_orig_vector, ikbd_orig_vector;
 
-	long old_ssp = MySuper(0);								 /* enter privileged mode */
-	Vector vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
-	Vector ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
-
-	FlushIKBD();		   /* flush the keyboard */
-	FifoInit();			   /* init circular keyboard buffer */
-	ResetVblankFlag();	 /* reset VBL flag for MyVsync() */
-	ScrInit(&game.screen); /* initialize frame buffers */
-	ResetTicks();		   /* reset vblank timer */
-	ResetSeconds();		   /* reset seconds timer */
-	LoadMenu(&game);	   /* load game menu */
-	LoadSplash(&game);	 /* load game splash screen */
-	InitMouse(&game);	  /* init mouse */
+	long old_ssp = MySuper(0);						  /* enter privileged mode */
+	InstallMfp();									  /* Set up MFP */
+	ikbd_orig_vector = InstallVector(IKBD_ISR, Ikbd); /* install IKBD vector */
+	vbl_orig_vector = InstallVector(VBL_ISR, Vbl);	/* install VBL vector */
+	hbl_orig_vector = InstallVector(HBL_ISR, Hbl);	/* install HBL vector */
+	FlushIKBD();									  /* flush the keyboard */
+	FifoInit();										  /* init circular keyboard buffer */
+	ResetVblankFlag();								  /* reset VBL flag for MyVsync() */
+	ScrInit(&game.screen);							  /* initialize frame buffers */
+	ResetTicks();									  /* reset vblank timer */
+	ResetSeconds();									  /* reset seconds timer */
+	LoadMenu(&game);								  /* load game menu */
+	LoadSplash(&game);								  /* load game splash screen */
+	InitMouse(&game);								  /* init mouse */
 
 	RenderSplash(&game, game.screen.next_buffer);
 	MySleep(4);
@@ -217,6 +218,7 @@ int main(int argc, char *argv[])
 	MouseOn();								   /* re enable the mouse */
 	InstallVector(IKBD_ISR, ikbd_orig_vector); /* install old IKBD vector */
 	InstallVector(VBL_ISR, vbl_orig_vector);   /* install old ISR vector */
+	InstallVector(HBL_ISR, hbl_orig_vector);   /* install old HBL vector */
 
 	MySuper(old_ssp); /* exit privileged mode */
 
