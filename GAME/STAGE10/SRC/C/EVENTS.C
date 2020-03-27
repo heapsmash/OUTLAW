@@ -20,6 +20,9 @@
 #include <EVENTS.H>
 #include <EFFECTS.H>
 #include <INPUT.H>
+#include <UTIL.H>
+
+#include <stdio.h>
 
 /*-------------------------------------------- EventCylinderState -----
 |  Function EventCylinderState
@@ -182,6 +185,7 @@ int EventPlayerDead(GunSlinger *gs)
 	if (gs->flag_alive == DEAD)
 	{
 		gs->player_state = STATE_DEAD;
+		gs->flag_alive = ALIVE;
 		return 1;
 	}
 	return 0;
@@ -250,4 +254,90 @@ void EventMenuClick(Game *game)
 			else if (y > P2_MENU_Y_START && y < P2_MENU_Y_END)
 				game->num_players = 2;
 	g_click = OFF;
+}
+
+/*-------------------------------------------- EventMovePlayer -----
+|  Function EventMovePlayer
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void EventMovePlayer(GunSlinger *gs, SCANCODE input)
+{
+	switch (input)
+	{
+	case ALPHA_W: /* w up */
+		EventWalk(UP, gs);
+		break;
+	case ALPHA_S: /* s down */
+		EventWalk(DOWN, gs);
+		break;
+	case ALPHA_A: /* a BACK */
+		EventWalk(BACK, gs);
+		break;
+	case ALPHA_D: /* d FORWARD */
+		EventWalk(FORWARD, gs);
+		break;
+	case NUM_PAD_6: /* NUMPAD 6 SHOOT STRAIGHT */
+		EventShoot(STRAIGHT, gs);
+		break;
+	case NUM_PAD_2: /* NUMPAD 2 SHOOT DOWN */
+		EventShoot(DOWN, gs);
+		break;
+	case NUM_PAD_8: /* NUMPAD 8 SHOOT UP */
+		EventShoot(UP, gs);
+		break;
+	case ALPHA_R: /* r RELOAD */
+		EventShoot(RELOAD, gs);
+		break;
+	default:
+		break;
+	}
+}
+
+/*-------------------------------------------- EventMoveComputerPlayer -----
+|  Function EventMoveComputerPlayer
+|
+|  Purpose:
+|
+|  Parameters:
+|
+|  Returns:
+*-------------------------------------------------------------------*/
+
+void EventMoveComputerPlayer(GunSlinger *gs)
+{
+	switch (MyRand() % COMPUTER_DIFFICULTY_LEVEL)
+	{
+	case 0: /* Case UP */
+		EventWalk(UP, gs);
+		break;
+	case 1: /* Case DOWN */
+		EventWalk(DOWN, gs);
+		break;
+	case 2: /* case BACK */
+		EventWalk(BACK, gs);
+		break;
+	case 3: /* case FORWARD */
+		EventWalk(FORWARD, gs);
+		break;
+	case 4: /* case SHOOT STRAIGHT */
+		EventShoot(STRAIGHT, gs);
+		break;
+	case 5: /* case SHOOT DOWN */
+		EventShoot(DOWN, gs);
+		break;
+	case 6: /* case SHOOT UP */
+		EventShoot(UP, gs);
+		break;
+	case 7: /* case RELOAD */
+		EventShoot(RELOAD, gs);
+		break;
+	default:
+		break;
+	}
 }

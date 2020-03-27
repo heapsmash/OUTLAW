@@ -27,14 +27,18 @@
 #define BACK 3
 #define FORWARD 4
 
+#define COMPUTER_DIFFICULTY_LEVEL 200 /* hardest setting = 8 */
+
 void EventRemoveSprite(Sprite *sprite, int buff_index, const void *base);
 void EventMoveBullets(GunSlinger *shooter, GunSlinger *target);
 void EventShoot(int direction, GunSlinger *gs);
 void EventWalk(int direction, GunSlinger *gs);
+void EventMoveComputerPlayer(GunSlinger *gs);
 void EventUpdateScore(GunSlinger *shooter);
 void EventCylinderState(GunSlinger *gs);
-int EventPlayerDead(GunSlinger *gs);
+void EventMovePlayer(GunSlinger *gs, SCANCODE input);
 void EventUpdateMouse(Mouse *mouse);
+int EventPlayerDead(GunSlinger *gs);
 void EventMenuClick(Game *game);
 int EventWin(GunSlinger gs);
 
