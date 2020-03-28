@@ -200,24 +200,19 @@ void Render(Game *game, void *base)
 	int i;
 
 	/* render background */
-
 	RenderBackground(&game->background, base);
 
 	/* render player one state */
-
 	RenderGunSlinger(&game->gun_slinger[PLAYER_ONE], base);
 
 	/* render player two state */
-
 	RenderGunSlinger(&game->gun_slinger[PLAYER_TWO], base);
 
 	/* render player one bullets */
-
 	for (i = 0; i < NUM_ROUNDS; i++)
 		RenderBullet(&game->gun_slinger[PLAYER_ONE].bullet[i], base);
 
 	/* render player two bullets */
-
 	for (i = 0; i < NUM_ROUNDS; i++)
 		RenderBullet(&game->gun_slinger[PLAYER_TWO].bullet[i], base);
 
@@ -225,16 +220,13 @@ void Render(Game *game, void *base)
 	RenderCylinder(&game->gun_slinger[PLAYER_ONE].cylinder, base);
 
 	/* render player two cylinder */
-
 	RenderCylinder(&game->gun_slinger[PLAYER_TWO].cylinder, base);
 
 	/* render player one score */
-
 	RenderScore(game->gun_slinger[PLAYER_ONE].score.msd, base, 80, 16);
 	RenderScore(game->gun_slinger[PLAYER_ONE].score.lsd, base, 88, 16);
 
 	/* render player two score */
-
 	RenderScore(game->gun_slinger[PLAYER_TWO].score.msd, base, 548, 16);
 	RenderScore(game->gun_slinger[PLAYER_TWO].score.lsd, base, 552, 16);
 
