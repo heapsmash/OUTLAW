@@ -6,23 +6,25 @@
 #include <RASTER.H>
 #include <TYPES.H>
 #include <PALLETE.H>
+#include <SCREEN.H>
 #include <COWBOY.H>
 
 int main(int argc, char *argv[])
 {
+    Screen screen;
     int height, x_pos, y_pos, read_char, original_colors[16];
-    uint16_t *base = (uint16_t *)GetVideoBase();
 
     GetColorPallete(original_colors);
-    ClearScreen(base);
+    ScrInit(&screen);
 
     height = sizeof cowboy / sizeof cowboy[0];
     read_char = -1;
     x_pos = y_pos = 0;
 
-    ClearScreen(base);
     Vsync();
-    PlotBitMap(base, cowboy, x_pos, y_pos, height);
+    PlotBitMap(screen.next_buffer, cowboy, x_pos, y_pos, height);
+    ScrFlipBuffers(&screen);
+
     while (read_char != 27)
     {
         if (Cconis() < 0)
@@ -33,30 +35,34 @@ int main(int argc, char *argv[])
             case 119: /* w up */
                 y_pos -= 64;
                 Vsync();
-                ClearScreen(base);
+                ClearScreen(screen.next_buffer);
                 Vsync();
-                PlotBitMap(base, cowboy, x_pos, y_pos, height);
+                PlotBitMap(screen.next_buffer, cowboy, x_pos, y_pos, height);
+                ScrFlipBuffers(&screen);
                 break;
             case 115: /* s down */
                 y_pos += 64;
                 Vsync();
-                ClearScreen(base);
+                ClearScreen(screen.next_buffer);
                 Vsync();
-                PlotBitMap(base, cowboy, x_pos, y_pos, height);
+                PlotBitMap(screen.next_buffer, cowboy, x_pos, y_pos, height);
+                ScrFlipBuffers(&screen);
                 break;
             case 97: /* a left */
                 x_pos -= 64;
                 Vsync();
-                ClearScreen(base);
+                ClearScreen(screen.next_buffer);
                 Vsync();
-                PlotBitMap(base, cowboy, x_pos, y_pos, height);
+                PlotBitMap(screen.next_buffer, cowboy, x_pos, y_pos, height);
+                ScrFlipBuffers(&screen);
                 break;
             case 100: /* d right */
                 x_pos += 64;
                 Vsync();
-                ClearScreen(base);
+                ClearScreen(screen.next_buffer);
                 Vsync();
-                PlotBitMap(base, cowboy, x_pos, y_pos, height);
+                PlotBitMap(screen.next_buffer, cowboy, x_pos, y_pos, height);
+                ScrFlipBuffers(&screen);
                 break;
             default:
                 break;
@@ -64,6 +70,8 @@ int main(int argc, char *argv[])
         }
     }
 
+    ScrCleanup(&screen); /* resotre operating system */
     LoadColorPallete(original_colors);
+
     return 0;
 }
