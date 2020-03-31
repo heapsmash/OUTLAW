@@ -4,16 +4,6 @@
 
 uint8_t g_framebuffers[NUM_FRAME_BUFFERS][SCREEN_SIZE + FRAMEBUFFER_PADDING_LEN];
 
-/*-------------------------------------------- ScrInit -----
-|  Function ScrInit
-|
-|  Purpose:
-|
-|  Parameters:
-|
-|  Returns:
-*-------------------------------------------------------------------*/
-
 void ScrInit(Screen *screen)
 {
 	int i;
@@ -31,32 +21,12 @@ void ScrInit(Screen *screen)
 	ScrFlipBuffers(screen);
 }
 
-/*-------------------------------------------- ScrFlipBuffers -----
-|  Function ScrFlipBuffers
-|
-|  Purpose:
-|
-|  Parameters:
-|
-|  Returns:
-*-------------------------------------------------------------------*/
-
 void ScrFlipBuffers(Screen *screen)
 {
 	SetVideoBase(screen->next_buffer);
 	screen->current_fb_index = (screen->current_fb_index + 1) % NUM_FRAME_BUFFERS;
 	screen->next_buffer = screen->framebuffs[screen->current_fb_index];
 }
-
-/*-------------------------------------------- ScrCleanup -----
-|  Function ScrCleanup
-|
-|  Purpose:
-|
-|  Parameters:
-|
-|  Returns:
-*-------------------------------------------------------------------*/
 
 void ScrCleanup(Screen *screen)
 {
