@@ -63,7 +63,7 @@ void PlotBitMap(uint16_t *base, uint16_t map[], int x, int y, int height)
 
 	y_offset = 320 >> 4;
 
-	x_diff = (x & 0x40);
+	x_diff = (x & 0x20);
 	x += (x_diff > 32) ? x_diff : -x_diff;
 
 	for (i = 0; i < height; i += 4)
